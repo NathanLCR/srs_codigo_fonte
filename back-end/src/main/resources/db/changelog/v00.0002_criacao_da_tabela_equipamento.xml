@@ -4,21 +4,26 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
-    <changeSet id="tabela_tipo_equipamento" author="nathan.lucio">
+    <changeSet id="5" author="nathan.lucio">
         <createTable tableName="tipo_equipamento">
             <column  name="id"  type="number"/>
-            <column name="tipo" type="varchar(255)"/>
+            <column name="descricao" type="varchar(255)"/>
         </createTable>
+
+
+        <addPrimaryKey tableName="tipo_equipamento" columnNames="id" />
     </changeSet>
 
-    <changeSet id="tabela_equipamento" author="nathan.lucio">
+    <changeSet id="6" author="nathan.lucio">
         <createTable tableName="equipamento">
             <column  name="id"  type="number"/>
             <column name="nome" type="varchar(255)"/>
             <column name="id_tipo_equipamento" type="number"/>
-            <column name="preco_diario" type="number"/>
+            <column name="preco_diaria" type="number"/>
             <column name="obrigatorio" type="number"/>
         </createTable>
+
+        <addPrimaryKey tableName="equipamento" columnNames="id" />
     </changeSet>
     <changeSet id="tabela_sala_equipamento" author="lucas.costa">
         <createTable tableName="sala_equipamento">
@@ -26,12 +31,16 @@
             <column name="id_equipamento" type="number"/>
             <column name="quantidade" type="number"/>
         </createTable>
+
+        <addPrimaryKey tableName="sala_equipamento" columnNames="id_sala, id_equipamento" />
     </changeSet>
 
-    <changeSet id="relacao_sala_equipamento_sala" author="nathan.lucio">
+    <changeSet id="7" author="nathan.lucio">
         <addForeignKeyConstraint baseTableName="sala_equipamento" baseColumnNames="id_sala" constraintName="fk_sala_equipamento_sala" referencedTableName="sala"
                                  referencedColumnNames="id" />
         <addForeignKeyConstraint baseTableName="sala_equipamento" baseColumnNames="id_equipamento" constraintName="fk_sala_equipamento_equipamento" referencedTableName="equipamento"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="equipamento" baseColumnNames="id_tipo_equipamento" constraintName="fk_equipamento_tipo_equipamento" referencedTableName="tipo_equipamento"
                                  referencedColumnNames="id" />
     </changeSet>
 

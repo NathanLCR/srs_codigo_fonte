@@ -4,21 +4,61 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
-    <changeSet  author="pedro"  id="createTable-cliente">
+    <changeSet  author="pedro"  id="8">
         <createTable  tableName="reserva">
             <column  name="id"  type="number"/>
             <column  name="id_cliente"  type="number"/>
             <column  name="id_sala"  type="number"/>
-            <column  name="tempo"  type="TIMESTAMP"/>
-            <column  name="preco"  type="double"/>
+            <column  name="data_inicio"  type="TIMESTAMP"/>
+            <column  name="data_fim"  type="TIMESTAMP"/>
+            <column  name="total"  type="double"/>
         </createTable>
+
+        <addPrimaryKey tableName="reserva" columnNames="id" />
     </changeSet>
 
-    <changeSet author="felipe.malheiros" id="relacao">
+    <changeSet author="felipe.malheiros" id="9">
         <addForeignKeyConstraint baseTableName="reserva" baseColumnNames="id_cliente" constraintName="fk_reserva_cliente" referencedTableName="cliente" referencedColumnNames="id"/>
         <addForeignKeyConstraint baseTableName="reserva" baseColumnNames="id_sala" constraintName="fk_reserva_sala" referencedTableName="sala" referencedColumnNames="id"/>
     </changeSet>
+    
+     <changeSet id="10" author="nathan">
+         <insert tableName="tipo_sala">
+             <column name="id" value="1"/>
+             <column name="descricao" value="Sala de Reunião"/>
+         </insert>
+         <insert tableName="tipo_sala">
+             <column name="id" value="2"/>
+             <column name="descricao" value="Sala de Trabalho"/>
+         </insert>
+         <insert tableName="tipo_sala">
+             <column name="id" value="3"/>
+             <column name="descricao" value="Sala de Vídeo"/>
+         </insert>
+         <insert tableName="tipo_sala">
+             <column name="id" value="4"/>
+             <column name="descricao" value="Sala de Palestras"/>
+         </insert>
+         <insert tableName="tipo_sala">
+             <column name="id" value="5"/>
+             <column name="descricao" value="Auditório"/>
+         </insert>
+     </changeSet>
 
+    <changeSet id="11" author="nathan">
+        <insert tableName="tipo_equipamento">
+            <column name="id" value="1"/>
+            <column name="descricao" value="Móvel"/>
+        </insert>
+        <insert tableName="tipo_equipamento">
+            <column name="id" value="2"/>
+            <column name="descricao" value="Eletrodoméstico"/>
+        </insert>
+        <insert tableName="tipo_equipamento">
+            <column name="id" value="3"/>
+            <column name="descricao" value="Informática"/>
+        </insert>
+    </changeSet>
 
 
 
