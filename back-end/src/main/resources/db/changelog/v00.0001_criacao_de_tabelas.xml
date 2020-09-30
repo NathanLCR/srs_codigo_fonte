@@ -1,0 +1,52 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet  author="felipe"  id="createTable-cliente">
+        <createTable  catalogName="srs"
+                      remarks="comentario"
+                      schemaName="public"
+                      tableName="cliente"
+                      tablespace="public">
+            <column  name="id"  type="number" autoIncrement="true" />
+            <column  name="nome"  type="varchar(120)"/>
+            <column  name="cpf"  type="number"/>
+            <column  name="rg"  type="number"/>
+            <column  name="endereco"  type="varchar(255)"/>
+            <column name="nascimento" type="date"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet  author="felipe"  id="createTable-tipo_sala">
+        <createTable  catalogName="srs"
+                      remarks="comentario"
+                      schemaName="public"
+                      tableName="tipo_sala"
+                      tablespace="public">
+            <column  name="id"  type="number" autoIncrement="true" />
+            <column  name="id_tipoSala"  type="number" />
+        </createTable>
+    </changeSet>
+
+    <changeSet  author="felipe"  id="createTable-sala">
+        <createTable  catalogName="srs"
+                      remarks="comentario"
+                      schemaName="public"
+                      tableName="sala"
+                      tablespace="public">
+            <column  name="id"  type="number" autoIncrement="true" />
+            <column  name="id_tipo_sala"  type="number" />
+            <column  name="descricao"  type="text"/>
+            <column  name="capacidade_pessoas"  type="number"/>
+            <column  name="preco_diaria"  type="double"/>
+            <column name="disponivel" type="number"/>
+        </createTable>
+    </changeSet>
+
+
+
+
+
+</databaseChangeLog>
