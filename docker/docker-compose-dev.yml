@@ -1,0 +1,7 @@
+version: '2'
+services:
+  srs-postgresql:
+    extends:
+      file: postgresql.yml
+      service: srs-postgresql
+    container_name: srs-postgresql

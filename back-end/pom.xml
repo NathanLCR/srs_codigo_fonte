@@ -17,6 +17,9 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<testcontainers.version>1.14.3</testcontainers.version>
+
+			<spring.profiles.active>local,no-liquibase</spring.profiles.active>
+
 	</properties>
 
 	<dependencies>
