@@ -18,7 +18,9 @@
         </createTable>
     </changeSet>
 
-
+    <changeSet>
+        <addForeignKeyConstraint baseTableName="reserva" baseColumnNames="id_cliente" constraintName="fk_reserva_cliente" referencedTableName="cliente" referencedColumnNames="id"/>
+    </changeSet>
 
 
 

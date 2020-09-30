@@ -45,6 +45,9 @@
         </createTable>
     </changeSet>
 
+    <changeSet>
+        <addForeignKeyConstraint baseTableName="tipo_sala" baseColumnNames="id_sala" constraintName="fk_sala_tipo_sala" referencedTableName="sala" referencedColumnNames="id"/>
+    </changeSet>
 
 
 
