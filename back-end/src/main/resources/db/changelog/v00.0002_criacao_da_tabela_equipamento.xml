@@ -1,0 +1,40 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="tabela_tipo_equipamento" author="nathan.lucio">
+        <createTable tableName="tipo_equipamento">
+            <column autoIncrement="true" type="number" name="id"></column>
+            <column name="tipo" type="varchar(255)" ></column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="tabela_equipamento" author="nathan.lucio">
+        <createTable tableName="equipamento">
+            <column autoIncrement="true" type="number" name="id"></column>
+            <column name="nome" type="varchar(255)" ></column>
+            <column name="id_tipo_equipamento" type="number"></column>
+            <column name="preco_diario" type="number"></column>
+            <column name="obrigatorio" type="number"></column>
+        </createTable>
+    </changeSet>
+    <changeSet id="tabela_sala_equipamento" author="lucas.costa">
+        <createTable tableName="sala_equipamento">
+            <column autoIncrement="true" type="number" name="id_sala"></column>
+            <column name= "id_equipamento" type="number" ></column>
+            <column name="quantidade" type="number"></column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="relacao_sala_equipamento_sala" author="nathan.lucio">
+        <addForeignKeyConstraint baseTableName="sala_equipamento" baseColumnNames="id_sala" constraintName="fk_sala_equipamento_sala" referencedTableName="sala"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="sala_equipamento" baseColumnNames="id_equipamento" constraintName="fk_sala_equipamento_equipamento" referencedTableName="equipamento"
+                                 referencedColumnNames="id" />
+    </changeSet>
+
+
+
+</databaseChangeLog>
