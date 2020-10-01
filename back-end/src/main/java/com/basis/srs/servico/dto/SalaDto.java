@@ -1,11 +1,11 @@
 package com.basis.srs.servico.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
-@Data @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor @AllArgsConstructor
 public class SalaDto {
 
     private Integer id;

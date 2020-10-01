@@ -1,6 +1,5 @@
 package com.basis.srs.dominio;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,16 +8,16 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@Entity(name = "tipo_equipamento")
 @Getter
 @Setter
-@Entity @Table(name = "tipo_sala")
-public class TipoSala {
+@Table(name = "tipo_equipamento")
+public class TipoEquipamento {
 
     @Id
-    @Column(name = "id")
     private Integer id;
 
-    @Column(name = "descricao")
+    @Column
     private String descricao;
 
 }

@@ -1,12 +1,24 @@
 package com.basis.srs.dominio;
 
+
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-@Data @NoArgsConstructor @AllArgsConstructor @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "sala")
 public class Sala {
 
     @Id//Pk
@@ -24,5 +36,5 @@ public class Sala {
     private Integer limitePessoas;
 
     @Column(name = "preco_diaria")
-    private double precoDiaria;
+    private Double precoDiaria;
 }
