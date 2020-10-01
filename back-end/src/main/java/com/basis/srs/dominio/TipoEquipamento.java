@@ -15,9 +15,10 @@ import javax.persistence.Table;
 public class TipoEquipamento {
 
     @Id
+    @Column(name = "id")
     private Integer id;
 
-    @Column
+    @Column(name = "descricao")
     private String descricao;
 
 }

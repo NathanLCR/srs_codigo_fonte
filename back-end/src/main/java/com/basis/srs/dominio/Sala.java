@@ -10,7 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,4 +37,7 @@ public class Sala{
 
     @Column(name = "preco_diaria")
     private Double precoDiaria;
+
+    @OneToMany(mappedBy = "sala")
+    private List<SalaEquipamento> salaEquipamentos;
 }

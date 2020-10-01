@@ -22,6 +22,7 @@ public class Cliente implements Serializable {
 
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO) //sequence aqui
+   @Column(name = "id")
    private Integer id;
 
    @Column(name = "nome")
@@ -31,7 +32,7 @@ public class Cliente implements Serializable {
    private String cpf;
 
    @Column(name = "data_nascimento")
-   private Date data_nascimento;
+   private Date dataNascimento;
 
    @Column(name = "endereco")
    private String endereco;
