@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="srs" id="Project_2300" database="PostgreSQL" >
+	<schema name="srs" >
+		<table name="cliente" >
+			<column name="id" type="integer" jt="4" mandatory="y" />
+			<column name="nome" type="varchar" length="120" jt="12" />
+			<column name="cpf" type="varchar" length="11" jt="12" mandatory="y" />
+			<column name="data_nascimento" type="date" jt="91" />
+			<column name="endereco" type="varchar[]" jt="2003" />
+			<column name="rg" type="varchar" length="7" jt="12" />
+			<index name="pk_cliente_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="equipamento" >
+			<column name="id" type="integer" jt="4" mandatory="y" />
+			<column name="nome" type="double precision" jt="3" />
+			<column name="id_tipo_equipamento" type="integer" jt="4" />
+			<column name="preco_diaria" prior="valor_diaria" type="double precision" length="2" jt="3" />
+			<column name="obrigatorio" type="numeric" jt="2" />
+			<index name="pk_equipamento_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_equipamento" to_schema="srs" to_table="tipo_equipamento" >
+				<fk_column name="id_tipo_equipamento" pk="id" />
+			</fk>
+		</table>
+		<table name="reserva" >
+			<column name="id" type="integer" jt="4" mandatory="y" />
+			<column name="id_cliente" type="integer" jt="4" />
+			<column name="tempo" type="time" jt="92" />
+			<column name="id_sala" type="integer" jt="4" />
+			<column name="preco" type="double precision" jt="3" />
+			<index name="pk_reserva_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_cliente" to_schema="srs" to_table="cliente" >
+				<fk_column name="id_cliente" pk="id" />
+			</fk>
+			<fk name="fk_sala" to_schema="srs" to_table="sala" >
+				<fk_column name="id_sala" pk="id" />
+			</fk>
+		</table>
+		<table name="sala" >
+			<column name="id" type="integer" jt="4" mandatory="y" />
+			<column name="descricao" type="text" jt="12" />
+			<column name="id_tipo_sala" type="integer" jt="4" />
+			<column name="capacidade_pessoas" type="numeric" jt="2" />
+			<column name="preco_diaria" type="numeric" jt="2" />
+			<index name="pk_sala_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="fk_tipo_sala" to_schema="srs" to_table="tipo_sala" >
+				<fk_column name="id_tipo_sala" pk="id" />
+			</fk>
+		</table>
+		<table name="sala_equipamento" >
+			<column name="id_sala" type="integer" jt="4" />
+			<column name="id_equipamento" type="integer" jt="4" />
+			<column name="quantidade" type="integer" jt="4" />
+			<fk name="fk_equipamento" to_schema="srs" to_table="equipamento" >
+				<fk_column name="id_equipamento" pk="id" />
+			</fk>
+			<fk name="fk_sala" to_schema="srs" to_table="sala" >
+				<fk_column name="id_sala" pk="id" />
+			</fk>
+		</table>
+		<table name="tipo_equipamento" prior="tbl" >
+			<column name="id" type="integer" jt="4" mandatory="y" />
+			<column name="categoria" type="varchar" length="255" jt="12" />
+			<index name="pk_tbl_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+		<table name="tipo_sala" >
+			<column name="id" type="integer" jt="4" mandatory="y" />
+			<column name="tipo" type="varchar" length="255" jt="12" />
+			<index name="unq_tipo_sala_id" unique="UNIQUE_KEY" >
+				<column name="id" />
+			</index>
+			<index name="pk_tipo_sala_id" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+		</table>
+	</schema>
+	<layout name="Default Layout" id="Layout_16e5" show_relation="columns" >
+		<entity schema="srs" name="cliente" color="C1D8EE" x="48" y="144" />
+		<entity schema="srs" name="equipamento" color="C1D8EE" x="336" y="176" />
+		<entity schema="srs" name="reserva" color="C1D8EE" x="592" y="48" />
+		<entity schema="srs" name="sala" color="C1D8EE" x="800" y="192" />
+		<entity schema="srs" name="sala_equipamento" color="C1D8EE" x="576" y="192" />
+		<entity schema="srs" name="tipo_equipamento" color="C1D8EE" x="96" y="416" />
+		<entity schema="srs" name="tipo_sala" color="C1D8EE" x="848" y="400" />
+	</layout>
+</project>
