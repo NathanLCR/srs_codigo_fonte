@@ -1,26 +1,24 @@
 package com.basis.srs.dominio;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
 
 @Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
+@Table
 public class Cliente implements Serializable {
 
    @Id
-   @GeneratedValue
-   private int id;
+   @GeneratedValue(strategy = ) //sequence aqui
+   private Integer id;
 
    @Column(name = "nome")
    private String nome;
