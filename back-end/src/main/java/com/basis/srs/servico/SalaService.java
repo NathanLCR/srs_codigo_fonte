@@ -2,16 +2,19 @@ package com.basis.srs.servico;
 
 import com.basis.srs.dominio.Sala;
 import com.basis.srs.repositorio.SalaRepositorio;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
+@Transactional
 public class SalaService {
 
-    @Autowired
     private SalaRepositorio sr;
 
     //Post
@@ -23,11 +26,11 @@ public class SalaService {
     }
 
     //Get
-    public List<Sala> pegarSalaPorId() {
+    public void pegarSalaPorId() {
     }
 
     //Get por ID
-    public Sala listarTodas(Integer id) {
+    public void listarTodas(Integer id) {
     }
 
     //Delete por ID

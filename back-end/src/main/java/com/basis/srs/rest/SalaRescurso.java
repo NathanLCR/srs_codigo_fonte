@@ -3,39 +3,43 @@ package com.basis.srs.rest;
 
 import com.basis.srs.dominio.Sala;
 import com.basis.srs.servico.SalaService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/salas")
-
+@RequiredArgsConstructor
 public class SalaRescurso {
 
-    @Autowired
     private SalaService ss;
 
     @PostMapping
-    public ResponseEntity<Sala> cadastrarSala(@RequestBody Sala s) {
+    public void cadastrarSala(@RequestBody Sala s) {
     }
 
     @PutMapping
-    public ResponseEntity<Sala> alterarSala(@RequestBody Sala s){
+    public void alterarSala(@RequestBody Sala s){
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Sala> pegarSalaPorId(@PathVariable Integer id) {
+    public void pegarSalaPorId(@PathVariable Integer id) {
     }
 
     @GetMapping
-    public ResponseEntity<List<Sala>> listarTodas() {
+    public void listarTodas() {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Sala> deletarSala(@PathVariable Integer id) {
+    public void deletarSala(@PathVariable Integer id) {
     }
 }
