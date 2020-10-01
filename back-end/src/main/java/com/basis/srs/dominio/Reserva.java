@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.Date;
 
-@Entity @Table @Getter @Setter
+@Entity @Table(name = "reserva") @Getter @Setter
 public class Reserva {
 
 

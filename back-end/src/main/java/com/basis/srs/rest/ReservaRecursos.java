@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController @RequiredArgsConstructor
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/reservas")
 public class ReservaRecursos {
 
     private ReservaRepositorio repositorio;
