@@ -1,12 +1,11 @@
 package com.basis.srs.servico;
 
-import com.basis.srs.repositorio.ClienteRepositorio;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import javax.transaction.Transactional;
 
-
+@Service
+@RequiredArgsConstructor
+@Transactional
 public class ClienteService {
-
-    ClienteRepositorio clienteRepositorio = new ClienteRepositorio() {
-
-
-    };
 }

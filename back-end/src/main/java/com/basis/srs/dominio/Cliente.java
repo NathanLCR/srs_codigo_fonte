@@ -4,7 +4,11 @@ package com.basis.srs.dominio;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
@@ -13,11 +17,11 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
-@Table
+@Table(name = "cliente")
 public class Cliente implements Serializable {
 
    @Id
-   @GeneratedValue(strategy = ) //sequence aqui
+   @GeneratedValue(strategy = GenerationType.AUTO) //sequence aqui
    private Integer id;
 
    @Column(name = "nome")
