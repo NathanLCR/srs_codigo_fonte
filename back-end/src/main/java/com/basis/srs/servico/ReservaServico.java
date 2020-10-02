@@ -8,5 +8,5 @@ import javax.transaction.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class ReservaService {
+public class ReservaServico {
 }
