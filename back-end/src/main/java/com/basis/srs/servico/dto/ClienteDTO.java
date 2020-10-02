@@ -1,8 +1,12 @@
 package com.basis.srs.servico.dto;
 
-import javax.persistence.Column;
-import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDate;
+
+@Setter
+@Getter
 public class ClienteDTO {
 
     private Integer id;
@@ -11,7 +15,7 @@ public class ClienteDTO {
 
     private String cpf;
 
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
 
     private String endereco;
 

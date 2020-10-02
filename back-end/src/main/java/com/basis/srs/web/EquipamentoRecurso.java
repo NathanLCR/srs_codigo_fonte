@@ -1,12 +1,9 @@
-package com.basis.srs.rest;
+package com.basis.srs.web;
 
 
 import com.basis.srs.dominio.Equipamento;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/equipamentos")

@@ -1,4 +1,4 @@
-package com.basis.srs.rest;
+package com.basis.srs.web;
 
 import com.basis.srs.dominio.Sala;
 import com.basis.srs.servico.SalaServico;

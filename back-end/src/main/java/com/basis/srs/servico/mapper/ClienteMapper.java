@@ -6,13 +6,14 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.web.bind.annotation.Mapping;
 
-@Mapper
+import javax.persistence.EntityManager;
+
+@Mapper(componentModel = "spring", uses = {})
 public interface ClienteMapper {
 
-    ClienteMapper INSTANCE = Mappers.getMapper( ClienteMapper.class);
+    ClienteDTO toEntity(Cliente cliente);
 
-    //@Mapping(source="id",target ="id")
-    ClienteDTO clienteDto(Cliente cliente);
+    Cliente toDto(ClienteDTO clienteDTO);
 }
 
 

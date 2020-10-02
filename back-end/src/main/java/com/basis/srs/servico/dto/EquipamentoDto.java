@@ -5,8 +5,6 @@ import lombok.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class EquipamentoDto {
 
     private Integer id;
