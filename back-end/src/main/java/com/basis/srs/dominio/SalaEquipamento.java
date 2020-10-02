@@ -12,12 +12,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "sala_equipamento")
 @Getter
 @Setter
-public class SalaEquipamento {
+public class SalaEquipamento implements Serializable {
 
     @EmbeddedId
     private SalaEquipamentoKey id;

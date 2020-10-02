@@ -16,23 +16,40 @@
 
     <changeSet id="6" author="nathan.lucio">
         <createTable tableName="equipamento">
-            <column  name="id"  type="number"/>
-            <column name="nome" type="varchar(255)"/>
-            <column name="id_tipo_equipamento" type="number"/>
-            <column name="preco_diaria" type="number"/>
-            <column name="obrigatorio" type="number"/>
+            <column  name="id"  type="number">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nome" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_tipo_equipamento" type="number">
+                <constraints nullable="false"/>
+            </column>
+            <column name="preco_diaria" type="double">
+                <constraints nullable="false"/>
+            </column>
+            <column name="obrigatorio" type="number">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
-        <addPrimaryKey tableName="equipamento" columnNames="id" />
+        <addPrimaryKey tableName="equipamento" columnNames="id" constraintName="pk_equipamento_id"/>
     </changeSet>
+
     <changeSet id="tabela_sala_equipamento" author="lucas.costa">
         <createTable tableName="sala_equipamento">
-            <column  name="id_sala"  type="number"/>
-            <column name="id_equipamento" type="number"/>
-            <column name="quantidade" type="number"/>
+            <column  name="id_sala"  type="number">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_equipamento" type="number">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantidade" type="number">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
-        <addPrimaryKey tableName="sala_equipamento" columnNames="id_sala, id_equipamento" />
+        <addPrimaryKey tableName="sala_equipamento" columnNames="id_sala, id_equipamento" constraintName="pk_sala_equipamento" />
     </changeSet>
 
     <changeSet id="7" author="nathan.lucio">

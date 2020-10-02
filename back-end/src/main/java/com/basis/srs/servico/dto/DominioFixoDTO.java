@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SalaDto {
+public class DominioFixoDTO {
 
     private Integer id;
 
@@ -16,6 +16,4 @@ public class SalaDto {
     private Integer limitePessoas;
 
     private double precoDiaria;
-
-    private DominioFixoDTO dominioFixoDTO;
 }

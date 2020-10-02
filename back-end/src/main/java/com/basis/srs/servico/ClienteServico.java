@@ -7,5 +7,5 @@ import javax.transaction.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class ClienteService {
+public class ClienteServico {
 }

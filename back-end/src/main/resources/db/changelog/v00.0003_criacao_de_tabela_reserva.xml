@@ -1,20 +1,31 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <changeSet  author="pedro"  id="8">
         <createTable  tableName="reserva">
-            <column  name="id"  type="number"/>
-            <column  name="id_cliente"  type="number"/>
-            <column  name="id_sala"  type="number"/>
-            <column  name="data_inicio"  type="TIMESTAMP"/>
-            <column  name="data_fim"  type="TIMESTAMP"/>
-            <column  name="total"  type="double"/>
+            <column  name="id"  type="number">
+                <constraints nullable="false"/>
+            </column>
+            <column  name="id_cliente"  type="number">
+                <constraints nullable="false"/>
+            </column>
+            <column  name="id_sala"  type="number">
+                <constraints nullable="false"/>
+            </column>
+            <column  name="data_inicio"  type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column  name="data_fim"  type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column  name="total"  type="double">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
-        <addPrimaryKey tableName="reserva" columnNames="id" />
+        <addPrimaryKey tableName="reserva" columnNames="id" constraintName="pk_reserva"/>
     </changeSet>
 
     <changeSet author="felipe.malheiros" id="9">
