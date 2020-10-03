@@ -1,5 +1,6 @@
 package com.basis.srs.servico.dto;
 
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,15 +8,15 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-public class DominioFixoDTO implements Serializable {
+public class EquipamentoDTO implements Serializable {
 
     private Integer id;
 
-    private Integer idTipoSala;
+    private String nome;
 
-    private String descricao;
-
-    private Integer limitePessoas;
+    private DominioFixoDTO tipoEquipamento;
 
     private double precoDiaria;
+
+    private int obrigatorio;
 }
