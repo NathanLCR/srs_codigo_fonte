@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
-@Setter
+@Setter//autor = "lucas.costa"
 public class ReservaDto {
 
     private Integer id;

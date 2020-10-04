@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@Table(name = "reserva")
+@Table(name = "reserva")//autor = "lucas.costa"
 public class Reserva implements Serializable {
 
 
