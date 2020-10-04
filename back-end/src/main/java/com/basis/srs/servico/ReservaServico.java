@@ -20,8 +20,6 @@ public class ReservaServico {
     private ReservaMapper reservaMapper;
     private ReservaRepositorio reservaRepositorio;
 
-    public ReservaServico() {
-    }
 
     //Get
     public List<ReservaDto> listar(){
