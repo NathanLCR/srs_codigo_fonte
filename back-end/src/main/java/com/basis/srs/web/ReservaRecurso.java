@@ -23,8 +23,8 @@ public class ReservaRecurso {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<ReservaDto> procuraPorId(@PathVariable Integer id){
-        ReservaDto reserva = reservaServico.listarPorId(id);
+    public ResponseEntity<ReservaDto> procurarPorId(@PathVariable Integer id){
+        ReservaDto reserva = reservaServico.procurarPorId(id);
         return ResponseEntity.ok(reserva);
     }
 
@@ -52,7 +52,7 @@ public class ReservaRecurso {
 
     @DeleteMapping
     public ResponseEntity<ReservaDto> deletarReserva(@PathVariable Integer id){
-        ReservaDto reservaDto = reservaServico.listarPorId(id);
+        ReservaDto reservaDto = reservaServico.procurarPorId(id);
         reservaServico.deletar(id);
         return ResponseEntity.ok(reservaDto);
         }

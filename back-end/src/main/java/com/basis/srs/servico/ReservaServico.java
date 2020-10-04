@@ -17,7 +17,7 @@ import java.util.List;
 @Transactional //autor = "lucas.costa"
 public class ReservaServico {
 
-    private  ReservaMapper reservaMapper;
+    private ReservaMapper reservaMapper;
     private ReservaRepositorio reservaRepositorio;
 
     public ReservaServico() {
@@ -31,7 +31,7 @@ public class ReservaServico {
     }
 
     //Get por Id
-    public ReservaDto listarPorId(Integer id) {
+    public ReservaDto procurarPorId(Integer id) {
         Reserva saida = reservaRepositorio.findById(id).orElse(null);
         ReservaDto saidaDto = reservaMapper.toDto(saida);
         return saidaDto;
