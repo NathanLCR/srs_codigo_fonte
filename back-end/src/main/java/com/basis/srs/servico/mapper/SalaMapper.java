@@ -6,4 +6,5 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", uses = {})
 public interface SalaMapper extends EntityMapper<SalaDto, Sala>{
+
 }
