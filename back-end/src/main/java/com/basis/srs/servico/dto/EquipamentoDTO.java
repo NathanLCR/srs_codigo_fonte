@@ -14,7 +14,7 @@ public class EquipamentoDTO implements Serializable {
 
     private String nome;
 
-    private DominioFixoDTO tipoEquipamento;
+    private Integer idTipoEquipamento;
 
     private double precoDiaria;
 

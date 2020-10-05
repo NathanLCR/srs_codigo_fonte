@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/api/reservas")
 public class ReservaRecurso {
 
-    private ReservaServico reservaServico;
+    private final ReservaServico reservaServico;
 
 
     @GetMapping("/{id}")

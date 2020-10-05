@@ -20,7 +20,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Table(name = "cliente")
-public class Cliente implements Serializable {
+public class   Cliente implements Serializable {
 
    @Id
    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sq_cliente")
