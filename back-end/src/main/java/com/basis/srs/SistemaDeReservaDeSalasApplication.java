@@ -8,7 +8,7 @@ public class SistemaDeReservaDeSalasApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SistemaDeReservaDeSalasApplication.class, args);
-		System.out.println("PRINT");
+		System.out.println("RODOU");
 
 	}
 
