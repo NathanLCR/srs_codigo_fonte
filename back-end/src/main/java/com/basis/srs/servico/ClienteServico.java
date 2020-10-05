@@ -13,14 +13,16 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
-<<<<<<< Updated upstream:back-end/src/main/java/com/basis/srs/servico/ClienteService.java
-public class ClienteService {
-=======
 public class ClienteServico {
 
-    private ClienteRepositorio clienteRepositorio;
+    private final ClienteRepositorio clienteRepositorio;
 
-    private ClienteMapper clienteMapper;
+    private final ClienteMapper clienteMapper;
+
+    public ClienteServico(ClienteRepositorio clienteRepositorio, ClienteMapper clienteMapper) {
+        this.clienteRepositorio = clienteRepositorio;
+        this.clienteMapper = clienteMapper;
+    }
 
     public List<ClienteDTO> listar() {
         List<Cliente> clientes = clienteRepositorio.findAll();
@@ -37,15 +39,14 @@ public class ClienteServico {
 
     public ClienteDTO salvar(ClienteDTO clienteDto){
         Cliente cliente = clienteMapper.toEntity(clienteDto);
-        clienteRepositorio.save(cliente);
-        return clienteDto;
+        cliente = clienteRepositorio.save(cliente);
+        return clienteMapper.toDto(cliente);
     }
 
 
     public void deletar(Integer id) {
+
         clienteRepositorio.deleteById(id);
     }
 
-
->>>>>>> Stashed changes:back-end/src/main/java/com/basis/srs/servico/ClienteServico.java
 }

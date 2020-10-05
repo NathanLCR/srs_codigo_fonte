@@ -1,9 +1,9 @@
 package com.basis.srs.web;
 
+
 import com.basis.srs.servico.ClienteServico;
 import com.basis.srs.servico.dto.ClienteDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +23,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClienteRecurso {
 
-    @Autowired
     private ClienteServico clienteServico;
 
     @GetMapping
@@ -39,14 +38,14 @@ public class ClienteRecurso {
 
     @PostMapping
     public ResponseEntity<ClienteDTO> cadastrarCliente(@RequestBody ClienteDTO clienteDto) throws URISyntaxException {
-        ClienteDTO dto = clienteServico.salvar(clienteDto);
-        return ResponseEntity.created(new URI("/api/clientes/")).body(dto);
+        ClienteDTO clienteSalvo = clienteServico.salvar(clienteDto);
+        return ResponseEntity.created(new URI("/api/clientes/")).body(clienteSalvo);
     }
 
     @PutMapping
     public ResponseEntity<ClienteDTO> atualizarCliente(@RequestBody ClienteDTO clienteDto) throws URISyntaxException {
-        ClienteDTO dto = clienteServico.salvar(clienteDto);
-        return ResponseEntity.created(new URI("/api/clientes/")).body(dto);
+        ClienteDTO clienteSalvo = clienteServico.salvar(clienteDto);
+        return ResponseEntity.created(new URI("/api/clientes/")).body(clienteSalvo);
     }
 
     @DeleteMapping("/{id}")
