@@ -1,8 +1,9 @@
 package com.basis.srs.web;
 
-import com.basis.srs.dominio.Cliente;
+import com.basis.srs.servico.ClienteServico;
 import com.basis.srs.servico.dto.ClienteDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,31 +23,35 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClienteRecurso {
 
+    @Autowired
+    private ClienteServico clienteServico;
+
     @GetMapping
     public ResponseEntity<List<ClienteDTO>> listar(){
-        return ResponseEntity.ok(new ArrayList<>());
+        List<ClienteDTO> clientes = clienteServico.listar();
+        return ResponseEntity.ok(clientes);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ClienteDTO> buscarPorId(@PathVariable Integer id){
-        return ResponseEntity.ok(new ClienteDTO());
+        return ResponseEntity.ok(clienteServico.buscarPorId(id));
     }
 
     @PostMapping
-    public ResponseEntity<ClienteDTO> salvar(@RequestBody ClienteDTO clienteDTO) throws URISyntaxException {
-        ClienteDTO dto = new ClienteDTO();
+    public ResponseEntity<ClienteDTO> cadastrarCliente(@RequestBody ClienteDTO clienteDto) throws URISyntaxException {
+        ClienteDTO dto = clienteServico.salvar(clienteDto);
         return ResponseEntity.created(new URI("/api/clientes/")).body(dto);
     }
 
     @PutMapping
-    public ResponseEntity<ClienteDTO> editar(@RequestBody ClienteDTO clienteDTO){
-        ClienteDTO dto = new ClienteDTO();
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<ClienteDTO> atualizarCliente(@RequestBody ClienteDTO clienteDto) throws URISyntaxException {
+        ClienteDTO dto = clienteServico.salvar(clienteDto);
+        return ResponseEntity.created(new URI("/api/clientes/")).body(dto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ClienteDTO> remover(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok().build();
+    public void remover(@PathVariable("id") Integer id) {
+        clienteServico.deletar(id);
     }
 
 }

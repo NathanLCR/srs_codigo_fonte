@@ -2,12 +2,16 @@ package com.basis.srs.servico.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 
 @Setter
 @Getter
 public class ClienteDTO {
+
+    @Autowired
+    private ClienteDTO clienteDTO;
 
     private Integer id;
 
@@ -20,4 +24,6 @@ public class ClienteDTO {
     private String endereco;
 
     private String rg;
+
+    private String email;
 }
