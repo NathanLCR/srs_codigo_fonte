@@ -7,10 +7,10 @@ import com.basis.srs.servico.dto.ClienteDTO;
 import com.basis.srs.servico.mapper.ClienteMapper;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -21,11 +21,6 @@ public class ClienteServico {
     private final ClienteRepositorio clienteRepositorio;
 
     private final ClienteMapper clienteMapper;
-
-    public ClienteServico(ClienteRepositorio clienteRepositorio, ClienteMapper clienteMapper) {
-        this.clienteRepositorio = clienteRepositorio;
-        this.clienteMapper = clienteMapper;
-    }
 
     public List<ClienteDTO> listar() {
         List<Cliente> clientes = clienteRepositorio.findAll();

@@ -54,8 +54,9 @@ public class EquipamentoRecurso {
     };
 
     @DeleteMapping("/{id}")
-    public void deletarEquipamento(@PathVariable Integer id){
+    public ResponseEntity<EquipamentoDTO> deletarEquipamento(@PathVariable Integer id){
         equipamentoServico.deletar(id);
+        return ResponseEntity.ok().build();
     };
 
 }

@@ -24,8 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClienteRecurso {
 
-    @Autowired
-    private ClienteServico clienteServico;
+    private final ClienteServico clienteServico;
 
     @GetMapping
     public ResponseEntity<List<ClienteDTO>> listar(){
