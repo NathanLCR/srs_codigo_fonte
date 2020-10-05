@@ -5,5 +5,5 @@ import com.basis.srs.servico.dto.SalaDto;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", uses = {})
-public interface SalaMapper extends EntityMapper<Sala, SalaDto>{
+public interface SalaMapper extends EntityMapper<SalaDto, Sala>{
 }

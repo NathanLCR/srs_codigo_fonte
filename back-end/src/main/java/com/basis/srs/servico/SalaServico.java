@@ -27,7 +27,7 @@ public class SalaServico {
 
     //GET POR ID
     public SalaDto pegarSalaPorId(Integer id) {
-        Sala sala = salaRepositorio.findById(id)
+        Sala sala = salaRepositorio.findById(id).orElse(null);
         SalaDto salaDto = salaMapper.toDto(sala);
         return salaDto;
     }
