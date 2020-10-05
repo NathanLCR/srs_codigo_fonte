@@ -1,8 +1,9 @@
 package com.basis.srs.web;
 
-import com.basis.srs.dominio.Sala;
 import com.basis.srs.servico.SalaServico;
+import com.basis.srs.servico.dto.SalaDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,26 +13,45 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/salas")
 @RequiredArgsConstructor
 public class SalaRecurso {
 
-    private SalaServico salaService;
+    private final SalaServico salaService;
 
     @PostMapping
-    public void cadastrarSala(@RequestBody Sala sala) {
+    public ResponseEntity<SalaDTO> cadastrarSala(@RequestBody SalaDTO sala) throws URISyntaxException {
+        salaService.cadastrarSala(sala);
+        return ResponseEntity.created(new URI("/api/salas/")).body(sala);
     }
 
     @PutMapping
-    public void alterarSala(@RequestBody Sala sala){}
+    public ResponseEntity<SalaDTO> alterarSala(@RequestBody SalaDTO sala){
+        salaService.alterarSala(sala);
+        return ResponseEntity.ok(sala);
+    }
 
     @GetMapping("/{id}")
-    public void pegarSalaPorId(@PathVariable Integer id) {}
+    public ResponseEntity<SalaDTO> pegarSalaPorId(@PathVariable Integer id) {
+        SalaDTO sala = salaService.pegarSalaPorId(id);
+        return ResponseEntity.ok(sala);
+    }
 
     @GetMapping
-    public void listarTodas() {}
+    public ResponseEntity<List<SalaDTO>> listarTodas() {
+        List<SalaDTO> salaDtos = salaService.listarTodas();
+        return ResponseEntity.ok(salaDtos);
+    }
 
     @DeleteMapping("/{id}")
-    public void deletarSala(@PathVariable Integer id) {}
+    public ResponseEntity<SalaDTO> deletarSala(@PathVariable Integer id) {
+        SalaDTO salaDto = salaService.pegarSalaPorId(id);
+        salaService.deletarSala(id);
+        return ResponseEntity.ok().build();
+    }
 }

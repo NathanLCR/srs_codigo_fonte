@@ -8,13 +8,13 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-public class EquipamentoDTO implements Serializable {
+public class EquipamentoDTO {
 
     private Integer id;
 
     private String nome;
 
-    private DominioFixoDTO tipoEquipamento;
+    private Integer idTipoEquipamento;
 
     private double precoDiaria;
 
