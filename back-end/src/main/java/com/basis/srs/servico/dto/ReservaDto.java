@@ -9,10 +9,11 @@ import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
-@Setter
+@Setter//autor = "lucas.costa"
 public class ReservaDto {
 
     private Integer id;
@@ -21,9 +22,9 @@ public class ReservaDto {
 
     private Sala sala;
 
-    private Date dataInicio;
+    private LocalDateTime dataInicio;
 
-    private Date dataFim;
+    private LocalDateTime dataFim;
 
     private double total;
 
