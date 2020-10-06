@@ -10,15 +10,15 @@ import org.mapstruct.Mapping;
 public interface SalaEquipamentoMapper extends EntityMapper<SalaEquipamentoDTO, SalaEquipamento> {
 
     @Override
-    @Mapping(source = "sala", target = "sala.id")
-    @Mapping(source = "equipamento", target = "equipamento.id")
-    @Mapping(source = "sala", target = "id.idSala")
-    @Mapping(source = "equipamento", target = "id.idEquipamento")
+    @Mapping(source = "idSala", target = "sala.id")
+    @Mapping(source = "idEquipamento", target = "equipamento.id")
+    @Mapping(source = "idSala", target = "id.idSala")
+    @Mapping(source = "idEquipamento", target = "id.idEquipamento")
     SalaEquipamento toEntity(SalaEquipamentoDTO salaEquipamentoDTO);
 
     @Override
-    @Mapping(target = "sala", source = "sala.id")
-    @Mapping(target = "equipamento", source = "equipamento.id")
+    @Mapping(target = "idSala", source = "sala.id")
+    @Mapping(target = "idEquipamento", source = "equipamento.id")
     SalaEquipamentoDTO toDto(SalaEquipamento salaEquipamento);
 }
 

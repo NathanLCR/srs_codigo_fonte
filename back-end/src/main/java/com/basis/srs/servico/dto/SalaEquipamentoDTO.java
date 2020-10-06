@@ -7,9 +7,9 @@ import lombok.Setter;
 @Setter
 public class SalaEquipamentoDTO {
 
-    private Integer sala;
+    private Integer idSala;
 
-    private Integer equipamento;
+    private Integer idEquipamento;
 
     private Integer quantidade;
 }
