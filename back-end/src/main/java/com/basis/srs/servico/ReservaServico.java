@@ -16,8 +16,8 @@ import java.util.List;
 @Transactional //autor = "lucas.costa"
 public class ReservaServico {
 
-    private ReservaMapper reservaMapper;
-    private ReservaRepositorio reservaRepositorio;
+    private final ReservaMapper reservaMapper;
+    private final ReservaRepositorio reservaRepositorio;
 
 
     //Get
@@ -43,7 +43,7 @@ public class ReservaServico {
     public ReservaDTO salvar(ReservaDTO reservaDto){
         Reserva reserva = reservaMapper.toEntity(reservaDto);
         reservaRepositorio.save(reserva);
-        return reservaDto;
+        return reservaMapper.toDto(reserva);
     }
 
 }

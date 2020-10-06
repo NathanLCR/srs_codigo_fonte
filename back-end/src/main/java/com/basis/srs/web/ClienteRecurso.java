@@ -50,8 +50,9 @@ public class ClienteRecurso {
     }
 
     @DeleteMapping("/{id}")
-    public void remover(@PathVariable("id") Integer id) {
+    public ResponseEntity<ClienteDTO> remover(@PathVariable("id") Integer id) {
         clienteServico.deletar(id);
+        return ResponseEntity.ok().build();
     }
 
 }

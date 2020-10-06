@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -38,12 +38,12 @@ public class Reserva implements Serializable {
     private Sala sala;
 
     @Column(name="data_inicio")
-    private LocalDateTime dataInicio;
+    private LocalDate dataInicio;
 
     @Column(name="data_fim")
-    private LocalDateTime dataFim;
+    private LocalDate dataFim;
 
     @Column(name="total")
-    private double total;
+    private Double total;
 
 }

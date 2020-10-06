@@ -26,14 +26,14 @@ public class SalaRecurso {
 
     @PostMapping
     public ResponseEntity<SalaDTO> cadastrarSala(@RequestBody SalaDTO sala) throws URISyntaxException {
-        salaService.cadastrarSala(sala);
-        return ResponseEntity.created(new URI("/api/salas/")).body(sala);
+        SalaDTO salaCriada = salaService.salvar(sala);
+        return ResponseEntity.created(new URI("/api/salas/")).body(salaCriada);
     }
 
     @PutMapping
     public ResponseEntity<SalaDTO> alterarSala(@RequestBody SalaDTO sala){
-        salaService.alterarSala(sala);
-        return ResponseEntity.ok(sala);
+        SalaDTO salaAtualizada = salaService.salvar(sala);
+        return ResponseEntity.ok(salaAtualizada);
     }
 
     @GetMapping("/{id}")
@@ -50,7 +50,6 @@ public class SalaRecurso {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<SalaDTO> deletarSala(@PathVariable Integer id) {
-        SalaDTO salaDto = salaService.pegarSalaPorId(id);
         salaService.deletarSala(id);
         return ResponseEntity.ok().build();
     }
