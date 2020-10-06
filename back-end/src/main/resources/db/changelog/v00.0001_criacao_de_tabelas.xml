@@ -7,35 +7,34 @@
 
     <changeSet  author="felipe"  id="1">
         <createTable tableName="cliente" remarks="">
-            <column  name="id"  type="NUMBER" remarks="">
+            <column  name="id"  type="number" remarks="">
                 <constraints nullable="false"/>
             </column>
-            <column  name="nome"  type="VARCHAR(120)">
+            <column  name="nome"  type="varchar(120)">
                 <constraints nullable="false"/>
             </column>
-            <column  name="cpf"  type="VARCHAR(11)">
+            <column  name="cpf"  type="varchar(11)">
                 <constraints nullable="false"/>
             </column>
-            <column  name="rg"  type="VARCHAR(7)">
+            <column  name="rg"  type="varchar(7)">
                 <constraints nullable="false"/>
             </column>
-            <column  name="endereco"  type="VARCHAR(255)">
+            <column  name="endereco"  type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="data_nascimento" type="date">
                 <constraints nullable="false"/>
             </column>
-            <column name="email" type="VARCHAR(255)">
+            <column name="email" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
 
         <addPrimaryKey tableName="cliente" columnNames="id" constraintName="pk_cliente_id"/>
-
+        <createSequence sequenceName="sq_cliente" incrementBy="1" cycle="false" startValue="1" cacheSize="20"/>
     </changeSet>
     
     <changeSet author="nathan" id="createsequelcliente">
-        <createSequence sequenceName="sq_cliente" incrementBy="1" cycle="false" startValue="1" cacheSize="20"/>
         <createSequence sequenceName="sq_sala" incrementBy="1" cycle="false" startValue="1" cacheSize="20"/>
         <createSequence sequenceName="sq_equipamento" incrementBy="1" cycle="false" startValue="1" cacheSize="20"/>
         <createSequence sequenceName="sq_reserva" incrementBy="1" cycle="false" startValue="1" cacheSize="20"/>

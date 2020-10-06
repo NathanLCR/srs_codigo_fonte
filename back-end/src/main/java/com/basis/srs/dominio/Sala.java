@@ -36,7 +36,7 @@ public class Sala implements Serializable {
     @Column(name = "descricao")
     private String descricao;
 
-    @Column(name = "limite_pessoas")
+    @Column(name = "capacidade")
     private Integer capacidade;
 
     @Column(name = "preco_diaria")

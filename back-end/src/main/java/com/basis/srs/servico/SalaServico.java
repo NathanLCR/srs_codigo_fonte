@@ -2,12 +2,12 @@ package com.basis.srs.servico;
 
 import com.basis.srs.dominio.Sala;
 import com.basis.srs.repositorio.SalaRepositorio;
-import com.basis.srs.servico.dto.SalaDto;
+import com.basis.srs.servico.dto.SalaDTO;
 import com.basis.srs.servico.mapper.SalaMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -19,30 +19,25 @@ public class SalaServico {
     private final SalaRepositorio salaRepositorio;
 
     //GET
-    public List<SalaDto> listarTodas() {
+    public List<SalaDTO> listarTodas() {
         List<Sala> salas = salaRepositorio.findAll();
-        List<SalaDto> salasDto = salaMapper.toDto(salas);
+        List<SalaDTO> salasDto = salaMapper.toDto(salas);
         return salasDto;
     }
 
     //GET POR ID
-    public SalaDto pegarSalaPorId(Integer id) {
+    public SalaDTO pegarSalaPorId(Integer id) {
         Sala sala = salaRepositorio.findById(id).orElse(null);
-        SalaDto salaDto = salaMapper.toDto(sala);
+        SalaDTO salaDto = salaMapper.toDto(sala);
         return salaDto;
     }
 
     //POST
-    public void cadastrarSala(SalaDto salaDto) {
+    public SalaDTO salvar(SalaDTO salaDto) {
         Sala sala = salaMapper.toEntity(salaDto);
         salaRepositorio.save(sala);
+        return salaMapper.toDto(sala);
 
-    }
-
-    //PUT
-    public void alterarSala(SalaDto salaDto) {
-        Sala sala = salaMapper.toEntity(salaDto);
-        salaRepositorio.save(sala);
     }
 
     //DELETE POR ID
