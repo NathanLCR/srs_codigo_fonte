@@ -11,8 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.util.ArrayList;
-import java.util.Collections;
+
 import java.util.List;
 
 @Service
@@ -38,6 +39,7 @@ public class SalaServico {
         return salaDto;
     }
 
+
     //POST e put
     public SalaDTO salvar(SalaDTO salaDto) {
         Sala sala = salaMapper.toEntity(salaDto);
@@ -52,8 +54,6 @@ public class SalaServico {
         salaEquipamentoRepositorio.saveAll(equipamentos);
         sala.setEquipamentos(equipamentos);
         return salaMapper.toDto(sala);
-
-    }
 
     //DELETE POR ID
     public void deletarSala(Integer id){

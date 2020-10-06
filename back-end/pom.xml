@@ -100,12 +100,6 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 
-<!--				<configuration>-->
-<!--					<fork>true</fork>-->
-<!--					<executable>/usr/lib/jvm/java-11-openjdk-amd64/bin/javac</executable>-->
-<!--					<source>1.8</source> &lt;!&ndash; depending on your project &ndash;&gt;-->
-<!--					<target>1.8</target> &lt;!&ndash; depending on your project &ndash;&gt;-->
-<!--				<version>3.5.1</version>-->
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>

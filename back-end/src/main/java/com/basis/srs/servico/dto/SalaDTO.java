@@ -16,5 +16,4 @@ public class SalaDTO {
     private Integer disponivel;
     private Integer idTipoSala;
     private List<SalaEquipamentoDTO> equipamentos;
-
 }
