@@ -1,6 +1,8 @@
 package com.basis.srs.servico;
 
 import com.basis.srs.dominio.Sala;
+import com.basis.srs.dominio.SalaEquipamento;
+import com.basis.srs.repositorio.SalaEquipamentoRepositorio;
 import com.basis.srs.repositorio.SalaRepositorio;
 import com.basis.srs.servico.dto.SalaDTO;
 import com.basis.srs.servico.mapper.SalaMapper;
@@ -8,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,6 +20,7 @@ public class SalaServico {
 
     private final SalaMapper salaMapper;
     private final SalaRepositorio salaRepositorio;
+    private final SalaEquipamentoRepositorio salaEquipamentoRepositorio;
 
     //GET
     public List<SalaDTO> listarTodas() {
@@ -35,7 +39,15 @@ public class SalaServico {
     //POST e put
     public SalaDTO salvar(SalaDTO salaDto) {
         Sala sala = salaMapper.toEntity(salaDto);
+        List<SalaEquipamento> equipamentos = sala.getEquipamentos();
+        sala.setEquipamentos(new ArrayList<>());
         salaRepositorio.save(sala);
+        equipamentos.forEach(equipamento -> {
+            equipamento.setSala(sala);
+            equipamento.getId().setIdSala(sala.getId());
+        });
+
+        salaEquipamentoRepositorio.saveAll(equipamentos);
         return salaMapper.toDto(sala);
 
     }

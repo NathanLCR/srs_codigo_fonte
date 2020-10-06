@@ -43,8 +43,8 @@ public class Sala implements Serializable {
     private Double precoDiaria;
 
     @Column(name = "disponivel")
-    private Double disponivel;
+    private Integer disponivel;
 
     @OneToMany(mappedBy = "sala")
-    private List<SalaEquipamento> salaEquipamentos;
+    private List<SalaEquipamento> equipamentos;
 }
