@@ -32,7 +32,7 @@ public class SalaServico {
         return salaDto;
     }
 
-    //POST
+    //POST e put
     public SalaDTO salvar(SalaDTO salaDto) {
         Sala sala = salaMapper.toEntity(salaDto);
         salaRepositorio.save(sala);
