@@ -46,6 +46,6 @@ public class Sala implements Serializable {
     @Column(name = "disponivel")
     private Integer disponivel;
 
-    @OneToMany(mappedBy = "sala", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sala", orphanRemoval = true)
     private List<SalaEquipamento> equipamentos;
 }

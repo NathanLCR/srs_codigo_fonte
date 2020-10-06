@@ -3,7 +3,7 @@ package com.basis.srs.servico.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter//autor = "lucas.costa"
@@ -11,14 +11,14 @@ public class ReservaDTO {
 
     private Integer id;
 
-    private ClienteDTO cliente;
+    private Integer idCliente;
 
-    private SalaDTO sala;
+    private Integer idSala;
 
-    private LocalDateTime dataInicio;
+    private LocalDate dataInicio;
 
-    private LocalDateTime dataFim;
+    private LocalDate dataFim;
 
-    private double total;
+    private Double total;
 
 }
