@@ -3,6 +3,7 @@ package com.basis.srs.dominio;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -45,6 +46,6 @@ public class Sala implements Serializable {
     @Column(name = "disponivel")
     private Integer disponivel;
 
-    @OneToMany(mappedBy = "sala")
+    @OneToMany(mappedBy = "sala", cascade = CascadeType.ALL)
     private List<SalaEquipamento> equipamentos;
 }
