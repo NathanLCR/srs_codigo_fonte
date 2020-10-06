@@ -48,6 +48,7 @@ public class SalaServico {
         });
 
         salaEquipamentoRepositorio.saveAll(equipamentos);
+        sala.setEquipamentos(equipamentos);
         return salaMapper.toDto(sala);
 
     }
