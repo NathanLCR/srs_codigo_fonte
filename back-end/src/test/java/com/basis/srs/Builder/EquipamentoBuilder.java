@@ -20,7 +20,7 @@ public class EquipamentoBuilder extends ConstrutorDeEntidade<Equipamento>{
     private EquipamentoMapper equipamentoMapper;
 
     @Override
-    protected Equipamento construirEntidade() throws ParseException {
+    public Equipamento construirEntidade() throws ParseException {
         Equipamento equipamento = new Equipamento();
         TipoEquipamento tipo = new TipoEquipamento();
         tipo.setId(1);
@@ -29,6 +29,10 @@ public class EquipamentoBuilder extends ConstrutorDeEntidade<Equipamento>{
         equipamento.setPrecoDiaria(10.90);
         equipamento.setTipoEquipamento(tipo);
         return equipamento;
+    }
+
+    public EquipamentoDTO converterToDto(Equipamento equipamento){
+        return equipamentoMapper.toDto(equipamento);
     }
 
     @Override

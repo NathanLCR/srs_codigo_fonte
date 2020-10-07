@@ -40,7 +40,7 @@ public class EquipamentoRecurso {
     };
 
     @PostMapping
-    public ResponseEntity<EquipamentoDTO> cadastrarEquipamento(@Valid EquipamentoDTO equipamento) throws URISyntaxException {
+    public ResponseEntity<EquipamentoDTO> cadastrarEquipamento(@Valid @RequestBody EquipamentoDTO equipamento) throws URISyntaxException {
 
         EquipamentoDTO equipamentoSalvo = equipamentoServico.salvar(equipamento);
 
@@ -51,7 +51,7 @@ public class EquipamentoRecurso {
     public ResponseEntity<EquipamentoDTO> alterarEquipamento(@Valid EquipamentoDTO equipamento) throws URISyntaxException {
         EquipamentoDTO equipamentoSalvo = equipamentoServico.salvar(equipamento);
 
-        return ResponseEntity.created(new URI("/api/equipamentos")).body(equipamentoSalvo);
+        return ResponseEntity.ok(equipamentoSalvo);
     };
 
     @DeleteMapping("/{id}")
