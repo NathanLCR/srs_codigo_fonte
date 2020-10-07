@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -36,28 +37,23 @@ public class ReservaRecurso {
 
 
     @PostMapping
-    public ResponseEntity<ReservaDTO> cadastrarReserva(@RequestBody ReservaDTO reservaDTO)throws URISyntaxException{
-        reservaServico.salvar(reservaDTO);
-        return ResponseEntity.created(new URI("/api/reservas")).body(reservaDTO);
+    public ResponseEntity<ReservaDTO> cadastrarReserva(@RequestBody @Valid ReservaDTO reservaDTO)throws URISyntaxException{
+        ReservaDTO reservaSalva = reservaServico.salvar(reservaDTO);
+        return ResponseEntity.created(new URI("/api/reservas")).body(reservaSalva);
     }
 
     @PutMapping
-    public ResponseEntity<ReservaDTO> alterarReserva(@RequestBody ReservaDTO reserva ){
-        reservaServico.salvar(reserva);
+    public ResponseEntity<ReservaDTO> alterarReserva(@RequestBody @Valid ReservaDTO reservaDTO ){
+        ReservaDTO reserva = reservaServico.salvar(reservaDTO);
         return ResponseEntity.ok(reserva);
 
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<ReservaDTO> deletarReserva(@PathVariable Integer id){
-        ReservaDTO reservaDto = reservaServico.procurarPorId(id);
         reservaServico.deletar(id);
-        return ResponseEntity.ok(reservaDto);
+        return ResponseEntity.ok().build();
         }
-
-
-
-
 
 
 }

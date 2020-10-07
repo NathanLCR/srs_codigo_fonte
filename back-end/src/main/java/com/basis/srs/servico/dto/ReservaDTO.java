@@ -3,7 +3,11 @@ package com.basis.srs.servico.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Positive;
+import java.time.LocalDate;
 
 @Getter
 @Setter//autor = "lucas.costa"
@@ -11,14 +15,20 @@ public class ReservaDTO {
 
     private Integer id;
 
-    private ClienteDTO cliente;
+    @NotNull
+    private Integer idCliente;
 
-    private SalaDTO sala;
+    @NotNull
+    private Integer idSala;
 
-    private LocalDateTime dataInicio;
+    @NotNull
+    private LocalDate dataInicio;
 
-    private LocalDateTime dataFim;
+    @NotNull
+    private LocalDate dataFim;
 
-    private double total;
+    @NotNull
+    @Positive
+    private Double total;
 
 }
