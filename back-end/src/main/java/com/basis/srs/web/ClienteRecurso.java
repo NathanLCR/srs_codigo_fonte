@@ -3,6 +3,7 @@ package com.basis.srs.web;
 
 import com.basis.srs.servico.ClienteServico;
 import com.basis.srs.servico.dto.ClienteDTO;
+import com.basis.srs.servico.dto.EquipamentoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -51,9 +52,10 @@ public class ClienteRecurso {
     }
 
     @DeleteMapping("/{id}")
-    public void remover(@PathVariable("id") Integer id) {
-        clienteServico.deletar(id);
-    }
+    public ResponseEntity<EquipamentoDTO> deletar(@PathVariable Integer id){
+       clienteServico.deletar(id);
+       return ResponseEntity.ok().build();
+    };
 
 }
 

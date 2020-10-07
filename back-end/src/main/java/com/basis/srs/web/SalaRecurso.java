@@ -1,7 +1,7 @@
 package com.basis.srs.web;
 
 import com.basis.srs.servico.SalaServico;
-import com.basis.srs.servico.dto.SalaDto;
+import com.basis.srs.servico.dto.SalaDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,32 +25,32 @@ public class SalaRecurso {
     private final SalaServico salaService;
 
     @PostMapping
-    public ResponseEntity<SalaDto> cadastrarSala(@RequestBody SalaDto sala) throws URISyntaxException {
+    public ResponseEntity<SalaDTO> cadastrarSala(@RequestBody SalaDTO sala) throws URISyntaxException {
         salaService.cadastrarSala(sala);
         return ResponseEntity.created(new URI("/api/salas/")).body(sala);
     }
 
     @PutMapping
-    public ResponseEntity<SalaDto> alterarSala(@RequestBody SalaDto sala){
+    public ResponseEntity<SalaDTO> alterarSala(@RequestBody SalaDTO sala){
         salaService.alterarSala(sala);
         return ResponseEntity.ok(sala);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SalaDto> pegarSalaPorId(@PathVariable Integer id) {
-        SalaDto sala = salaService.pegarSalaPorId(id);
+    public ResponseEntity<SalaDTO> pegarSalaPorId(@PathVariable Integer id) {
+        SalaDTO sala = salaService.pegarSalaPorId(id);
         return ResponseEntity.ok(sala);
     }
 
     @GetMapping
-    public ResponseEntity<List<SalaDto>> listarTodas() {
-        List<SalaDto> salaDtos = salaService.listarTodas();
+    public ResponseEntity<List<SalaDTO>> listarTodas() {
+        List<SalaDTO> salaDtos = salaService.listarTodas();
         return ResponseEntity.ok(salaDtos);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<SalaDto> deletarSala(@PathVariable Integer id) {
-        SalaDto salaDto = salaService.pegarSalaPorId(id);
+    public ResponseEntity<SalaDTO> deletarSala(@PathVariable Integer id) {
+        SalaDTO salaDto = salaService.pegarSalaPorId(id);
         salaService.deletarSala(id);
         return ResponseEntity.ok().build();
     }

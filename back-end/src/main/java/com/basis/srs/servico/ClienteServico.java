@@ -48,7 +48,6 @@ public class ClienteServico {
 
 
     public void deletar(Integer id) {
-
         clienteRepositorio.deleteById(id);
     }
 
