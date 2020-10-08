@@ -3,7 +3,6 @@ package com.basis.srs.web.rest;
 import com.basis.srs.Builder.EquipamentoBuilder;
 import com.basis.srs.dominio.Equipamento;
 import com.basis.srs.repositorio.EquipamentoRepositorio;
-import com.basis.srs.servico.EquipamentoServico;
 import com.basis.srs.servico.dto.EquipamentoDTO;
 import com.basis.srs.util.IntTestComum;
 import com.basis.srs.util.TestUtil;
@@ -11,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.web.JsonPath;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +52,13 @@ public class EquipamentoRecursoIT extends IntTestComum {
     }
 
     @Test
+    public void obterPorIdInexistente() throws Exception {
+        getMockMvc().perform(MockMvcRequestBuilders.get("/api/equipamentos/250"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Equipamento não encontrado"));
+    }
+
+    @Test
     public void salvar() throws Exception {
         Equipamento equipamento = equipamentoBuilder.construirEntidade();
 
@@ -61,8 +66,7 @@ public class EquipamentoRecursoIT extends IntTestComum {
                     .contentType(TestUtil.APPLICATION_JSON_UTF8)
                     .content(TestUtil.convertObjectToJsonBytes(equipamentoBuilder.converterToDto(equipamento)))
                 )
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.nome").value(equipamento.getNome()));
+                .andExpect(status().isCreated());
     }
 
     @Test
@@ -70,11 +74,11 @@ public class EquipamentoRecursoIT extends IntTestComum {
         Equipamento equipamento = equipamentoBuilder.construir();
         EquipamentoDTO dto = equipamentoBuilder.converterToDto(equipamento);
 
-        getMockMvc().perform(MockMvcRequestBuilders.post("/api/equipamentos")
+        getMockMvc().perform(MockMvcRequestBuilders.put("/api/equipamentos")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(dto))
         )
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(equipamento.getId()));
     }
 
