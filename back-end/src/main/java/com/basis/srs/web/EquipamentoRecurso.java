@@ -48,7 +48,7 @@ public class EquipamentoRecurso {
     };
 
     @PutMapping
-    public ResponseEntity<EquipamentoDTO> alterarEquipamento(@Valid EquipamentoDTO equipamento) throws URISyntaxException {
+    public ResponseEntity<EquipamentoDTO> alterarEquipamento(@Valid @RequestBody EquipamentoDTO equipamento) throws URISyntaxException {
         EquipamentoDTO equipamentoSalvo = equipamentoServico.salvar(equipamento);
 
         return ResponseEntity.ok(equipamentoSalvo);
