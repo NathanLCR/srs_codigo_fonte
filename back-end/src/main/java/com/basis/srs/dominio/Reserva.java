@@ -44,6 +44,6 @@ public class Reserva implements Serializable {
     private LocalDate dataFim;
 
     @Column(name="total")
-    private double total;
+    private Double total;
 
 }
