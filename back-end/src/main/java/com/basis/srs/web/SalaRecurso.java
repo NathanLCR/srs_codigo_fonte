@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -25,6 +26,7 @@ public class SalaRecurso {
     private final SalaServico salaService;
 
     @PostMapping
+<<<<<<< Updated upstream
     public ResponseEntity<SalaDTO> cadastrarSala(@RequestBody SalaDTO sala) throws URISyntaxException {
         salaService.cadastrarSala(sala);
         return ResponseEntity.created(new URI("/api/salas/")).body(sala);
@@ -34,6 +36,17 @@ public class SalaRecurso {
     public ResponseEntity<SalaDTO> alterarSala(@RequestBody SalaDTO sala){
         salaService.alterarSala(sala);
         return ResponseEntity.ok(sala);
+=======
+    public ResponseEntity<SalaDTO> cadastrarSala(@Valid @RequestBody SalaDTO sala) throws URISyntaxException {
+        SalaDTO salaCriada = salaService.salvar(sala);
+        return ResponseEntity.created(new URI("/api/salas/")).body(salaCriada);
+    }
+
+    @PutMapping
+    public ResponseEntity<SalaDTO> alterarSala(@Valid @RequestBody SalaDTO sala){
+        SalaDTO salaAtualizada = salaService.salvar(sala);
+        return ResponseEntity.ok(salaAtualizada);
+>>>>>>> Stashed changes
     }
 
     @GetMapping("/{id}")

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -21,13 +22,11 @@ public class ReservaRecurso {
 
     private ReservaServico reservaServico;
 
-
     @GetMapping("/{id}")
     public ResponseEntity<ReservaDto> procurarPorId(@PathVariable Integer id){
         ReservaDto reserva = reservaServico.procurarPorId(id);
         return ResponseEntity.ok(reserva);
     }
-
 
     @GetMapping
     public ResponseEntity<List<ReservaDto>> listarReservas (){
@@ -35,9 +34,8 @@ public class ReservaRecurso {
         return ResponseEntity.ok(listaDto);
     }
 
-
-
     @PostMapping
+<<<<<<< Updated upstream
     public ResponseEntity<ReservaDto> cadastrarReserva(@RequestBody ReservaDto reservaDTO)throws URISyntaxException{
         reservaServico.salvar(reservaDTO);
         return ResponseEntity.created(new URI("/api/reservas")).body(reservaDTO);
@@ -46,6 +44,16 @@ public class ReservaRecurso {
     @PutMapping
     public ResponseEntity<ReservaDto> alterarReserva(@RequestBody ReservaDto reserva ){
         reservaServico.salvar(reserva);
+=======
+    public ResponseEntity<ReservaDTO> cadastrarReserva(@Valid @RequestBody ReservaDTO reservaDTO)throws URISyntaxException{
+        ReservaDTO reservaSalva = reservaServico.salvar(reservaDTO);
+        return ResponseEntity.created(new URI("/api/reservas")).body(reservaSalva);
+    }
+
+    @PutMapping
+    public ResponseEntity<ReservaDTO> alterarReserva(@Valid @RequestBody ReservaDTO reservaDTO ){
+        ReservaDTO reserva = reservaServico.salvar(reservaDTO);
+>>>>>>> Stashed changes
         return ResponseEntity.ok(reserva);
 
     }
@@ -56,10 +64,13 @@ public class ReservaRecurso {
         reservaServico.deletar(id);
         return ResponseEntity.ok(reservaDto);
         }
+<<<<<<< Updated upstream
 
 
 
 
 
 
+=======
+>>>>>>> Stashed changes
 }

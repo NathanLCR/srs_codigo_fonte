@@ -38,6 +38,7 @@ public class SalaServico {
         Sala sala = salaMapper.toEntity(salaDto);
         salaRepositorio.save(sala);
 
+<<<<<<< Updated upstream
     }
 
     //PUT
@@ -46,6 +47,12 @@ public class SalaServico {
         salaRepositorio.save(sala);
     }
 
+=======
+        salaEquipamentoRepositorio.saveAll(equipamentos);
+        sala.setEquipamentos(equipamentos);
+        return salaMapper.toDto(sala);
+    }
+>>>>>>> Stashed changes
     //DELETE POR ID
     public void deletarSala(Integer id){
         salaRepositorio.deleteById(id);
