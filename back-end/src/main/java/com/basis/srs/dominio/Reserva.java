@@ -15,7 +15,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -45,6 +44,6 @@ public class Reserva implements Serializable {
     private LocalDate dataFim;
 
     @Column(name="total")
-    private double total;
+    private Double total;
 
 }

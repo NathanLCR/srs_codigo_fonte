@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -25,15 +26,15 @@ public class SalaRecurso {
     private final SalaServico salaService;
 
     @PostMapping
-    public ResponseEntity<SalaDTO> cadastrarSala(@RequestBody SalaDTO sala) throws URISyntaxException {
-        salaService.cadastrarSala(sala);
-        return ResponseEntity.created(new URI("/api/salas/")).body(sala);
+    public ResponseEntity<SalaDTO> cadastrarSala(@RequestBody @Valid  SalaDTO sala) throws URISyntaxException {
+        SalaDTO salaCriada = salaService.salvar(sala);
+        return ResponseEntity.created(new URI("/api/salas/")).body(salaCriada);
     }
 
     @PutMapping
-    public ResponseEntity<SalaDTO> alterarSala(@RequestBody SalaDTO sala){
-        salaService.alterarSala(sala);
-        return ResponseEntity.ok(sala);
+    public ResponseEntity<SalaDTO> alterarSala(@RequestBody @Valid SalaDTO sala){
+        SalaDTO salaAtualizada = salaService.salvar(sala);
+        return ResponseEntity.ok(salaAtualizada);
     }
 
     @GetMapping("/{id}")
@@ -50,7 +51,6 @@ public class SalaRecurso {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<SalaDTO> deletarSala(@PathVariable Integer id) {
-        SalaDTO salaDto = salaService.pegarSalaPorId(id);
         salaService.deletarSala(id);
         return ResponseEntity.ok().build();
     }

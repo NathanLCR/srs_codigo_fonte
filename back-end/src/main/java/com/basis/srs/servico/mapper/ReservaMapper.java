@@ -11,17 +11,11 @@ public interface ReservaMapper extends EntityMapper<ReservaDTO, Reserva> {
 
     @Override
     @Mapping(source = "idCliente", target = "cliente.id")
-    @Mapping(source = "idSala",target ="sala.id" )
+    @Mapping(source = "idSala", target = "sala.id")
     Reserva toEntity(ReservaDTO dto);
 
     @Override
     @Mapping(target = "idCliente", source = "cliente.id")
     @Mapping(target = "idSala", source = "sala.id")
-    ReservaDTO toDto(Reserva reserva);
-
-
-
-
-
-
+    ReservaDTO toDto(Reserva entity);
 }

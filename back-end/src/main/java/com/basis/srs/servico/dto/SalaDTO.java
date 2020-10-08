@@ -1,9 +1,14 @@
 package com.basis.srs.servico.dto;
 
-import com.basis.srs.dominio.SalaEquipamento;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Getter
@@ -12,14 +17,26 @@ public class SalaDTO {
 
     private Integer id;
 
-    private Integer idTipoSala;
-
+    @NotNull
+    @NotBlank
     private String descricao;
 
-    private Integer limitePessoas;
+    @NotNull
+    @Positive
+    private Integer capacidade;
 
-    private double precoDiaria;
+    @NotNull
+    @Min(0)
+    @Max(1)
+    private Integer disponivel;
 
-    private List<SalaEquipamento> salaEquipamentos;
+    @NotNull
+    private Integer idTipoSala;
 
+    @NotNull
+    private List<SalaEquipamentoDTO> equipamentos;
+
+    @NotNull
+    @Positive
+    private Double precoDiaria;
 }

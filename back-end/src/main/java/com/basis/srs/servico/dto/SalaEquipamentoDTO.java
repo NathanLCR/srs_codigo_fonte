@@ -1,25 +1,20 @@
 package com.basis.srs.servico.dto;
 
-import com.basis.srs.dominio.Equipamento;
-import com.basis.srs.dominio.Sala;
-import com.basis.srs.dominio.SalaEquipamentoKey;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
+@Getter
+@Setter
 public class SalaEquipamentoDTO {
 
-    private List<Integer> equipamentos;
+    @NotNull
+    private Integer idSala;
 
-    private Sala sala;
+    @NotNull
+    private Integer idEquipamento;
 
-    private Equipamento equipamento;
-
+    @NotNull
     private Integer quantidade;
 }

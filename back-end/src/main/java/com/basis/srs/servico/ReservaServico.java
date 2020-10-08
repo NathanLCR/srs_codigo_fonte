@@ -27,7 +27,6 @@ public class ReservaServico {
         return listaDto;
     }
 
-
     //Get por Id
     public ReservaDTO procurarPorId(Integer id) {
         Reserva saida = reservaRepositorio.findById(id).orElse(null);
@@ -44,7 +43,7 @@ public class ReservaServico {
     public ReservaDTO salvar(ReservaDTO reservaDto){
         Reserva reserva = reservaMapper.toEntity(reservaDto);
         reservaRepositorio.save(reserva);
-        return reservaDto;
+        return reservaMapper.toDto(reserva);
     }
 
 }
