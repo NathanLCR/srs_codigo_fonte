@@ -3,19 +3,16 @@ package com.basis.srs.builder;
 import com.basis.srs.dominio.Equipamento;
 import com.basis.srs.dominio.Sala;
 import com.basis.srs.dominio.SalaEquipamento;
-import com.basis.srs.repositorio.SalaRepositorio;
+import com.basis.srs.dominio.TipoSala;
 import com.basis.srs.servico.SalaServico;
 import com.basis.srs.servico.dto.SalaDTO;
 import com.basis.srs.servico.mapper.SalaMapper;
-import liquibase.pro.packaged.S;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 @Component
 public class SalaBuilder extends ConstrutorDeEntidade<Sala> {
@@ -38,12 +35,17 @@ public class SalaBuilder extends ConstrutorDeEntidade<Sala> {
         sala.setDisponivel(1);
         sala.setPrecoDiaria(50.50);
 
+        TipoSala tipoSala = new TipoSala();
+        tipoSala.setDescricao("Auditório");
+        tipoSala.setId(1);
+
         SalaEquipamento salaEquipamento = new SalaEquipamento();
         salaEquipamento.setSala(sala);
         salaEquipamento.setQuantidade(85);
         salaEquipamento.setEquipamento(equipamentos);
 
         sala.setEquipamentos(Collections.singletonList(salaEquipamento));
+        sala.setTipoSala(tipoSala);
 
         return sala;
    }

@@ -2,9 +2,12 @@ package com.basis.srs.web.rest;
 
 import com.basis.srs.builder.SalaBuilder;
 import com.basis.srs.dominio.Sala;
+import com.basis.srs.repositorio.SalaRepositorio;
+import com.basis.srs.servico.dto.SalaDTO;
 import com.basis.srs.util.IntTestComum;
 import com.basis.srs.util.TestUtil;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +23,13 @@ public class SalaRecursoIT extends IntTestComum {
     @Autowired
     private SalaBuilder salaBuilder;
 
-//    @BeforeEach
-    //deletar todos
+    @Autowired
+    private SalaRepositorio salaRepositorio;
+
+    @BeforeEach
+    public void limparBanco() {
+        salaRepositorio.deleteAll();
+    }
 
     @Test
     public void listar() throws Exception {
@@ -52,6 +60,7 @@ public class SalaRecursoIT extends IntTestComum {
     @Test
     public void atualizar() throws Exception {
         Sala sala = salaBuilder.construir();
+        SalaDTO salaDTO = salaBuilder.converterParaDto(sala);
         getMockMvc().perform(MockMvcRequestBuilders.put("/api/salas/")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(salaBuilder.converterParaDto(sala))))
