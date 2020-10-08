@@ -67,6 +67,16 @@ public class ReservaRecursoIT extends IntTestComum {
     }
 
     @Test
+    public void salvarEmDataOcupada() throws Exception {
+        Reserva reserva = reservaBuilder.construir();
+        getMockMvc().perform(post("/api/reservas/")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(reservaBuilder.converterParaDto(reserva)))
+        )
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
     public void atualizar() throws Exception {
         Reserva reserva = reservaBuilder.construir();
         ReservaDTO dto = reservaBuilder.converterParaDto(reserva);
