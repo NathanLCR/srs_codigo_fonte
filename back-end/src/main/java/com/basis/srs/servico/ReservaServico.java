@@ -2,6 +2,7 @@ package com.basis.srs.servico;
 
 import com.basis.srs.repositorio.ReservaRepositorio;
 import com.basis.srs.servico.dto.ReservaDTO;
+import com.basis.srs.servico.exception.RegraNegocioException;
 import com.basis.srs.servico.mapper.ReservaMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,14 +30,16 @@ public class ReservaServico {
 
     //Get por Id
     public ReservaDTO procurarPorId(Integer id) {
-        Reserva saida = reservaRepositorio.findById(id).orElse(null);
+        Reserva saida = reservaRepositorio.findById(id)
+                .orElseThrow(() ->new RegraNegocioException("Usuário não Encontrado."));
         ReservaDTO saidaDto = reservaMapper.toDto(saida);
         return saidaDto;
     }
 
     //Delete
-    public void deletar(Integer id){
-        reservaRepositorio.deleteById(id);
+    public void deletar(Integer id) {
+        Reserva saida = reservaRepositorio.findById(id).orElseThrow(()->new RegraNegocioException("Usuário não Encontrado."));
+        reservaRepositorio.deleteById(saida.getId());
     }
 
     //Post e Put

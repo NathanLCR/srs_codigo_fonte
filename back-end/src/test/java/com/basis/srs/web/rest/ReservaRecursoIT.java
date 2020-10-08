@@ -28,8 +28,7 @@ public class ReservaRecursoIT extends com.basis.srs.util.IntTestComum {
     private ReservaRepositorio reservaRepositorio;
 
     @BeforeEach
-    public void limparBanco(){
-        reservaRepositorio.deleteAll();
+    public void limparBanco(){ reservaRepositorio.deleteAll();
     }
 
     @Test//Teste Get
