@@ -38,9 +38,4 @@ public class SalaDTO {
 
     @NotNull
     private List<SalaEquipamentoDTO> equipamentos;
-<<<<<<< HEAD
-
 }
-=======
-}
->>>>>>> 4ed5152ba517f2452b8dacf0649f0fcf308031c8

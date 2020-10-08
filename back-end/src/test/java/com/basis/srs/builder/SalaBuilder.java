@@ -28,15 +28,21 @@ public class SalaBuilder extends ConstrutorDeEntidade<Sala> {
 
     @Override
     public Sala construirEntidade() throws ParseException {
+
+/*        .MethodArgumentTypeMismatchException: Failed to convert value of
+    type 'java.lang.String' to required type 'java.lang.Integer'; nested exception is java.lang.NumberFormatException:
+        For input string: "null"]*/
+
         Equipamento equipamentos = equipamentoBuilder.construir();
         Sala sala = new Sala();
         sala.setCapacidade(50);
         sala.setDescricao("Sala Muito linda!");
         sala.setDisponivel(1);
-        sala.setPrecoDiaria(50.50);
+        sala.setPrecoDiaria(50.90);
+
+        Sala sala1 = new Sala();
 
         TipoSala tipoSala = new TipoSala();
-        tipoSala.setDescricao("Auditório");
         tipoSala.setId(1);
 
         SalaEquipamento salaEquipamento = new SalaEquipamento();
@@ -53,8 +59,7 @@ public class SalaBuilder extends ConstrutorDeEntidade<Sala> {
     @Override
     public Sala persistir(Sala entidade) {
         SalaDTO salaDTO = salaMapper.toDto(entidade);
-        salaServico.salvar(salaDTO);
-        return salaMapper.toEntity(salaDTO);
+        return salaMapper.toEntity(salaServico.salvar(salaDTO));
     }
 
     @Override

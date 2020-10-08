@@ -6,6 +6,7 @@ import com.basis.srs.dominio.SalaEquipamentoKey;
 import com.basis.srs.repositorio.SalaEquipamentoRepositorio;
 import com.basis.srs.repositorio.SalaRepositorio;
 import com.basis.srs.servico.dto.SalaDTO;
+import com.basis.srs.servico.exception.RegraNegocioException;
 import com.basis.srs.servico.mapper.SalaMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,8 @@ public class SalaServico {
 
     //GET POR ID
     public SalaDTO pegarSalaPorId(Integer id) {
-        Sala sala = salaRepositorio.findById(id).orElse(null);
+        Sala sala = salaRepositorio.findById(id)
+                .orElseThrow(() -> new RegraNegocioException("Usuário não encontrado!"));
         SalaDTO salaDto = salaMapper.toDto(sala);
         return salaDto;
     }
@@ -54,9 +56,9 @@ public class SalaServico {
         salaEquipamentoRepositorio.saveAll(equipamentos);
         sala.setEquipamentos(equipamentos);
         return salaMapper.toDto(sala);
-
+    }
     //DELETE POR ID
-    public void deletarSala(Integer id){
+    public void deletarSala(Integer id) {
         salaEquipamentoRepositorio.deleteAllBySalaId(id);
         salaRepositorio.deleteById(id);
     }

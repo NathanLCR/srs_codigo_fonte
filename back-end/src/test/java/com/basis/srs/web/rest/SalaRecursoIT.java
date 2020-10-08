@@ -16,6 +16,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+
 @RunWith(SpringRunner.class)
 @Transactional
 public class SalaRecursoIT extends IntTestComum {
@@ -51,9 +55,10 @@ public class SalaRecursoIT extends IntTestComum {
     @Test
     public void salvar() throws Exception {
         Sala sala = salaBuilder.construirEntidade();
-        getMockMvc().perform(MockMvcRequestBuilders.post("/api/salas/")
+        getMockMvc().perform(post("/api/salas/")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(salaBuilder.converterParaDto(sala))))
+                .content(TestUtil.convertObjectToJsonBytes(salaBuilder.converterParaDto(sala)))
+        )
                 .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
@@ -61,17 +66,18 @@ public class SalaRecursoIT extends IntTestComum {
     public void atualizar() throws Exception {
         Sala sala = salaBuilder.construir();
         SalaDTO salaDTO = salaBuilder.converterParaDto(sala);
-        getMockMvc().perform(MockMvcRequestBuilders.put("/api/salas/")
+        getMockMvc().perform(put("/api/salas/")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(salaBuilder.converterParaDto(sala))))
+                .content(TestUtil.convertObjectToJsonBytes(salaBuilder.converterParaDto(sala)))
+        )
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("%.id").value(sala.getId()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(sala.getId()));
     }
 
     @Test
     public void deletar() throws Exception {
         Sala sala = salaBuilder.construir();
-        getMockMvc().perform(MockMvcRequestBuilders.delete("/api/salas/" + sala.getId()))
+        getMockMvc().perform(delete("/api/salas/" + sala.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }
