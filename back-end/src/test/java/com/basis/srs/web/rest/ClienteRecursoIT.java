@@ -1,9 +1,9 @@
 package com.basis.srs.web.rest;
 
-import com.basis.srs.builder.SalaBuilder;
-import com.basis.srs.dominio.Sala;
-import com.basis.srs.repositorio.SalaRepositorio;
-import com.basis.srs.servico.dto.SalaDTO;
+import com.basis.srs.builder.ClienteBuilder;
+import com.basis.srs.dominio.Cliente;
+import com.basis.srs.repositorio.ClienteRepositorio;
+import com.basis.srs.servico.dto.ClienteDTO;
 import com.basis.srs.util.IntTestComum;
 import com.basis.srs.util.TestUtil;
 import org.hamcrest.Matchers;
@@ -22,23 +22,23 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @RunWith(SpringRunner.class)
 @Transactional
-public class SalaRecursoIT extends IntTestComum {
+public class ClienteRecursoIT extends IntTestComum {
 
     @Autowired
-    private SalaBuilder salaBuilder;
+    private ClienteBuilder clienteBuilder;
 
     @Autowired
-    private SalaRepositorio salaRepositorio;
+    private ClienteRepositorio clienteRepositorio;
 
     @BeforeEach
     public void limparBanco() {
-        salaRepositorio.deleteAll();
+        clienteRepositorio.deleteAll();
     }
 
     @Test
     public void listar() throws Exception {
-        salaBuilder.construir();
-        getMockMvc().perform(MockMvcRequestBuilders.get("/api/salas"))
+        clienteBuilder.construir();
+        getMockMvc().perform(MockMvcRequestBuilders.get("/api/clientes"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].id", Matchers.hasSize(1)));
 
@@ -46,38 +46,38 @@ public class SalaRecursoIT extends IntTestComum {
 
     @Test
     public void listarPorId() throws Exception {
-        Sala sb = salaBuilder.construir();
-        getMockMvc().perform(MockMvcRequestBuilders.get("/api/salas/" + sb.getId()))
+        Cliente cliente = clienteBuilder.construir();
+        getMockMvc().perform(MockMvcRequestBuilders.get("/api/clientes/" + cliente.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(sb.getId()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(cliente.getId()));
     }
 
     @Test
     public void salvar() throws Exception {
-        Sala sala = salaBuilder.construirEntidade();
-        getMockMvc().perform(post("/api/salas/")
+        Cliente cliente = clienteBuilder.construirEntidade();
+        getMockMvc().perform(post("/api/clientes/")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(salaBuilder.converterParaDto(sala)))
+                .content(TestUtil.convertObjectToJsonBytes(clienteBuilder.converterParaDto(cliente)))
         )
                 .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
     @Test
     public void atualizar() throws Exception {
-        Sala sala = salaBuilder.construir();
-        SalaDTO salaDTO = salaBuilder.converterParaDto(sala);
-        getMockMvc().perform(put("/api/salas/")
+        Cliente cliente = clienteBuilder.construir();
+        ClienteDTO dto = clienteBuilder.converterParaDto(cliente);
+        getMockMvc().perform(put("/api/clientes/")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(salaBuilder.converterParaDto(sala)))
+                .content(TestUtil.convertObjectToJsonBytes(clienteBuilder.converterParaDto(cliente)))
         )
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(sala.getId()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(cliente.getId()));
     }
 
     @Test
     public void deletar() throws Exception {
-        Sala sala = salaBuilder.construir();
-        getMockMvc().perform(delete("/api/salas/" + sala.getId()))
+        Cliente cliente = clienteBuilder.construir();
+        getMockMvc().perform(delete("/api/clientes/" + cliente.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }
