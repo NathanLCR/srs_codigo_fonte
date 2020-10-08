@@ -13,4 +13,6 @@ import java.util.List;
 @Repository
 public interface SalaEquipamentoRepositorio extends JpaRepository<SalaEquipamento, SalaEquipamentoKey> {
     void deleteAllBySalaId(Integer id);
+
+    boolean existsByEquipamentoId(Integer id);
 }

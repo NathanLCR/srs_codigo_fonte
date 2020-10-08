@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class ClienteDTO {
 
 
@@ -27,7 +29,7 @@ public class ClienteDTO {
     private String nome;
 
     @NotNull
-    @Size(min = 11, max = 11)
+    @Size(min = 11,max = 11)
     private String cpf;
 
     @NotNull
@@ -39,7 +41,7 @@ public class ClienteDTO {
     private String endereco;
 
     @NotNull
-    @Size(min = 7, max = 7)
+    @Size(max = 7, min = 7)
     private String rg;
 
     @Email

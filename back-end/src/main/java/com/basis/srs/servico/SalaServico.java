@@ -57,9 +57,11 @@ public class SalaServico {
         sala.setEquipamentos(equipamentos);
         return salaMapper.toDto(sala);
     }
+
     //DELETE POR ID
     public void deletarSala(Integer id) {
         salaEquipamentoRepositorio.deleteAllBySalaId(id);
         salaRepositorio.deleteById(id);
     }
 }
+

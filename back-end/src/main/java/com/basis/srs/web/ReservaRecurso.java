@@ -43,7 +43,7 @@ public class ReservaRecurso {
     }
 
 
-    @PutMapping
+
     public ResponseEntity<ReservaDTO> alterarReserva(@Valid @RequestBody ReservaDTO reservaDTO ) {
         ReservaDTO reserva = reservaServico.salvar(reservaDTO);
         return ResponseEntity.ok(reserva);
