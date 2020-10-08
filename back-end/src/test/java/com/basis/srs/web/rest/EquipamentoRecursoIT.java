@@ -1,7 +1,10 @@
 package com.basis.srs.web.rest;
 
-import com.basis.srs.Builder.EquipamentoBuilder;
+import com.basis.srs.builder.EquipamentoBuilder;
+import com.basis.srs.builder.SalaBuilder;
 import com.basis.srs.dominio.Equipamento;
+import com.basis.srs.dominio.Sala;
+import com.basis.srs.dominio.SalaEquipamento;
 import com.basis.srs.repositorio.EquipamentoRepositorio;
 import com.basis.srs.servico.dto.EquipamentoDTO;
 import com.basis.srs.util.IntTestComum;
@@ -24,6 +27,9 @@ public class EquipamentoRecursoIT extends IntTestComum {
 
     @Autowired
     private EquipamentoRepositorio equipamentoRepositorio;
+
+    @Autowired
+    private SalaBuilder salaBuilder;
 
     @Autowired
     private EquipamentoBuilder equipamentoBuilder;
@@ -54,8 +60,7 @@ public class EquipamentoRecursoIT extends IntTestComum {
     @Test
     public void obterPorIdInexistente() throws Exception {
         getMockMvc().perform(MockMvcRequestBuilders.get("/api/equipamentos/250"))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("Equipamento não encontrado"));
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -89,6 +94,17 @@ public class EquipamentoRecursoIT extends IntTestComum {
 
         getMockMvc().perform(MockMvcRequestBuilders.delete("/api/equipamentos/"+equipamento.getId()))
                 .andExpect(status().isOk());
+    }
+
+
+    @Test
+    public void deletarComRelacionamentoSalaEquipamento() throws Exception {
+        Sala sala = salaBuilder.construir();
+
+        SalaEquipamento salaEquipamento = sala.getEquipamentos().get(0);
+
+        getMockMvc().perform(MockMvcRequestBuilders.delete("/api/equipamentos/"+salaEquipamento.getEquipamento().getId()))
+                .andExpect(status().isBadRequest());
     }
 
 }
