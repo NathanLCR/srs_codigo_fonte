@@ -1,36 +1,42 @@
 package com.basis.srs.servico.dto;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
-import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Getter
 @Setter
-public class EquipamentoDTO {
+public class SalaDTO {
 
     private Integer id;
 
     @NotNull
-    @Size(max = 120)
-    @NotBlank
-    private String nome;
+    @Positive
+    private Double precoDiaria;
 
     @NotNull
-    private Integer idTipoEquipamento;
+    @NotBlank
+    private String descricao;
 
     @NotNull
     @Positive
-    private double precoDiaria;
+    private Integer capacidade;
 
     @NotNull
     @Min(0)
     @Max(1)
-    private Integer obrigatorio;
+    private Integer disponivel;
+
+    @NotNull
+    private Integer idTipoSala;
+
+    @NotNull
+    private List<SalaEquipamentoDTO> equipamentos;
 }

@@ -1,7 +1,7 @@
 package com.basis.srs.servico;
 
 import com.basis.srs.repositorio.ReservaRepositorio;
-import com.basis.srs.servico.dto.ReservaDto;
+import com.basis.srs.servico.dto.ReservaDTO;
 import com.basis.srs.servico.mapper.ReservaMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,21 +16,21 @@ import java.util.List;
 @Transactional //autor = "lucas.costa"
 public class ReservaServico {
 
-    private ReservaMapper reservaMapper;
-    private ReservaRepositorio reservaRepositorio;
+    private final ReservaMapper reservaMapper;
+    private final ReservaRepositorio reservaRepositorio;
 
 
     //Get
-    public List<ReservaDto> listar(){
+    public List<ReservaDTO> listar(){
         List<Reserva> listaReserva = reservaRepositorio.findAll();
-        List<ReservaDto> listaDto = reservaMapper.toDto(listaReserva);
+        List<ReservaDTO> listaDto = reservaMapper.toDto(listaReserva);
         return listaDto;
     }
 
     //Get por Id
-    public ReservaDto procurarPorId(Integer id) {
+    public ReservaDTO procurarPorId(Integer id) {
         Reserva saida = reservaRepositorio.findById(id).orElse(null);
-        ReservaDto saidaDto = reservaMapper.toDto(saida);
+        ReservaDTO saidaDto = reservaMapper.toDto(saida);
         return saidaDto;
     }
 
@@ -40,10 +40,10 @@ public class ReservaServico {
     }
 
     //Post e Put
-    public ReservaDto salvar(ReservaDto reservaDto){
+    public ReservaDTO salvar(ReservaDTO reservaDto){
         Reserva reserva = reservaMapper.toEntity(reservaDto);
         reservaRepositorio.save(reserva);
-        return reservaDto;
+        return reservaMapper.toDto(reserva);
     }
 
 }

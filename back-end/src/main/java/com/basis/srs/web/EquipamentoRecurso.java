@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -39,7 +40,7 @@ public class EquipamentoRecurso {
     };
 
     @PostMapping
-    public ResponseEntity<EquipamentoDTO> cadastrarEquipamento(@RequestBody EquipamentoDTO equipamento) throws URISyntaxException {
+    public ResponseEntity<EquipamentoDTO> cadastrarEquipamento(@Valid @RequestBody EquipamentoDTO equipamento) throws URISyntaxException {
 
         EquipamentoDTO equipamentoSalvo = equipamentoServico.salvar(equipamento);
 
@@ -47,15 +48,16 @@ public class EquipamentoRecurso {
     };
 
     @PutMapping
-    public ResponseEntity<EquipamentoDTO> alterarEquipamento(EquipamentoDTO equipamento) throws URISyntaxException {
+    public ResponseEntity<EquipamentoDTO> alterarEquipamento(@Valid @RequestBody EquipamentoDTO equipamento) throws URISyntaxException {
         EquipamentoDTO equipamentoSalvo = equipamentoServico.salvar(equipamento);
 
-        return ResponseEntity.created(new URI("/api/equipamentos")).body(equipamentoSalvo);
+        return ResponseEntity.ok(equipamentoSalvo);
     };
 
     @DeleteMapping("/{id}")
-    public void deletarEquipamento(@PathVariable Integer id){
+    public ResponseEntity<EquipamentoDTO> deletarEquipamento(@PathVariable Integer id){
         equipamentoServico.deletar(id);
+        return ResponseEntity.ok().build();
     };
 
 }

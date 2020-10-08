@@ -1,13 +1,16 @@
 package com.basis.srs.servico;
 
 import com.basis.srs.dominio.Sala;
+import com.basis.srs.dominio.SalaEquipamento;
+import com.basis.srs.dominio.SalaEquipamentoKey;
+import com.basis.srs.repositorio.SalaEquipamentoRepositorio;
 import com.basis.srs.repositorio.SalaRepositorio;
-import com.basis.srs.servico.dto.SalaDto;
+import com.basis.srs.servico.dto.SalaDTO;
+import com.basis.srs.servico.exception.RegraNegocioException;
 import com.basis.srs.servico.mapper.SalaMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.List;
 
@@ -18,36 +21,44 @@ public class SalaServico {
 
     private final SalaMapper salaMapper;
     private final SalaRepositorio salaRepositorio;
+    private final SalaEquipamentoRepositorio salaEquipamentoRepositorio;
 
     //GET
-    public List<SalaDto> listarTodas() {
+    public List<SalaDTO> listarTodas() {
         List<Sala> salas = salaRepositorio.findAll();
-        List<SalaDto> salasDto = salaMapper.toDto(salas);
+        List<SalaDTO> salasDto = salaMapper.toDto(salas);
         return salasDto;
     }
 
     //GET POR ID
-    public SalaDto pegarSalaPorId(Integer id) {
-        Sala sala = salaRepositorio.findById(id).orElse(null);
-        SalaDto salaDto = salaMapper.toDto(sala);
+    public SalaDTO pegarSalaPorId(Integer id) {
+        Sala sala = salaRepositorio.findById(id)
+                .orElseThrow(() -> new RegraNegocioException("Usuário não encontrado!"));
+        SalaDTO salaDto = salaMapper.toDto(sala);
         return salaDto;
     }
 
-    //POST
-    public void cadastrarSala(SalaDto salaDto) {
-        Sala sala = salaMapper.toEntity(salaDto);
-        salaRepositorio.save(sala);
 
-    }
-
-    //PUT
-    public void alterarSala(SalaDto salaDto) {
+    //POST e put
+    public SalaDTO salvar(SalaDTO salaDto) {
         Sala sala = salaMapper.toEntity(salaDto);
+        List<SalaEquipamento> equipamentos = sala.getEquipamentos();
+        sala.setEquipamentos(new ArrayList<>());
         salaRepositorio.save(sala);
+        equipamentos.forEach(equipamento -> {
+            equipamento.setSala(sala);
+            equipamento.getId().setIdSala(sala.getId());
+        });
+
+        salaEquipamentoRepositorio.saveAll(equipamentos);
+        sala.setEquipamentos(equipamentos);
+        return salaMapper.toDto(sala);
     }
 
     //DELETE POR ID
-    public void deletarSala(Integer id){
+    public void deletarSala(Integer id) {
+        salaEquipamentoRepositorio.deleteAllBySalaId(id);
         salaRepositorio.deleteById(id);
     }
 }
+
