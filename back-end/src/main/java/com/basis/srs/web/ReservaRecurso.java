@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -36,13 +37,13 @@ public class ReservaRecurso {
 
 
     @PostMapping
-    public ResponseEntity<ReservaDTO> cadastrarReserva(@RequestBody ReservaDTO reservaDTO)throws URISyntaxException{
+    public ResponseEntity<ReservaDTO> cadastrarReserva(@Valid @RequestBody ReservaDTO reservaDTO)throws URISyntaxException{
         reservaServico.salvar(reservaDTO);
         return ResponseEntity.created(new URI("/api/reservas")).body(reservaDTO);
     }
 
     @PutMapping
-    public ResponseEntity<ReservaDTO> alterarReserva(@RequestBody ReservaDTO reserva ){
+    public ResponseEntity<ReservaDTO> alterarReserva(@Valid @RequestBody ReservaDTO reserva ){
         reservaServico.salvar(reserva);
         return ResponseEntity.ok(reserva);
 
