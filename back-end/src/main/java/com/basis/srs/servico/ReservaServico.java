@@ -2,6 +2,7 @@ package com.basis.srs.servico;
 
 import com.basis.srs.repositorio.ReservaRepositorio;
 import com.basis.srs.servico.dto.ReservaDTO;
+import com.basis.srs.servico.exception.RegraNegocioException;
 import com.basis.srs.servico.mapper.ReservaMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -41,9 +42,18 @@ public class ReservaServico {
 
     //Post e Put
     public ReservaDTO salvar(ReservaDTO reservaDto){
+        if(reservaDto.getId() == null && verificarSeDataJaEstaReservada(reservaDto)){
+            throw new RegraNegocioException("Data ja esta reservada");
+        }
+
         Reserva reserva = reservaMapper.toEntity(reservaDto);
-        reservaRepositorio.save(reserva);
-        return reservaMapper.toDto(reserva);
+        return reservaMapper.toDto(reservaRepositorio.save(reserva));
+    }
+
+    private boolean verificarSeDataJaEstaReservada(ReservaDTO reservaDto){
+        List<Reserva> reservas = reservaRepositorio.getAllBySalaId(reservaDto.getIdSala());
+
+        return reservas.stream().anyMatch(reserva -> !(reservaDto.getDataInicio().isAfter(reserva.getDataFim()) | reservaDto.getDataFim().isBefore(reserva.getDataInicio())));
     }
 
 }

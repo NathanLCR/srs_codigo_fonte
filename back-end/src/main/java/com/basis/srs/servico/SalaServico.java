@@ -3,15 +3,19 @@ package com.basis.srs.servico;
 import com.basis.srs.dominio.Sala;
 import com.basis.srs.dominio.SalaEquipamento;
 import com.basis.srs.dominio.SalaEquipamentoKey;
+import com.basis.srs.repositorio.ReservaRepositorio;
 import com.basis.srs.repositorio.SalaEquipamentoRepositorio;
 import com.basis.srs.repositorio.SalaRepositorio;
 import com.basis.srs.servico.dto.SalaDTO;
+import com.basis.srs.servico.dto.SalaEquipamentoDTO;
 import com.basis.srs.servico.exception.RegraNegocioException;
+import com.basis.srs.servico.mapper.SalaEquipamentoMapper;
 import com.basis.srs.servico.mapper.SalaMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +27,8 @@ public class SalaServico {
     private final SalaMapper salaMapper;
     private final SalaRepositorio salaRepositorio;
     private final SalaEquipamentoRepositorio salaEquipamentoRepositorio;
+    private final ReservaRepositorio reservaRepositorio;
+    private final SalaEquipamentoMapper salaEquipamentoMapper;
 
     //GET
     public List<SalaDTO> listarTodas() {
@@ -33,8 +39,7 @@ public class SalaServico {
 
     //GET POR ID
     public SalaDTO pegarSalaPorId(Integer id) {
-        Sala sala = salaRepositorio.findById(id)
-                .orElseThrow(() -> new RegraNegocioException("Usuário não encontrado!"));
+        Sala sala = salaRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Usuário não encontrado!"));
         SalaDTO salaDto = salaMapper.toDto(sala);
         return salaDto;
     }
@@ -42,6 +47,8 @@ public class SalaServico {
 
     //POST e put
     public SalaDTO salvar(SalaDTO salaDto) {
+
+
         Sala sala = salaMapper.toEntity(salaDto);
         List<SalaEquipamento> equipamentos = sala.getEquipamentos();
         sala.setEquipamentos(new ArrayList<>());
@@ -58,6 +65,11 @@ public class SalaServico {
 
     //DELETE POR ID
     public void deletarSala(Integer id) {
+
+        if(reservaRepositorio.existsBySalaId(id)){
+            throw new RegraNegocioException("Existe reserva nesta sala");
+        }
+
         salaEquipamentoRepositorio.deleteAllBySalaId(id);
         salaRepositorio.deleteById(id);
     }
