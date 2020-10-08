@@ -37,13 +37,14 @@ public class ReservaRecurso {
 
 
     @PostMapping
-    public ResponseEntity<ReservaDTO> cadastrarReserva(@RequestBody @Valid ReservaDTO reservaDTO)throws URISyntaxException{
-        ReservaDTO reservaSalva = reservaServico.salvar(reservaDTO);
-        return ResponseEntity.created(new URI("/api/reservas")).body(reservaSalva);
+    public ResponseEntity<ReservaDTO> cadastrarReserva(@Valid @RequestBody ReservaDTO reservaDTO)throws URISyntaxException{
+        reservaServico.salvar(reservaDTO);
+        return ResponseEntity.created(new URI("/api/reservas")).body(reservaDTO);
     }
 
-    @PutMapping
-    public ResponseEntity<ReservaDTO> alterarReserva(@RequestBody @Valid ReservaDTO reservaDTO ){
+
+
+    public ResponseEntity<ReservaDTO> alterarReserva(@Valid @RequestBody ReservaDTO reservaDTO ) {
         ReservaDTO reserva = reservaServico.salvar(reservaDTO);
         return ResponseEntity.ok(reserva);
 
@@ -53,7 +54,7 @@ public class ReservaRecurso {
     public ResponseEntity<ReservaDTO> deletarReserva(@PathVariable Integer id){
         reservaServico.deletar(id);
         return ResponseEntity.ok().build();
-        }
+    }
 
 
 }

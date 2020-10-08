@@ -18,6 +18,10 @@ public class SalaDTO {
     private Integer id;
 
     @NotNull
+    @Positive
+    private Double precoDiaria;
+
+    @NotNull
     @NotBlank
     private String descricao;
 
@@ -35,8 +39,4 @@ public class SalaDTO {
 
     @NotNull
     private List<SalaEquipamentoDTO> equipamentos;
-
-    @NotNull
-    @Positive
-    private Double precoDiaria;
 }
