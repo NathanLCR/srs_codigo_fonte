@@ -47,7 +47,7 @@ public class ClienteRecurso {
     @PutMapping
     public ResponseEntity<ClienteDTO> atualizarCliente(@Valid @RequestBody ClienteDTO clienteDto) throws URISyntaxException {
         ClienteDTO clienteSalvo = clienteServico.salvar(clienteDto);
-        return ResponseEntity.created(new URI("/api/clientes/")).body(clienteSalvo);
+        return ResponseEntity.ok(clienteSalvo);
     }
 
     @DeleteMapping("/{id}")
