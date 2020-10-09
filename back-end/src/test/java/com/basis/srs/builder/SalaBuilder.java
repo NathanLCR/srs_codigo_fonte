@@ -29,10 +29,6 @@ public class SalaBuilder extends ConstrutorDeEntidade<Sala> {
     @Override
     public Sala construirEntidade() throws ParseException {
 
-/*        .MethodArgumentTypeMismatchException: Failed to convert value of
-    type 'java.lang.String' to required type 'java.lang.Integer'; nested exception is java.lang.NumberFormatException:
-        For input string: "null"]*/
-
         Equipamento equipamentos = equipamentoBuilder.construir();
         Sala sala = new Sala();
         sala.setCapacidade(50);
