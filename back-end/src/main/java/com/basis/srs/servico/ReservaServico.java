@@ -30,24 +30,30 @@ public class ReservaServico {
 
     //Get por Id
     public ReservaDTO procurarPorId(Integer id) {
-        Reserva saida = reservaRepositorio.findById(id)
-                .orElseThrow(() ->new RegraNegocioException("Usuário não Encontrado."));
+        Reserva saida = reservaRepositorio.findById(id).orElse(null);
         ReservaDTO saidaDto = reservaMapper.toDto(saida);
         return saidaDto;
     }
 
     //Delete
-    public void deletar(Integer id) {
-        Reserva saida = reservaRepositorio.findById(id).orElseThrow(()->new RegraNegocioException("Usuário não Encontrado."));
-        reservaRepositorio.deleteById(saida.getId());
+    public void deletar(Integer id){
+        reservaRepositorio.deleteById(id);
     }
 
     //Post e Put
     public ReservaDTO salvar(ReservaDTO reservaDto){
+        if(reservaDto.getId() == null && verificarSeDataJaEstaReservada(reservaDto)){
+            throw new RegraNegocioException("Data ja esta reservada");
+        }
+
         Reserva reserva = reservaMapper.toEntity(reservaDto);
-        
-        reservaRepositorio.save(reserva);
-        return reservaMapper.toDto(reserva);
+        return reservaMapper.toDto(reservaRepositorio.save(reserva));
+    }
+
+    private boolean verificarSeDataJaEstaReservada(ReservaDTO reservaDto){
+        List<Reserva> reservas = reservaRepositorio.getAllBySalaId(reservaDto.getIdSala());
+
+        return reservas.stream().anyMatch(reserva -> !(reservaDto.getDataInicio().isAfter(reserva.getDataFim()) | reservaDto.getDataFim().isBefore(reserva.getDataInicio())));
     }
 
 }

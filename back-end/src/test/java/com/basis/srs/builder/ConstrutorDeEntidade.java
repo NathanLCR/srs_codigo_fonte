@@ -1,8 +1,7 @@
-package com.basis.srs.Builder;
+package com.basis.srs.builder;
 
 import java.text.ParseException;
 import java.util.Collection;
-
 
 public abstract class ConstrutorDeEntidade<E> {
 
@@ -16,14 +15,14 @@ public abstract class ConstrutorDeEntidade<E> {
         return persistir(entidade);
     }
 
-    public ConstrutorDeEntidade<E> customizar(CustomizacaoEntidade<E> customizacao) {
+    public com.basis.srs.builder.ConstrutorDeEntidade<E> customizar(CustomizacaoEntidade<E> customizacao) {
         this.customizacao = customizacao;
         return this;
     }
 
     protected abstract E construirEntidade() throws ParseException;
 
-    protected abstract E persistir(E entidade);
+    public abstract E persistir(E entidade);
 
     protected abstract Collection<E> obterTodos();
 
