@@ -9,6 +9,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
@@ -18,6 +19,7 @@ public class EquipamentoDTO {
 
     @NotNull
     @Size(max = 120)
+    @NotBlank
     private String nome;
 
     @NotNull
@@ -30,5 +32,5 @@ public class EquipamentoDTO {
     @NotNull
     @Min(0)
     @Max(1)
-    private int obrigatorio;
+    private Integer obrigatorio;
 }
