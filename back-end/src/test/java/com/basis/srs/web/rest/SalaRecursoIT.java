@@ -1,11 +1,16 @@
 package com.basis.srs.web.rest;
 
 import com.basis.srs.builder.SalaBuilder;
+import com.basis.srs.dominio.Reserva;
 import com.basis.srs.dominio.Sala;
+import com.basis.srs.dominio.SalaEquipamento;
+import com.basis.srs.repositorio.ReservaRepositorio;
 import com.basis.srs.repositorio.SalaRepositorio;
 import com.basis.srs.servico.dto.SalaDTO;
 import com.basis.srs.util.IntTestComum;
 import com.basis.srs.util.TestUtil;
+import java.util.ArrayList;
+import java.util.List;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -79,5 +84,62 @@ public class SalaRecursoIT extends IntTestComum {
         Sala sala = salaBuilder.construir();
         getMockMvc().perform(delete("/api/salas/" + sala.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////TESTE DE ENDPOINTS COM BAD REQUEST///////////////////////////////////////////////
+
+    @Test
+    public void atualizarExcessao1() throws Exception { //irá testar quando apagar um equipamento obrigatório - deve retornar BAD REQUEST
+        Sala sala = salaBuilder.construir();
+        List<SalaEquipamento> salaEquipamentos = new ArrayList<SalaEquipamento>();
+        sala.setEquipamentos(salaEquipamentos);
+        SalaDTO salaDTO = salaBuilder.converterParaDto(sala);
+        getMockMvc().perform(put("/api/salas/")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(salaBuilder.converterParaDto(sala)))
+        )
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    public void atualizarExcessao2() throws Exception { //irá testar quando zerar a quantidade de
+        // um equipamento obrigatório - deve retornar BAD REQUEST
+
+        Sala sala = salaBuilder.construir();
+        List<SalaEquipamento> salaEquipamentos = new ArrayList<SalaEquipamento>();
+        sala.setEquipamentos(salaEquipamentos);
+        SalaDTO salaDTO = salaBuilder.converterParaDto(sala);
+        getMockMvc().perform(put("/api/salas/")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(salaBuilder.converterParaDto(sala)))
+        )
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    public void deletarExcessao1() throws Exception { //irá testar quando apagar uma sala que não existe - deve retornar BAD REQUEST
+        Sala sala = salaBuilder.construir();
+        getMockMvc().perform(delete("/api/salas/" + 50))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+
+    }
+
+    @Test
+    public void deletarExcessao2() throws Exception { //irá testar quando apagar uma sala que está reservada - deve retornar BAD REQUEST
+//      preciso da reservaBuilder
+        Sala sala = salaBuilder.construir();
+        Reserva reserva = new Reserva();
+        reserva.setSala(sala);
+//      reservaRepositorio.save(reserva);
+        getMockMvc().perform(delete("/api/salas/" + sala.getId()))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    public void listarPorIdExcessao() throws Exception { //irá testar quando apagar um elemento obrigatório - deve retornar BAD REQUEST
+        Sala sb = salaBuilder.construir();
+        getMockMvc().perform(MockMvcRequestBuilders.get("/api/salas/" + 89))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 }

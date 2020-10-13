@@ -29,7 +29,6 @@ public class SalaBuilder extends ConstrutorDeEntidade<Sala> {
     @Override
     public Sala construirEntidade() throws ParseException {
 
-
         Equipamento equipamentos = equipamentoBuilder.construir();
         Sala sala = new Sala();
         sala.setCapacidade(50);
