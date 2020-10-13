@@ -13,25 +13,14 @@ import { PageNotificationModule, BreadcrumbModule, MenuModule, ErrorStackModule 
 import { SecurityModule, VersionTagModule } from '@nuvem/angular-base';
 import { DiarioErrosComponent } from './components/diario-erros/diario-erros.component';
 import { BlockUIModule } from 'ng-block-ui';
-<<<<<<< HEAD
-=======
-import { SalaComponent } from './components/sala/sala.component';
-import { EquipamentosComponent } from './components/equipamentos/equipamentos.component';
->>>>>>> 1ca124a1afa9a9cfaca8dc1f6146e14c175433cf
 
 @NgModule({
     declarations: [
         AppComponent,
         AppTopbarComponent,
         AppFooterComponent,
-<<<<<<< HEAD
         DiarioErrosComponent
     ],
-=======
-        DiarioErrosComponent,
-        SalaComponent
-        EquipamentosComponent    ],
->>>>>>> 1ca124a1afa9a9cfaca8dc1f6146e14c175433cf
     imports: [
         BlockUIModule.forRoot({
             message: "Carregando..."

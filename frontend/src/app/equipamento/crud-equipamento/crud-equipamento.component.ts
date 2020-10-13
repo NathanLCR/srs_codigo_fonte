@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
+import {EquipamentoService} from '../equipamento.service';
 
 @Component({
   selector: 'app-crud-equipamento',
@@ -10,9 +11,12 @@ import { MessageService } from 'primeng/api';
 })
 export class CrudEquipamentoComponent implements OnInit {
 
-  constructor() { }
+  constructor(private equipamentoService: EquipamentoService) { }
 
   ngOnInit(): void {
+
+    this.equipamentoService.getEquipamentos();
+
   }
 
 }
