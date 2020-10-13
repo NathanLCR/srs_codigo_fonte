@@ -14,6 +14,7 @@ import { SecurityModule, VersionTagModule } from '@nuvem/angular-base';
 import { DiarioErrosComponent } from './components/diario-erros/diario-erros.component';
 import { BlockUIModule } from 'ng-block-ui';
 import { SalaComponent } from './components/sala/sala.component';
+import { EquipamentosComponent } from './components/equipamentos/equipamentos.component';
 
 @NgModule({
     declarations: [
@@ -22,7 +23,7 @@ import { SalaComponent } from './components/sala/sala.component';
         AppFooterComponent,
         DiarioErrosComponent,
         SalaComponent
-    ],
+        EquipamentosComponent    ],
     imports: [
         BlockUIModule.forRoot({
             message: "Carregando..."

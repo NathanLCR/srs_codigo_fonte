@@ -1,9 +1,8 @@
 package com.basis.srs.servico.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Email;
@@ -15,11 +14,7 @@ import java.time.LocalDate;
 
 @Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
-
 public class ClienteDTO {
-
 
     private Integer id;
 

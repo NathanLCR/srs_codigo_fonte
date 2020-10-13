@@ -4,6 +4,8 @@ import com.basis.srs.dominio.Equipamento;
 import com.basis.srs.dominio.Sala;
 import com.basis.srs.dominio.SalaEquipamento;
 import com.basis.srs.repositorio.EquipamentoRepositorio;
+import com.basis.srs.dominio.SalaEquipamentoKey;
+import com.basis.srs.repositorio.ReservaRepositorio;
 import com.basis.srs.repositorio.SalaEquipamentoRepositorio;
 import com.basis.srs.repositorio.SalaRepositorio;
 import com.basis.srs.servico.dto.SalaDTO;
@@ -18,6 +20,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -29,6 +35,8 @@ public class SalaServico {
     private final EquipamentoRepositorio equipamentoRepositorio;
     private final SalaEquipamentoMapper salaEquipamentoMapper;
     private final EquipamentoMapper equipamentoMapper;
+    private final ReservaRepositorio reservaRepositorio;
+    private final SalaEquipamentoMapper salaEquipamentoMapper;
 
     //GET
     public List<SalaDTO> listarTodas() {

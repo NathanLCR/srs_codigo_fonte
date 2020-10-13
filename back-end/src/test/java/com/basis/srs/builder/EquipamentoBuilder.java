@@ -1,5 +1,6 @@
 package com.basis.srs.builder;
 
+
 import com.basis.srs.dominio.Equipamento;
 import com.basis.srs.dominio.TipoEquipamento;
 import com.basis.srs.servico.EquipamentoServico;
@@ -8,11 +9,11 @@ import com.basis.srs.servico.mapper.EquipamentoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.text.ParseException;
+import java.util.Collection;
 import java.util.List;
 
 @Component
-public class EquipamentoBuilder extends ConstrutorDeEntidade<Equipamento> {
+public class EquipamentoBuilder extends ConstrutorDeEntidade<Equipamento>{
 
     @Autowired
     private EquipamentoServico equipamentoServico;
@@ -20,7 +21,7 @@ public class EquipamentoBuilder extends ConstrutorDeEntidade<Equipamento> {
     private EquipamentoMapper equipamentoMapper;
 
     @Override
-    protected Equipamento construirEntidade() throws ParseException {
+    public Equipamento construirEntidade() {
         Equipamento equipamento = new Equipamento();
         TipoEquipamento tipo = new TipoEquipamento();
         tipo.setId(1);
@@ -29,6 +30,10 @@ public class EquipamentoBuilder extends ConstrutorDeEntidade<Equipamento> {
         equipamento.setPrecoDiaria(10.90);
         equipamento.setTipoEquipamento(tipo);
         return equipamento;
+    }
+
+    public EquipamentoDTO converterToDto(Equipamento equipamento){
+        return equipamentoMapper.toDto(equipamento);
     }
 
     @Override

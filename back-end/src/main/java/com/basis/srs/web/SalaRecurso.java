@@ -51,6 +51,7 @@ public class SalaRecurso {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<SalaDTO> deletarSala(@PathVariable Integer id) {
+        SalaDTO salaDto = salaService.pegarSalaPorId(id);
         salaService.deletarSala(id);
         return ResponseEntity.ok().build();
     }

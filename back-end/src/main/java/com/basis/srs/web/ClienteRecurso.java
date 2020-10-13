@@ -3,6 +3,7 @@ package com.basis.srs.web;
 
 import com.basis.srs.servico.ClienteServico;
 import com.basis.srs.servico.dto.ClienteDTO;
+import com.basis.srs.servico.dto.EquipamentoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,7 +47,7 @@ public class ClienteRecurso {
     @PutMapping
     public ResponseEntity<ClienteDTO> atualizarCliente(@Valid @RequestBody ClienteDTO clienteDto) throws URISyntaxException {
         ClienteDTO clienteSalvo = clienteServico.salvar(clienteDto);
-        return ResponseEntity.created(new URI("/api/clientes/")).body(clienteSalvo);
+        return ResponseEntity.ok(clienteSalvo);
     }
 
     @DeleteMapping("/{id}")
