@@ -13,15 +13,13 @@ import { PageNotificationModule, BreadcrumbModule, MenuModule, ErrorStackModule 
 import { SecurityModule, VersionTagModule } from '@nuvem/angular-base';
 import { DiarioErrosComponent } from './components/diario-erros/diario-erros.component';
 import { BlockUIModule } from 'ng-block-ui';
-import { EquipamentosComponent } from './components/equipamentos/equipamentos.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         AppTopbarComponent,
         AppFooterComponent,
-        DiarioErrosComponent,
-        EquipamentosComponent
+        DiarioErrosComponent
     ],
     imports: [
         BlockUIModule.forRoot({
