@@ -8,7 +8,6 @@ import { bootstrapSecurity } from '@nuvem/angular-base';
 if (environment.production) {
     enableProdMode();
 }
-
 // bootstrapSecurity(environment.auth, () => {
     platformBrowserDynamic()
         .bootstrapModule(AppModule)
