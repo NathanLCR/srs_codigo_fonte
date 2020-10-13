@@ -39,7 +39,7 @@ public class ClienteServico {
 
 
     public ClienteDTO salvar(ClienteDTO clienteDto){
-        if(clienteRepositorio.existsByCpf(clienteDto.getCpf())){
+        if(clienteRepositorio.existsByCpf(clienteDto.getCpf()) && clienteDto.getId() == null ){
             throw new RegraNegocioException("Cliente ja cadastrado");
         }
         Cliente cliente = clienteMapper.toEntity(clienteDto);
