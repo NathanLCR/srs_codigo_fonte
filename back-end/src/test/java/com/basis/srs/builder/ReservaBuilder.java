@@ -38,6 +38,7 @@ public class ReservaBuilder extends ConstrutorDeEntidade<Reserva>{
         Cliente cliente = clienteBuilder.construir();
         reserva.setCliente(cliente);
         Sala sala = salaBuilder.construir();
+        sala.setDisponivel(0);
         reserva.setSala(sala);
         reserva.setDataFim(LocalDate.of(2020,11,8));
         reserva.setDataInicio(LocalDate.of(2020,11,7));
