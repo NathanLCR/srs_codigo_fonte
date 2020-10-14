@@ -1,0 +1,22 @@
+p-toolbar{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+p-toolbar p-button{
+    margin-right: 12px;
+}
+
+input{
+    flex: 1;
+}
+
+td{
+    text-align: center;
+}
+
+td button + button {
+    margin-left: 8px;
+}
