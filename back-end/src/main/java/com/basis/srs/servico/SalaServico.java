@@ -1,6 +1,13 @@
 package com.basis.srs.servico;
 
 import com.basis.srs.dominio.Sala;
+<<<<<<< Updated upstream
+=======
+import com.basis.srs.dominio.SalaEquipamento;
+import com.basis.srs.repositorio.EquipamentoRepositorio;
+import com.basis.srs.repositorio.ReservaRepositorio;
+import com.basis.srs.repositorio.SalaEquipamentoRepositorio;
+>>>>>>> Stashed changes
 import com.basis.srs.repositorio.SalaRepositorio;
 import com.basis.srs.servico.dto.SalaDto;
 import com.basis.srs.servico.mapper.SalaMapper;
@@ -8,7 +15,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+<<<<<<< Updated upstream
 
+=======
+import java.util.ArrayList;
+>>>>>>> Stashed changes
 import java.util.List;
 
 @Service
@@ -18,6 +29,15 @@ public class SalaServico {
 
     private final SalaMapper salaMapper;
     private final SalaRepositorio salaRepositorio;
+<<<<<<< Updated upstream
+=======
+    private final SalaEquipamentoRepositorio salaEquipamentoRepositorio;
+    private final EquipamentoRepositorio equipamentoRepositorio;
+    private final SalaEquipamentoMapper salaEquipamentoMapper;
+    private final EquipamentoMapper equipamentoMapper;
+    private final ReservaRepositorio reservaRepositorio;
+    //private final SalaEquipamentoMapper salaEquipamentoMapper;
+>>>>>>> Stashed changes
 
     //GET
     public List<SalaDto> listarTodas() {
