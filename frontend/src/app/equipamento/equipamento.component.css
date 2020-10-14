@@ -20,3 +20,6 @@ td{
 td button + button {
     margin-left: 8px;
 }
+ p-confirmDialog{
+     background-color: white;
+ }
