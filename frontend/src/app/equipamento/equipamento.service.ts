@@ -1,21 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import Equipamento from '../models/Equipamento';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EquipamentoService {
 
-  private readonly PATH = environment.apiUrl + "/equipamentos";
+  private readonly PATH = environment.apiUrl + "/equipamentos/";
 
   constructor(private http: HttpClient) { }
 
   getEquipamentos(){
-    const equipamentos = [];
-    
-    this.http.get(this.PATH).subscribe(resultado => equipamentos.push(resultado));
+    return this.http.get<Equipamento[]>(this.PATH);
+  }
 
-    return equipamentos;
+  deleteEquipamento(id){
+    return this.http.delete(this.PATH + id);
   }
 }

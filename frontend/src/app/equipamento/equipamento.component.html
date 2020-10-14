@@ -1,0 +1,50 @@
+<p-toolbar class="toolbar">
+    <p-button label="Novo" (click)="showForm()"></p-button>
+    <i class="pi pi-search"></i>
+    <input pInputText type="text" placeholder="Search..." style="color: white;"/>
+    
+</p-toolbar>
+
+<p-dialog header="Cadastrar Equipamento" [(visible)]="displayForm">
+    <div class="p-fluid">
+        <div class="p-field">
+            <input type="text" pInputText placeholder="Nome">
+        </div>
+        <div class="p-field">
+            <input type="text" pInputText placeholder="Preco Diaria">  
+        </div>
+        <div class="p-field">
+            <input type="text" pInputText placeholder="Obrigatorio">    
+        </div>
+        <div class="p-field">
+            <input type="text" pInputText placeholder="Tipo Equipamento">     
+        </div>
+        <div class="p-field">
+            <p-button label="Submit" icon="pi pi-check" iconPos="right"></p-button>    
+        </div>
+    </div>       
+</p-dialog>
+
+<p-table [value]="equipamentos">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Nome</th>
+            <th>Preco diaria</th>
+            <th>Obrigatorio</th>
+            <th>Tipo do equipamento</th>
+            <th>Ações</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-equipamento>
+        <tr>
+            <td>{{equipamento.nome}}</td>
+            <td>{{equipamento.precoDiaria}}</td>
+            <td>{{equipamento.obrigatorio}}</td>
+            <td>{{equipamento.idTipoEquipamento}}</td>
+            <td>
+                <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger" (click)="deletar(equipamento)" ></button>
+                <button pButton pRipple type="button" icon="pi-user-edit" class="p-button-rounded p-button-danger"></button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
