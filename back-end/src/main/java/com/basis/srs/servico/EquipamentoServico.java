@@ -1,10 +1,10 @@
 package com.basis.srs.servico;
 
 import com.basis.srs.dominio.Equipamento;
-import com.basis.srs.exception.RegraNegocioException;
 import com.basis.srs.repositorio.EquipamentoRepositorio;
 import com.basis.srs.repositorio.SalaEquipamentoRepositorio;
 import com.basis.srs.servico.dto.EquipamentoDTO;
+import com.basis.srs.servico.exception.RegraNegocioException;
 import com.basis.srs.servico.mapper.EquipamentoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

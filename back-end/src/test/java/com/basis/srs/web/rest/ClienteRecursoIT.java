@@ -63,6 +63,16 @@ public class ClienteRecursoIT extends IntTestComum {
     }
 
     @Test
+    public void salvarComCpfJaExistente() throws Exception {
+        Cliente cliente = clienteBuilder.construir();
+        getMockMvc().perform(post("/api/clientes/")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(clienteBuilder.converterParaDto(cliente)))
+        )
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
     public void atualizar() throws Exception {
         Cliente cliente = clienteBuilder.construir();
         ClienteDTO dto = clienteBuilder.converterParaDto(cliente);

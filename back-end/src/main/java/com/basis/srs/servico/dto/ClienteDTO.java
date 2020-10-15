@@ -2,6 +2,7 @@ package com.basis.srs.servico.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Email;
@@ -33,6 +34,10 @@ public class ClienteDTO {
     @NotNull
     @NotBlank
     private String endereco;
+
+    @NotNull
+    @Size(max=12, min=11)
+    private String telefone;
 
     @NotNull
     @Size(max = 7, min = 7)

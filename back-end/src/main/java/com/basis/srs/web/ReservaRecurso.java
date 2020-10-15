@@ -38,12 +38,12 @@ public class ReservaRecurso {
 
     @PostMapping
     public ResponseEntity<ReservaDTO> cadastrarReserva(@Valid @RequestBody ReservaDTO reservaDTO)throws URISyntaxException{
-        reservaServico.salvar(reservaDTO);
-        return ResponseEntity.created(new URI("/api/reservas")).body(reservaDTO);
+        ReservaDTO reserva = reservaServico.salvar(reservaDTO);
+        return ResponseEntity.created(new URI("/api/reservas")).body(reserva);
     }
 
 
-
+    @PutMapping
     public ResponseEntity<ReservaDTO> alterarReserva(@Valid @RequestBody ReservaDTO reservaDTO ) {
         ReservaDTO reserva = reservaServico.salvar(reservaDTO);
         return ResponseEntity.ok(reserva);
