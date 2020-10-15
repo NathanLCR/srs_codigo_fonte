@@ -2,16 +2,8 @@ package com.basis.srs.servico.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-<<<<<<< HEAD
-
-import javax.validation.constraints.Email;
-=======
-import org.hibernate.validator.constraints.br.CPF;
-import org.springframework.validation.annotation.Validated;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
->>>>>>> fe8655038ed0757a48b2a5cecc43e6a54668beb1
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
@@ -23,24 +15,6 @@ public class ClienteDTO {
 
     private Integer id;
 
-<<<<<<< HEAD
-    @NotNull @Size(max = 120)
-    private String nome;
-
-    @NotNull @Size(max = 11, min = 11)
-    private String cpf;
-
-    @NotNull @Past
-    private LocalDate dataNascimento;
-
-    @NotNull @Size(max = 255)
-    private String endereco;
-
-    @NotNull @Size(max = 7, min = 7)
-    private String rg;
-
-    @NotNull @Size(max = 255) @Email
-=======
     @NotNull
     @NotBlank
     @Size(max = 120)
@@ -70,7 +44,6 @@ public class ClienteDTO {
     @NotNull
     @NotBlank
     @Size(max = 255)
->>>>>>> fe8655038ed0757a48b2a5cecc43e6a54668beb1
     private String email;
 
 }

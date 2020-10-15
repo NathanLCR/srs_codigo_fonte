@@ -1,0 +1,37 @@
+
+<div class="card">
+    <p-toolbar class="toolbar">
+        <p-button label="Novo" (click)="showForm()"></p-button>
+        <i class="pi pi-search"></i>
+        <input pInputText type="text" placeholder="Search..." style="color: black;"/>
+        
+    </p-toolbar>
+
+    <p-table [value]="clientes">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>RG</th>
+                <th>Data de Nascimento</th>
+                <th>Endereço</th>
+                <th>Email</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-cliente>
+            <tr>
+                <td>{{cliente.nome}}</td>
+                <td>{{cliente.CPF}}</td>
+                <td>{{cliente.RG}}</td>
+                <td>{{cliente.dataNascimento}}</td>
+                <td>{{cliente.endereco}}</td>
+                <td>{{cliente.email}}</td>
+                <td>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editProduct(product)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(product)"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
