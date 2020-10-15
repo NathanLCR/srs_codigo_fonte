@@ -1,44 +1,56 @@
-p-toolbar{
+#toolbar {
     display: flex;
-    justify-content: right;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-p-toolbar p-button{
-    margin-right: 12px;
-}
-
-input{
+    flex-direction: row;
     flex: 1;
+    justify-content: space-between;
+    align-items: center;
 }
 
-td{
+#toolbar input {
+    color: white;
+    margin-left: 2px;
+}
+#toolbar div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+td {
     text-align: center;
 }
 
 td button + button {
     margin-left: 8px;
 }
- p-confirmDialog{
-     background-color: white;
- }
-
-input {
-    margin-bottom: 8px;
-    padding: 5px;
-    font-size: 18px;
-    border-width: 0px;
-    border-color: #CCCCCC;
-    background-color: #FFFFFF;
-    color: #000000;
-    border-style: solid;
-    border-radius: 7px;
-    box-shadow: 0px 0px 2px rgba(66,66,66,.75);
+p-confirmDialog {
+    background-color: white;
 }
 
-form{
+form {
+    height: 15em;
+}
+
+form input {
+}
+
+.p-field {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    margin-bottom: 2px;
+}
+
+.p-field button {
+    width: 100%;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#input-obrigatorio {
+    justify-content: space-between;
+    flex-direction: row;
 }

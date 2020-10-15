@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import Equipamento from "../models/Equipamento";
 import { EquipamentoService } from "./equipamento.service";
-import { FormBuilder, Validators } from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ConfirmationService } from "primeng/api";
 
 @Component({
@@ -15,48 +15,52 @@ export class EquipamentoComponent implements OnInit {
 
     displayForm = false;
 
-    equipamentoForm;
+    tiposDeEquipamento = [
+        {
+            label: "Móvel",
+            value: 1,
+        },
+        {
+            label: "Eletrodoméstico",
+            value: 2,
+        },
+        {
+            label: "Informática",
+            value: 3,
+        },
+    ];
+
+    equipamentoForm = new FormGroup({
+        id: new FormControl(""),
+        nome: new FormControl("", [Validators.required]),
+        idTipoEquipamento: new FormControl("", Validators.required),
+        precoDiaria: new FormControl("", Validators.required),
+        obrigatorio: new FormControl(false),
+    });
 
     constructor(
         private equipamentoService: EquipamentoService,
-        private formBuilder: FormBuilder,
         private confirmationService: ConfirmationService
-    ) {
-        this.equipamentoForm = this.formBuilder.group({
-            id: null,
-            nome: [null, Validators.required],
-            idTipoEquipamento: "",
-            precoDiaria: "",
-            obrigatorio: "",
-        });
-    }
+    ) {}
 
     ngOnInit(): void {
         this.equipamentoService.getEquipamentos().subscribe((resultado) => {
             this.equipamentos = resultado;
-            this.getTipoEquipamentos();
+            this.equipamentos.forEach((e) => this.getTipoEquipamento(e));
         });
     }
 
-    ngOnChanges(): void {
-        this.getTipoEquipamentos();
-    }
+    ngOnChanges(): void {}
 
-    getTipoEquipamentos() {
-        this.equipamentos.forEach((e) => {
-            switch (e.idTipoEquipamento) {
-                case 1:
-                    e.tipoEquipamento = "Móvel";
-                    break;
-                case 2:
-                    e.tipoEquipamento = "Eletrodomestico";
-                    break;
-                case 3:
-                    e.tipoEquipamento = "Informática";
-                    break;
-            }
-            return e;
-        });
+    getTipoEquipamento(equipamento) {
+        const { label } = this.tiposDeEquipamento.find(
+            (t) => t.value === equipamento.idTipoEquipamento
+        );
+
+        console.log(label);
+
+        equipamento.tipoEquipamento = label;
+        return equipamento;
     }
 
     handleDelete(equipamento) {
@@ -78,11 +82,13 @@ export class EquipamentoComponent implements OnInit {
     }
 
     showForm() {
+        this.equipamentoForm.reset();
+
         this.displayForm = true;
     }
 
     handleEdit(equipamento) {
-        this.equipamentoForm = this.formBuilder.group({
+        this.equipamentoForm.setValue({
             id: equipamento.id,
             nome: equipamento.nome,
             idTipoEquipamento: equipamento.idTipoEquipamento,
@@ -93,10 +99,16 @@ export class EquipamentoComponent implements OnInit {
 
     handleSubmit(value) {
         value.obrigatorio = value.obrigatorio ? 1 : 0;
-        console.log(value);
-        this.equipamentoService.postEquipamento(value);
+        this.equipamentoService.postEquipamento(value).subscribe();
+        value = this.getTipoEquipamento(value);
         if (!value.id) {
             this.equipamentos.push(value);
+        } else {
+            const index = this.equipamentos.findIndex((e) => e.id === value.id);
+            this.equipamentos[index] = value;
         }
+        this.displayForm = false;
+
+        this.equipamentoForm.reset();
     }
 }
