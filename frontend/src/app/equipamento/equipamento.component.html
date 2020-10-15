@@ -21,7 +21,7 @@
             <input type="number" pInputText placeholder="Tipo Equipamento" formControlName="idTipoEquipamento">     
         </div>
         <div class="p-field">
-            <div>Obrigatorio: </div>
+            <h4>Obrigatorio: </h4>
             <p-toggleButton formControlName="obrigatorio" onLabel="Sim" offLabel="Não" ></p-toggleButton>
         </div>
         <div class="p-field">            
@@ -46,7 +46,7 @@
             <td>{{equipamento.nome}}</td>
             <td>{{equipamento.precoDiaria | currency:'BRL'}}</td>
             <td>{{equipamento.obrigatorio  === 1 ? 'Sim' : 'Não'}}</td>
-            <td>{{equipamento.idTipoEquipamento}}</td>
+            <td>{{equipamento.tipoEquipamento}}</td>
             <td>
                 <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger" (click)="handleDelete(equipamento)" ></button>
                 <button pButton pRipple type="button" icon="pi-info" class="p-button-rounded p-button-danger"></button>

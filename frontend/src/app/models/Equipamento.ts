@@ -4,5 +4,5 @@ export default interface Equipamento{
     idTipoEquipamento: Number;
     precoDiaria: Number;
     obrigatorio: Number;
-    tipoEquipamentp?: String;
+    tipoEquipamento?: String;
 }

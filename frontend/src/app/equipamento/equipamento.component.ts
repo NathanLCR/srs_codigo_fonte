@@ -34,7 +34,29 @@ export class EquipamentoComponent implements OnInit {
   ngOnInit(): void {
     this.equipamentoService.getEquipamentos().subscribe(resultado => {
       this.equipamentos = resultado;
+      this.getTipoEquipamentos();
     });
+  }
+
+  ngOnChanges(): void {
+    this.getTipoEquipamentos();
+  }
+
+  getTipoEquipamentos(){
+    this.equipamentos.forEach(e =>{
+      switch (e.idTipoEquipamento){
+        case 1:
+          e.tipoEquipamento = "Móvel";
+          break;
+        case 2:
+          e.tipoEquipamento = "Eletrodomestico"
+          break
+        case 3:
+          e.tipoEquipamento = "Informática"
+          break
+      }
+      return e;
+    })
   }
 
   handleDelete(equipamento) {
