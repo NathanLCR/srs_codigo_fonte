@@ -11,8 +11,6 @@ const routes: Routes = [
     { path: 'equipamentos', component: EquipamentoComponent },
     { path: 'reservas', component: ReservaComponent}
 
-];
-
 @NgModule({
   imports: [
     RouterModule.forRoot(routes)
