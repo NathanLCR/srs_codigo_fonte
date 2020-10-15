@@ -70,12 +70,9 @@ export class EquipamentoComponent implements OnInit {
       }
   });
   }
-
-
   showForm() {
     this.displayForm = true;
   }
-
   onSubmit(value){
     value.obrigatorio = value.obrigatorio ? 1 : 0;
     console.log(value);
