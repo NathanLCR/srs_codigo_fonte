@@ -1,8 +1,6 @@
 package com.basis.srs.servico.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.validation.annotation.Validated;
@@ -16,22 +14,17 @@ import java.time.LocalDate;
 
 @Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
-
 public class ClienteDTO {
-
 
     private Integer id;
 
     @NotNull
-    @Size(max = 120)
     @NotBlank
+    @Size(max = 120)
     private String nome;
 
     @NotNull
     @Size(min = 11,max = 11)
-    @CPF
     private String cpf;
 
     @NotNull
@@ -39,7 +32,12 @@ public class ClienteDTO {
     private LocalDate dataNascimento;
 
     @NotNull
+    @NotBlank
     private String endereco;
+
+    @NotNull
+    @Size(max=12, min=11)
+    private String telefone;
 
     @NotNull
     @Size(max = 7, min = 7)
@@ -48,6 +46,7 @@ public class ClienteDTO {
     @Email
     @NotNull
     @NotBlank
+    @Size(max = 255)
     private String email;
 
 }

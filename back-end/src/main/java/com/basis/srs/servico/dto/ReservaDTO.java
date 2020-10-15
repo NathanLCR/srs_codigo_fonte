@@ -10,7 +10,7 @@ import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 
 @Getter
-@Setter//autor = "lucas.costa"
+@Setter
 public class ReservaDTO {
 
     private Integer id;
@@ -30,5 +30,4 @@ public class ReservaDTO {
     @NotNull
     @Positive
     private Double total;
-
 }
