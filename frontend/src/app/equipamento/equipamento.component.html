@@ -1,0 +1,56 @@
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+<p-toolbar class="toolbar">
+    <p-button label="Novo" (click)="showForm()"></p-button>
+    <i class="pi pi-search"></i>
+    <input pInputText type="text" 
+    (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." style="color: white;"/>
+</p-toolbar>
+
+<p-dialog header="Cadastrar Equipamento" [(visible)]="displayForm">
+    <form [formGroup]="equipamentoForm" (ngSubmit)="onSubmit(equipamentoForm.value)">    
+    <div class="p-fluid">
+        <div class="p-field">
+            <input type="text" pInputText placeholder="Nome" formControlName="nome">
+        </div>
+        <div class="p-field">
+            <input type="number" pInputText placeholder="Preco Diaria" formControlName="precoDiaria">  
+        </div>
+        <div class="p-field">            
+            <input type="number" pInputText placeholder="Tipo Equipamento" formControlName="idTipoEquipamento">     
+        </div>
+        <div class="p-field">
+            <h4>Obrigatorio: </h4>
+            <p-toggleButton formControlName="obrigatorio" onLabel="Sim" offLabel="Não" ></p-toggleButton>
+        </div>
+        <div class="p-field">            
+            <p-button label="Submit" icon="pi pi-check"></p-button>    
+        </div>
+    </div>       
+</form>
+</p-dialog>
+
+<p-table #dt [value]="equipamentos" [globalFilterFields]="['nome']">
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="nome">Nome</th>
+            <th pSortableColumn="precoDiaria">Preço diária</th>
+            <th pSortableColumn="obrigatorio">Obrigatório</th>
+            <th pSortableColumn="idTipoEquipamento">Tipo do equipamento</th>
+            <th p>Ações</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-equipamento>
+        <tr>
+            <td>{{equipamento.nome}}</td>
+            <td>{{equipamento.precoDiaria | currency:'BRL'}}</td>
+            <td>{{equipamento.obrigatorio  === 1 ? 'Sim' : 'Não'}}</td>
+            <td>{{equipamento.tipoEquipamento}}</td>
+            <td>
+                <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger" (click)="handleDelete(equipamento)" ></button>
+                <button pButton pRipple type="button" icon="pi-info" class="p-button-rounded p-button-danger"></button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

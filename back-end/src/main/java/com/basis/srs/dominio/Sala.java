@@ -36,15 +36,15 @@ public class Sala implements Serializable {
     @Column(name = "descricao")
     private String descricao;
 
-    @Column(name = "limite_pessoas")
+    @Column(name = "capacidade")
     private Integer capacidade;
 
     @Column(name = "preco_diaria")
     private Double precoDiaria;
 
     @Column(name = "disponivel")
-    private Double disponivel;
+    private Integer disponivel;
 
     @OneToMany(mappedBy = "sala")
-    private List<SalaEquipamento> salaEquipamentos;
+    private List<SalaEquipamento> equipamentos;
 }

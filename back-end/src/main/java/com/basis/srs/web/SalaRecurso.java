@@ -26,6 +26,7 @@ public class SalaRecurso {
     private final SalaServico salaService;
 
     @PostMapping
+<<<<<<< HEAD
 <<<<<<< Updated upstream
     public ResponseEntity<SalaDTO> cadastrarSala(@RequestBody SalaDTO sala) throws URISyntaxException {
         salaService.cadastrarSala(sala);
@@ -47,6 +48,17 @@ public class SalaRecurso {
         SalaDTO salaAtualizada = salaService.salvar(sala);
         return ResponseEntity.ok(salaAtualizada);
 >>>>>>> Stashed changes
+=======
+    public ResponseEntity<SalaDTO> cadastrarSala(@Valid @RequestBody SalaDTO sala) throws URISyntaxException {
+        SalaDTO salaCriada = salaService.salvar(sala);
+        return ResponseEntity.created(new URI("/api/salas/")).body(salaCriada);
+    }
+
+    @PutMapping
+    public ResponseEntity<SalaDTO> alterarSala(@Valid @RequestBody SalaDTO sala){
+        SalaDTO salaAtualizada = salaService.salvar(sala);
+        return ResponseEntity.ok(salaAtualizada);
+>>>>>>> fe8655038ed0757a48b2a5cecc43e6a54668beb1
     }
 
     @GetMapping("/{id}")

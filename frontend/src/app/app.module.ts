@@ -12,10 +12,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { PageNotificationModule, BreadcrumbModule, MenuModule, ErrorStackModule } from '@nuvem/primeng-components';
 import { SecurityModule, VersionTagModule } from '@nuvem/angular-base';
 import { DiarioErrosComponent } from './components/diario-erros/diario-erros.component';
-import { SalaComponent } from './components/sala/sala.component';
 import { BlockUIModule } from 'ng-block-ui';
-import { ClienteComponent } from "./cliente/crud-cliente/crud-cliente.component";
-import { ClienteModule } from "./cliente/crud-cliente/cliente.module";
+import { EquipamentoComponent } from './equipamento/equipamento.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReservaComponent } from './reserva/reserva.component';
+import { ClienteComponent } from './cliente/cliente.component';
 
 @NgModule({
     declarations: [
@@ -23,10 +24,11 @@ import { ClienteModule } from "./cliente/crud-cliente/cliente.module";
         AppTopbarComponent,
         AppFooterComponent,
         DiarioErrosComponent,
-        SalaComponent 
+        ClienteComponent,
+        EquipamentoComponent,
+        ReservaComponent
     ],
-   
-        imports: [
+    imports: [
         BlockUIModule.forRoot({
             message: "Carregando..."
           }),
@@ -41,12 +43,12 @@ import { ClienteModule } from "./cliente/crud-cliente/cliente.module";
         VersionTagModule,
         SecurityModule.forRoot(environment.auth),
         MenuModule,
-        BrowserModule,
-        ClienteModule
+        FormsModule,
+        ReactiveFormsModule
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy }
     ],
-    bootstrap: [AppComponent,ClienteComponent]
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -51,12 +51,13 @@ public class EquipamentoRecurso {
     public ResponseEntity<EquipamentoDTO> alterarEquipamento(@Valid @RequestBody EquipamentoDTO equipamento) throws URISyntaxException {
         EquipamentoDTO equipamentoSalvo = equipamentoServico.salvar(equipamento);
 
-        return ResponseEntity.created(new URI("/api/equipamentos")).body(equipamentoSalvo);
+        return ResponseEntity.ok(equipamentoSalvo);
     };
 
     @DeleteMapping("/{id}")
-    public void deletarEquipamento(@PathVariable Integer id){
+    public ResponseEntity<EquipamentoDTO> deletarEquipamento(@PathVariable Integer id){
         equipamentoServico.deletar(id);
+        return ResponseEntity.ok().build();
     };
 
 }

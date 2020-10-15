@@ -4,13 +4,14 @@ package com.basis.srs.servico;
 import com.basis.srs.dominio.Cliente;
 import com.basis.srs.repositorio.ClienteRepositorio;
 import com.basis.srs.servico.dto.ClienteDTO;
+import com.basis.srs.servico.exception.RegraNegocioException;
 import com.basis.srs.servico.mapper.ClienteMapper;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -22,11 +23,6 @@ public class ClienteServico {
 
     private final ClienteMapper clienteMapper;
 
-    public ClienteServico(ClienteRepositorio clienteRepositorio, ClienteMapper clienteMapper) {
-        this.clienteRepositorio = clienteRepositorio;
-        this.clienteMapper = clienteMapper;
-    }
-
     public List<ClienteDTO> listar() {
         List<Cliente> clientes = clienteRepositorio.findAll();
         List<ClienteDTO> clienteDto =  clienteMapper.toDto(clientes);
@@ -34,13 +30,18 @@ public class ClienteServico {
     }
 
     public ClienteDTO buscarPorId(Integer id) {
-        Cliente cliente = clienteRepositorio.findById(id).orElse(null);
+        Cliente cliente = clienteRepositorio.findById(id).orElseThrow(()->new RegraNegocioException(
+                "Cliente não existe"
+        ));
         ClienteDTO clienteDto = clienteMapper.toDto(cliente);
         return clienteDto;
     }
 
 
     public ClienteDTO salvar(ClienteDTO clienteDto){
+        if(clienteRepositorio.existsByCpf(clienteDto.getCpf()) && clienteDto.getId() == null ){
+            throw new RegraNegocioException("Cliente ja cadastrado");
+        }
         Cliente cliente = clienteMapper.toEntity(clienteDto);
         cliente = clienteRepositorio.save(cliente);
         return clienteMapper.toDto(cliente);

@@ -5,7 +5,6 @@ import com.basis.srs.servico.ClienteServico;
 import com.basis.srs.servico.dto.ClienteDTO;
 import com.basis.srs.servico.dto.EquipamentoDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClienteRecurso {
 
-    @Autowired
-    private ClienteServico clienteServico;
+    private final ClienteServico clienteServico;
 
     @GetMapping
     public ResponseEntity<List<ClienteDTO>> listar(){
@@ -41,7 +39,11 @@ public class ClienteRecurso {
     }
 
     @PostMapping
+<<<<<<< HEAD
     public ResponseEntity<ClienteDTO> cadastrarCliente(@Valid @RequestBody  ClienteDTO clienteDto) throws URISyntaxException {
+=======
+    public ResponseEntity<ClienteDTO> cadastrarCliente(@Valid @RequestBody ClienteDTO clienteDto) throws URISyntaxException {
+>>>>>>> fe8655038ed0757a48b2a5cecc43e6a54668beb1
         ClienteDTO clienteSalvo = clienteServico.salvar(clienteDto);
         return ResponseEntity.created(new URI("/api/clientes/")).body(clienteSalvo);
     }
@@ -49,14 +51,14 @@ public class ClienteRecurso {
     @PutMapping
     public ResponseEntity<ClienteDTO> atualizarCliente(@Valid @RequestBody ClienteDTO clienteDto) throws URISyntaxException {
         ClienteDTO clienteSalvo = clienteServico.salvar(clienteDto);
-        return ResponseEntity.created(new URI("/api/clientes/")).body(clienteSalvo);
+        return ResponseEntity.ok(clienteSalvo);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<EquipamentoDTO> deletar(@PathVariable Integer id){
-       clienteServico.deletar(id);
-       return ResponseEntity.ok().build();
-    };
+    public ResponseEntity<ClienteDTO> remover(@PathVariable("id") Integer id) {
+        clienteServico.deletar(id);
+        return ResponseEntity.ok().build();
+    }
 
 }
 
