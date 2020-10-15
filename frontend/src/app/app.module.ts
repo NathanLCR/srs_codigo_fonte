@@ -13,8 +13,9 @@ import { PageNotificationModule, BreadcrumbModule, MenuModule, ErrorStackModule 
 import { SecurityModule, VersionTagModule } from '@nuvem/angular-base';
 import { DiarioErrosComponent } from './components/diario-erros/diario-erros.component';
 import { BlockUIModule } from 'ng-block-ui';
-import { SalaComponent } from './components/sala/sala.component';
-import { EquipamentosComponent } from './components/equipamentos/equipamentos.component';
+import { EquipamentoComponent } from './equipamento/equipamento.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReservaComponent } from './reserva/reserva.component';
 
 @NgModule({
     declarations: [
@@ -22,8 +23,9 @@ import { EquipamentosComponent } from './components/equipamentos/equipamentos.co
         AppTopbarComponent,
         AppFooterComponent,
         DiarioErrosComponent,
-        SalaComponent
-        EquipamentosComponent    ],
+        EquipamentoComponent,
+        ReservaComponent
+    ],
     imports: [
         BlockUIModule.forRoot({
             message: "Carregando..."
@@ -38,7 +40,9 @@ import { EquipamentosComponent } from './components/equipamentos/equipamentos.co
         ErrorStackModule,
         VersionTagModule,
         SecurityModule.forRoot(environment.auth),
-        MenuModule
+        MenuModule,
+        FormsModule,
+        ReactiveFormsModule
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy }

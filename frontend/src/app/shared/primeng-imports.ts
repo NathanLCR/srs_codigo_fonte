@@ -61,6 +61,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
 import { TreeModule } from 'primeng/tree';
 import { TreeTableModule } from 'primeng/treetable';
+import {InputNumberModule} from 'primeng/inputnumber';
 
 export const PRIMENG_IMPORTS = [
     AccordionModule,
@@ -126,4 +127,5 @@ export const PRIMENG_IMPORTS = [
     TooltipModule,
     TreeModule,
     TreeTableModule,
+    InputNumberModule
 ];

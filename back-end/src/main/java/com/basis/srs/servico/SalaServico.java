@@ -36,7 +36,6 @@ public class SalaServico {
     private final SalaEquipamentoMapper salaEquipamentoMapper;
     private final EquipamentoMapper equipamentoMapper;
     private final ReservaRepositorio reservaRepositorio;
-    private final SalaEquipamentoMapper salaEquipamentoMapper;
 
     //GET
     public List<SalaDTO> listarTodas() {

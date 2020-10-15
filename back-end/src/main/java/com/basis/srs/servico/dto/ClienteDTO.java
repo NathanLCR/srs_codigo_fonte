@@ -36,6 +36,10 @@ public class ClienteDTO {
     private String endereco;
 
     @NotNull
+    @Size(max=12, min=11)
+    private String telefone;
+
+    @NotNull
     @Size(max = 7, min = 7)
     private String rg;
 

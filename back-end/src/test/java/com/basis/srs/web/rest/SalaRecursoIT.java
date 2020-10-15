@@ -1,6 +1,9 @@
 package com.basis.srs.web.rest;
 
+import com.basis.srs.builder.EquipamentoBuilder;
+import com.basis.srs.builder.ReservaBuilder;
 import com.basis.srs.builder.SalaBuilder;
+import com.basis.srs.dominio.Equipamento;
 import com.basis.srs.dominio.Reserva;
 import com.basis.srs.dominio.Sala;
 import com.basis.srs.dominio.SalaEquipamento;
@@ -22,6 +25,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
@@ -31,6 +35,12 @@ public class SalaRecursoIT extends IntTestComum {
 
     @Autowired
     private SalaBuilder salaBuilder;
+
+    @Autowired
+    private ReservaBuilder reservaBuilder;
+
+    @Autowired
+    private EquipamentoBuilder equipamentoBuilder;
 
     @Autowired
     private SalaRepositorio salaRepositorio;
@@ -43,7 +53,7 @@ public class SalaRecursoIT extends IntTestComum {
     @Test
     public void listar() throws Exception {
         salaBuilder.construir();
-        getMockMvc().perform(MockMvcRequestBuilders.get("/api/salas"))
+        getMockMvc().perform(get("/api/salas"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[*].id", Matchers.hasSize(1)));
 
@@ -52,7 +62,7 @@ public class SalaRecursoIT extends IntTestComum {
     @Test
     public void listarPorId() throws Exception {
         Sala sb = salaBuilder.construir();
-        getMockMvc().perform(MockMvcRequestBuilders.get("/api/salas/" + sb.getId()))
+        getMockMvc().perform(get("/api/salas/" + sb.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(sb.getId()));
     }
@@ -103,13 +113,13 @@ public class SalaRecursoIT extends IntTestComum {
     }
 
     @Test
-    public void atualizarExcessao2() throws Exception { //irá testar quando zerar a quantidade de
-        // um equipamento obrigatório - deve retornar BAD REQUEST
-
+    public void atualizarExcessao2() throws Exception { //irá testar quando zerar a quantidade de um equipamento obrigatório - deve retornar BAD REQUEST
         Sala sala = salaBuilder.construir();
-        List<SalaEquipamento> salaEquipamentos = new ArrayList<SalaEquipamento>();
+        List<SalaEquipamento> salaEquipamentos = sala.getEquipamentos();
+        for (int i = 0; i < salaEquipamentos.size(); i ++) {
+            salaEquipamentos.get(i).setQuantidade(0);
+        }
         sala.setEquipamentos(salaEquipamentos);
-        SalaDTO salaDTO = salaBuilder.converterParaDto(sala);
         getMockMvc().perform(put("/api/salas/")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(salaBuilder.converterParaDto(sala)))
@@ -127,19 +137,16 @@ public class SalaRecursoIT extends IntTestComum {
 
     @Test
     public void deletarExcessao2() throws Exception { //irá testar quando apagar uma sala que está reservada - deve retornar BAD REQUEST
-//      preciso da reservaBuilder
-        Sala sala = salaBuilder.construir();
-        Reserva reserva = new Reserva();
-        reserva.setSala(sala);
-//      reservaRepositorio.save(reserva);
-        getMockMvc().perform(delete("/api/salas/" + sala.getId()))
+        Reserva reserva = reservaBuilder.construir();
+
+        getMockMvc().perform(delete("/api/salas/" + reserva.getSala().getId()))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     @Test
     public void listarPorIdExcessao() throws Exception { //irá testar quando apagar um elemento obrigatório - deve retornar BAD REQUEST
         Sala sb = salaBuilder.construir();
-        getMockMvc().perform(MockMvcRequestBuilders.get("/api/salas/" + 89))
+        getMockMvc().perform(get("/api/salas/" + 89))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 }
