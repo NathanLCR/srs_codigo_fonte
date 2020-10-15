@@ -9,7 +9,7 @@
 </p-toolbar>
 
 <p-dialog header="Cadastrar Equipamento" [(visible)]="displayForm">
-    <form [formGroup]="equipamentoForm" (ngSubmit)="onSubmit(equipamentoForm.value)">    
+    <form [formGroup]="equipamentoForm" (ngSubmit)="handleSubmit(equipamentoForm.value)">    
     <div class="p-fluid">
         <div class="p-field">
             <input type="text" pInputText placeholder="Nome" formControlName="nome">
@@ -49,7 +49,7 @@
             <td>{{equipamento.tipoEquipamento}}</td>
             <td>
                 <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger" (click)="handleDelete(equipamento)" ></button>
-                <button pButton pRipple type="button" icon="pi-info" class="p-button-rounded p-button-danger"></button>
+                <button pButton pRipple type="button" icon="pi-info" class="p-button-rounded p-button-danger" (click)="handleEdit(equipamento)" (click)="showForm()"></button>
             </td>
         </tr>
     </ng-template>
