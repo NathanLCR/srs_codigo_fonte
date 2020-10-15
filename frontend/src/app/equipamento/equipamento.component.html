@@ -1,3 +1,4 @@
+
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
 
 <p-toolbar class="toolbar">
@@ -5,7 +6,6 @@
     <i class="pi pi-search"></i>
     <input pInputText type="text" 
     (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." style="color: white;"/>
-    
 </p-toolbar>
 
 <p-dialog header="Cadastrar Equipamento" [(visible)]="displayForm">
