@@ -15,6 +15,7 @@ import { DiarioErrosComponent } from './components/diario-erros/diario-erros.com
 import { BlockUIModule } from 'ng-block-ui';
 import { EquipamentoComponent } from './equipamento/equipamento.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReservaComponent } from './reserva/reserva.component';
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         AppTopbarComponent,
         AppFooterComponent,
         DiarioErrosComponent,
-        EquipamentoComponent
+        EquipamentoComponent,
+        ReservaComponent
     ],
     imports: [
         BlockUIModule.forRoot({
