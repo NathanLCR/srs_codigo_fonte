@@ -47,13 +47,3 @@ p-confirmDialog {
     justify-content: space-between;
     flex-direction: row;
 }
-
-.formInput {
-    width: 20em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    margin: 5px;
-    border-bottom: 1px solid black;
-}

@@ -55,8 +55,6 @@ export class EquipamentoComponent implements OnInit {
         });
     }
 
-    ngOnChanges(): void {}
-
     getTipoEquipamento(equipamento) {
         const { label } = this.tiposDeEquipamento.find(
             (t) => t.value === equipamento.idTipoEquipamento

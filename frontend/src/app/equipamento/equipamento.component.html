@@ -31,6 +31,7 @@
                     pInputText
                     placeholder="Nome"
                     formControlName="nome"
+                    class="p-invalid"
                 />
                 <p-message
                     severity="error"
@@ -68,6 +69,7 @@
                     [options]="tiposDeEquipamento"
                     formControlName="idTipoEquipamento"
                     class="formInput"
+                    placeholder="Selecione"
                 ></p-dropdown>
             </div>
             <div class="p-field" id="input-obrigatorio">
@@ -118,7 +120,7 @@
                     pButton
                     pRipple
                     type="button"
-                    icon="pi pi-cog"
+                    icon="pen"
                     class="p-button-rounded p-button-danger"
                     (click)="showForm()"
                     (click)="handleEdit(equipamento)"
