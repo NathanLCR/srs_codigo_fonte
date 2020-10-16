@@ -1,3 +1,8 @@
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EquipamentoComponent } from './equipamento/equipamento.component';
+import { ReservaComponent } from './reserva/reserva.component';
+import { ClienteComponent } from './cliente/cliente.component';
+import { SalaComponent } from './sala/sala.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -13,10 +18,8 @@ import { PageNotificationModule, BreadcrumbModule, MenuModule, ErrorStackModule 
 import { SecurityModule, VersionTagModule } from '@nuvem/angular-base';
 import { DiarioErrosComponent } from './components/diario-erros/diario-erros.component';
 import { BlockUIModule } from 'ng-block-ui';
-import { EquipamentoComponent } from './equipamento/equipamento.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ReservaComponent } from './reserva/reserva.component';
-import { ClienteComponent } from './cliente/cliente.component';
+
+
 
 @NgModule({
     declarations: [
@@ -25,8 +28,9 @@ import { ClienteComponent } from './cliente/cliente.component';
         AppFooterComponent,
         DiarioErrosComponent,
         EquipamentoComponent,
-        ReservaComponent,
-        ClienteComponent
+        ClienteComponent,
+        SalaComponent,
+        ReservaComponent
     ],
     imports: [
         BlockUIModule.forRoot({
