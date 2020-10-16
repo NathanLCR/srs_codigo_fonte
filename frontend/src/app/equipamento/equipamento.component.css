@@ -27,13 +27,6 @@ p-confirmDialog {
     background-color: white;
 }
 
-form {
-    height: 15em;
-}
-
-form input {
-}
-
 .p-field {
     display: flex;
     align-items: center;
@@ -53,4 +46,14 @@ form input {
 #input-obrigatorio {
     justify-content: space-between;
     flex-direction: row;
+}
+
+.formInput {
+    width: 20em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    margin: 5px;
+    border-bottom: 1px solid black;
 }

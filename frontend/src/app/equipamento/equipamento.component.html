@@ -25,15 +25,27 @@
             <div class="p-field">
                 <label for="nome">Nome</label>
                 <input
+                    id="nome"
+                    class="formInput"
                     type="text"
                     pInputText
                     placeholder="Nome"
                     formControlName="nome"
                 />
+                <p-message
+                    severity="error"
+                    text="Nome requerido"
+                    *ngIf="
+                        equipamentoFormControl.nome.errors?.required &&
+                        equipamentoFormControl.nome.touched
+                    "
+                ></p-message>
             </div>
             <div class="p-field">
-                <label for="nome">Preço da Diaria</label>
+                <label for="precoDiaria">Preço da Diaria</label>
                 <p-inputNumber
+                    id="precoDiaria"
+                    class="formInput"
                     formControlName="precoDiaria"
                     mode="currency"
                     currency="BRL"
@@ -41,12 +53,21 @@
                     [maxFractionDigits]="2"
                 >
                 </p-inputNumber>
+                <p-message
+                    severity="error"
+                    text="Preço requerido"
+                    *ngIf="
+                        equipamentoFormControl.precoDiaria.errors &&
+                        equipamentoFormControl.precoDiaria.touched
+                    "
+                ></p-message>
             </div>
             <div class="p-field">
-                <label for="nome">Tipo de Equipamento</label>
+                <label>Tipo de Equipamento</label>
                 <p-dropdown
                     [options]="tiposDeEquipamento"
                     formControlName="idTipoEquipamento"
+                    class="formInput"
                 ></p-dropdown>
             </div>
             <div class="p-field" id="input-obrigatorio">
