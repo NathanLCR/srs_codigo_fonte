@@ -27,13 +27,6 @@ p-confirmDialog {
     background-color: white;
 }
 
-form {
-    height: 15em;
-}
-
-form input {
-}
-
 .p-field {
     display: flex;
     align-items: center;
