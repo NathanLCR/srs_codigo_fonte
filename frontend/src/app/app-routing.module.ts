@@ -13,11 +13,8 @@ const routes: Routes = [
     { path: 'reservas', component: ReservaComponent},
     { path: 'salas', component: SalaComponent}
 ]
-
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes)
-  ],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
