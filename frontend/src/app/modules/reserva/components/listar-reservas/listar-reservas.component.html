@@ -1,0 +1,16 @@
+<button class= "cad-but" icon="pi pi-plus" pButton type="button" label="Fazer Reserva"  (click)="direcionarCadastrar()"></button>
+<button class= "src-but" icon="pi pi-search" pButton type="button" label="Procurar Reserva" ></button>
+<div class="spc-sty">
+  <p-card [style]="{width:'450px'}" *ngFor="let reserva of listaReservas" [header]="reserva.total" styleClass="p-card-shadow">
+      <p>
+          Stack Overflow em Português
+          é um site de perguntas e respostas para 
+          programadores profissionais e entusiastas.
+          Leva apenas um minuto para se inscrever.
+      </p>
+      <p-footer class="foot-foot">
+          <p-button  icon="pi pi-caret-up"  label="Editar" (click)="direcionarEditarReserva(reserva.id)"></p-button>
+          <p-button  style=margin-left:20px; icon="pi pi-times"  label="Deletar"  (click)="direcionarEditarReserva(reserva.id)"></p-button>
+      </p-footer>
+  </p-card>
+</div>

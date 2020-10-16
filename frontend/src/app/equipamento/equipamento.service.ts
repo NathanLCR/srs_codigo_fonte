@@ -19,7 +19,4 @@ export class EquipamentoService {
   deleteEquipamento(id){
     return this.http.delete(this.PATH + id);
   }
-  postEquipamento(equipamento: Equipamento){
-    this.http.post(this.PATH,equipamento).subscribe();
-  }
 }

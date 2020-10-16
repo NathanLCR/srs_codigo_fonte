@@ -1,0 +1,26 @@
+<p-card [style]="{width:'300px'}" >
+ <h5 style="font-size: xx-large;font-style: italic;">Reserva</h5>
+ <div class="p-grid p-fluid">
+     <form [formGroup]= "formReserva">
+         <div class="p-col-12 p-md-4">
+             <div class="p-inputgroup">
+                 <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                 <input type="text" pInputText placeholder="Data de Início" formControlName="Data de Início ">
+             </div>
+         </div>
+         <div class="p-col-12 p-md-4">
+             <div class="p-inputgroup">
+                 <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                 <input type="text" pInputText placeholder="Data de Fim" formControlName="Data de Fim">
+             </div>
+         </div>
+         <div class="p-col-12 p-md-4">
+             <div class="p-inputgroup">
+                 <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                 <input type="text" pInputText placeholder="Total" formControlName="Total">
+                 <div><button pButton type="button" label="Salvar" icon="pi pi-check" class="mpp" (click)='salvar()'></button></div>
+             </div>
+         </div>
+     </form>  
+ </div>
+</p-card>

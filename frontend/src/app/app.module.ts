@@ -14,8 +14,8 @@ import { SecurityModule, VersionTagModule } from '@nuvem/angular-base';
 import { DiarioErrosComponent } from './components/diario-erros/diario-erros.component';
 import { BlockUIModule } from 'ng-block-ui';
 import { EquipamentoComponent } from './equipamento/equipamento.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ReservaComponent } from './reserva/reserva.component';
+import { ReservaModule } from './modules/reserva/reserva.module';
+
 
 @NgModule({
     declarations: [
@@ -23,8 +23,8 @@ import { ReservaComponent } from './reserva/reserva.component';
         AppTopbarComponent,
         AppFooterComponent,
         DiarioErrosComponent,
-        EquipamentoComponent,
-        ReservaComponent
+        EquipamentoComponent
+        
     ],
     imports: [
         BlockUIModule.forRoot({
@@ -41,8 +41,7 @@ import { ReservaComponent } from './reserva/reserva.component';
         VersionTagModule,
         SecurityModule.forRoot(environment.auth),
         MenuModule,
-        FormsModule,
-        ReactiveFormsModule
+        ReservaModule
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy }

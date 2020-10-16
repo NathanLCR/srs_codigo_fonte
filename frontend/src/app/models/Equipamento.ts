@@ -3,6 +3,6 @@ export default interface Equipamento{
     nome: String;
     idTipoEquipamento: Number;
     precoDiaria: Number;
-    obrigatorio: Number;
+    obrigatorio: any;
     tipoEquipamento?: String;
 }
