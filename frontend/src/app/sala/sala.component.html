@@ -9,7 +9,7 @@
 </p-toolbar>
 
 <p-dialog header="Cadastrar Sala" [(visible)]="displayForm">
-    <form [formGroup]="salaForm" (ngSubmit)="onSubmit(salaForm.value)">    
+    <form [formGroup]="salaForm" (ngSubmit)="criar(salaForm.value)">    
     <div class="p-fluid">
         <div class="p-field">
             <input type="text" pInputText placeholder="Descricao" formControlName="descricao">
@@ -52,12 +52,12 @@
         <tr>
             <td>{{sala.descricao}}</td>
             <td>{{sala.precoDiaria | currency:'BRL'}}</td>
-            <td>{{sala.disponivel  === 1 ? 'Sim' : 'Não'}}</td>
             <td>{{sala.capacidade}}</td>
+            <td>{{sala.disponivel  === 1 ? 'Sim' : 'Não'}}</td>
             <td>{{sala.idTipoSala}}</td>
             <td>{{sala.equipamentos}}</td>
             <td>
-                <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger" (click)="handleDelete(equipamento)" ></button>
+                <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger" (click)="deletar(sala)" ></button>
                 <button pButton pRipple type="button" icon="pi-info" class="p-button-rounded p-button-danger"></button>
             </td>
         </tr>

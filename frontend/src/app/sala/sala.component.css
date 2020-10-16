@@ -6,7 +6,7 @@ p-toolbar{
 }
 
 p-toolbar p-button{
-    margin-right: 12px;
+    margin-right: 1300px;
 }
 
 input{
@@ -20,12 +20,12 @@ td{
 td button + button {
     margin-left: 8px;
 }
- p-confirmDialog{
+p-confirmDialog{
      background-color: white;
  }
 
 input {
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     padding: 5px;
     font-size: 18px;
     border-width: 0px;

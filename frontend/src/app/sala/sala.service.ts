@@ -16,4 +16,11 @@ export class SalaService {
     return this.http.get<Sala[]>(this.PATH);
   }
   
+  deleteSala(id){
+    return this.http.delete(this.PATH + id);
+  }
+
+  postSala(sala: Sala) {
+    return this.http.post(this.PATH, sala);
+  }
 }

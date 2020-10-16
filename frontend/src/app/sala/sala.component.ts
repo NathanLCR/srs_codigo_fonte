@@ -28,7 +28,7 @@ export class SalaComponent implements OnInit {
         capacidade: "",
         disponivel: "",
         idTipoSala: "",
-        equipamentos: "",
+        equipamentos: [],
     })
   }
 
@@ -38,7 +38,18 @@ export class SalaComponent implements OnInit {
     });
   }
 
+  deletar(sala) {
+    this.salaService.deleteSala(sala.id).subscribe();
+    this.salas = this.salas.filter(val => val.id !== sala.id);
+  }
+
+  criar(sala) {
+    this.salaService.postSala(sala).subscribe(); 
+  }
+
   showForm() {
     this.displayForm = true;
   }
+
+  onSubmit(){}
 }
