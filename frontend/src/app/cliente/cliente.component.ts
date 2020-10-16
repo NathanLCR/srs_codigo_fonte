@@ -75,6 +75,23 @@ export class ClienteComponent implements OnInit {
     this.clienteForm.reset();
 }
 
+addCliente(cliente){
+  this.clienteService.postCliente(cliente).subscribe();
+
+  if(!cliente.id){
+    this.clientes.push(cliente);
+  } else {
+    const index = this.clientes.findIndex((e) => e.id === cliente.id);
+    this.clientes[index] = cliente;
+  }
+
+  this.displayForm = false;
+
+  this.clienteForm.reset();
+
+}
+
+
 deleteCliente(cliente) {
   this.confirmationService.confirm({
       message:
