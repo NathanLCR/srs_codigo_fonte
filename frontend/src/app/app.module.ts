@@ -16,6 +16,7 @@ import { BlockUIModule } from 'ng-block-ui';
 import { EquipamentoComponent } from './equipamento/equipamento.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReservaComponent } from './reserva/reserva.component';
+import { ClienteComponent } from './cliente/cliente.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { ReservaComponent } from './reserva/reserva.component';
         AppFooterComponent,
         DiarioErrosComponent,
         EquipamentoComponent,
-        ReservaComponent
+        ReservaComponent,
+        ClienteComponent
     ],
     imports: [
         BlockUIModule.forRoot({

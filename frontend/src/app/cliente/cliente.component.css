@@ -1,7 +1,21 @@
-p-toolbar{
-    justify-content: right;
+.configtoolbar{
+    display: flex;
+    flex-direction: row;
     align-items: center;
     margin-bottom: 12px;
+    flex: 1;
+    justify-content: space-between;
+    
+}
+
+.toolbar input {
+    color: white;
+    margin-left: 2px;
+}
+.toolbar div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 p-toolbar p-button{

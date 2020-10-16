@@ -1,22 +1,109 @@
 
-<div class="card">
-    <p-toolbar class="toolbar">
-        <p-button label="Novo" (click)="showForm()"></p-button>
-        <i class="pi pi-search"></i>
-        <input pInputText type="text" placeholder="Search..." style="color: black;"/>
-        
-    </p-toolbar>
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
 
-    <p-table [value]="clientes">
+<div class="card">
+   <div id="configtoolbar">
+       <p-toolbar class="toolbar">
+           <p-button label="Novo" (click)="showForm()"></p-button>
+           <div>
+               <i class="pi pi-search"></i>
+               <input
+                pInputText
+                type="text"
+                placeholder="Search..."
+                (input)="dt.filterGlobal($event.target.value, 'contains')"
+                />
+           </div>
+       </p-toolbar>
+   </div> 
+
+   <p-dialog header="Cadastrar Cliente" [(visible)]="displayForm">
+        <form
+            [formGroup]="clienteForm"
+            (ngSubmit)="handleSubmit(clienteForm.value)"
+        >
+            <div class="p-fluid">
+                <div class="p-field">
+                    <label for="nome">Nome</label>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Nome"
+                        formControlName="nome"
+                    />
+                </div>
+
+                <div class="p-field">
+                    <label for="cpf">CPF</label>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="CPF"
+                        formControlName="cpf"
+                    />
+                </div>
+
+                <div class="p-field">
+                    <label for="rg">RG</label>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="RG"
+                        formControlName="rg"
+                    />
+                </div>
+
+                <div class="p-field">
+                    <label for="endereco">Endereço</label>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="endereco"
+                        formControlName="endereco"
+                    />
+                </div>
+
+                <div class="p-field">
+                        <label for="telefone">Telefone</label>
+                        <input
+                            type="text"
+                            pInputText
+                            placeholder="Telefone"
+                            formControlName="telefone"
+                        />
+                    </div>
+
+                <div class="p-field">
+                    <label for="email">Email</label>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Email"
+                        formControlName="email"
+                    />
+                </div>
+
+                <div class="p-field">
+                    <p-button
+                        label="Enviar"
+                        icon="pi pi-check"
+                        [disabled]="!clienteForm.valid"
+                    ></p-button>
+                </div>
+            </div>
+        </form>
+   </p-dialog>
+
+    <p-table #dt [value]="clientes" [globalFilterFiels]="['nome']">
         <ng-template pTemplate="header">
             <tr>
-                <th>Nome</th>
-                <th>CPF</th>
-                <th>RG</th>
-                <th>Data de Nascimento</th>
-                <th>Endereço</th>
-                <th>Email</th>
-                <th>Telefone</th>
+                <th pSortableColum="nome">Nome</th>
+                <th pSortableColum="cpf">CPF</th>
+                <th pSortableColum="rg">RG</th>
+                <th pSortableColum="dataNascimento">Data de Nascimento</th>
+                <th pSortableColum="endereco">Endereço</th>
+                <th pSortableColum="email">Email</th>
+                <th pSortableColum="telefone">Telefone</th>
                 <th>Ações</th>
             </tr>
         </ng-template>
@@ -30,8 +117,23 @@
                 <td>{{cliente.email}}</td>
                 <td>{{cliente.telefone}}</td>
                 <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editProduct(product)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(product)"></button>
+                    <button 
+                        pButton
+                        pRipple
+                        icon="pi pi-times"
+                        class="p-button-rounded p-button-success"
+                        (click)="showForm()"
+                        (click)="editCliente(cliente)">
+                    </button>
+
+                    <button
+                        pButton 
+                        pRipple
+                        icon="pi pi-cog"
+                        class="p-button-rounded p-button-success"
+                        (click)="deleteCliente(cliente)">
+                    </button>
+                    
                 </td>
             </tr>
         </ng-template>

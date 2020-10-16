@@ -20,8 +20,16 @@ export class ClienteService {
         return this.http.get<Cliente>(this.PATH + '/{id}')
     }
     
-    createCliente(cliente){
-        return this.http.post<Cliente>(this.PATH,cliente);
+    postCliente(cliente: Cliente){
+        return this.http.post(this.PATH,cliente);
     }
+
+    putCliente(cliente: Cliente){
+        return this.http.put(this.PATH,cliente);
+    }
+    deleteCliente(id){
+        return this.http.delete(this.PATH + id);
+    }
+
     
 }
