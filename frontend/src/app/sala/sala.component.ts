@@ -51,11 +51,13 @@ export class SalaComponent implements OnInit {
     private equipamentoService: EquipamentoService,
     ) { 
       this.salaForm = this.formBuilder.group({
+        id: null,
         precoDiaria: "",
         descricao: "",
         capacidade: "",
         disponivel: "",
         idTipoSala: "",
+        tipoSala: null,
         equipamentos: [],
     })
   }
@@ -63,6 +65,10 @@ export class SalaComponent implements OnInit {
   ngOnInit(): void {
     this.salaService.getSalas().subscribe(resultado => {
       this.salas = resultado;
+
+      this.salas.forEach(s => {
+        return this.getTipoSala(s)
+      })
     });
 
     this.equipamentoService.getEquipamentos().subscribe(resulta => {this.equipamentos = resulta.map(e=>{return {label: e.nome, value:e}})}
@@ -72,11 +78,6 @@ export class SalaComponent implements OnInit {
   deletar(sala) {                                                                         
     this.salaService.deleteSala(sala.id).subscribe();
     this.salas = this.salas.filter(val => val.id !== sala.id);
-  }
-
-  criar(sala) {
-    console.log(sala)
-    this.salaService.postSala(sala).subscribe(); 
   }
 
   atualizar(sala) {
@@ -90,7 +91,7 @@ export class SalaComponent implements OnInit {
 
   getTipoSala(sala) {
     const { label } = this.tiposDeSala.find(
-        (t) => t.value == sala.idTipoEquipamento
+        (t) => t.value === sala.idTipoSala
     );
 
     sala.tipoSala = label;
@@ -103,6 +104,7 @@ export class SalaComponent implements OnInit {
     value = this.getTipoSala(value);
     if (!value.id) {
         this.salas.push(value);
+        console.log('ok');
     } else {
         const index = this.salas.findIndex((e) => e.id === value.id);
         this.salas[index] = value;

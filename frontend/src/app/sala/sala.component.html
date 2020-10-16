@@ -70,9 +70,6 @@
             </div>
             <br>
             
-            
-            <!-- incluir o seletor de listas aqui -->
-            
             <div class="p-field">
                 <label for="equipamentos">Equipamentos</label>
                 
@@ -98,7 +95,7 @@
             <th pSortableColumn="precoDiaria">Preço diária</th>
             <th pSortableColumn="capacidade">Capacidade</th>
             <th pSortableColumn="disponivel">Disponibilidade</th>
-            <th pSortableColumn="idTipoSala">Tipo de Sala</th>
+            <th pSortableColumn="tipoSala">Tipo de Sala</th>
             <th pSortableColumn="equipamentos">Equipamentos</th>
             <th p>Ações</th>
         </tr>
@@ -109,7 +106,7 @@
             <td>{{ sala.precoDiaria | currency: "BRL" }}</td>
             <td>{{ sala.capacidade }}</td>
             <td>{{ sala.disponivel === 1 ? "Sim" : "Não" }}</td>
-            <td>{{ sala.idTipoSala }}</td>
+            <td>{{ sala.tipoSala }}</td>
             <td>{{ sala.equipamentos }}</td>
             <td>
                 <button
