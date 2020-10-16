@@ -1,12 +1,19 @@
-p-toolbar{
+#toolbar {
     display: flex;
-    justify-content: right;
+    flex-direction: row;
+    flex: 1;
+    justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
 }
 
-p-toolbar p-button{
-    margin-right: 1300px;
+#toolbar input {
+    color: white;
+    margin-left: 2px;
+}
+#toolbar div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 input{
