@@ -1,19 +1,24 @@
-#toolbar {
+.p-toolbar{
     display: flex;
     flex-direction: row;
+    align-items: center;
+    margin-bottom: 12px;
     flex: 1;
     justify-content: space-between;
-    align-items: center;
 }
 
-#toolbar input {
-    color: white;
+.p-toolbar input {
+    color: black;
     margin-left: 2px;
 }
-#toolbar div {
+.p-toolbar div {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: right;
+    align-items: right;
+}
+
+p-toolbar p-button{
+    margin-right: 12px;
 }
 
 input{
@@ -27,12 +32,12 @@ td{
 td button + button {
     margin-left: 8px;
 }
-p-confirmDialog{
+ p-confirmDialog{
      background-color: white;
  }
 
 input {
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     padding: 5px;
     font-size: 18px;
     border-width: 0px;

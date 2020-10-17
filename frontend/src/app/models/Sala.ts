@@ -7,5 +7,6 @@ export default interface Sala {
     capacidade: number;
     disponivel: number;
     idTipoSala: number;
+    tipoSala ? : string;
     equipamentos: Equipamento;
 }

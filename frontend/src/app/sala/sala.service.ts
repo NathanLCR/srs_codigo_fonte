@@ -23,4 +23,8 @@ export class SalaService {
   postSala(sala: Sala) {
     return this.http.post(this.PATH, sala);
   }
+
+  putSala(sala: Sala) {
+    return this.http.put(this.PATH, sala);
+  }
 }
