@@ -16,34 +16,36 @@
     align-items: center;
 }
 
-td {
+input{
+    flex: 1;
+}
+
+td{
     text-align: center;
 }
 
 td button + button {
     margin-left: 8px;
 }
-p-confirmDialog {
-    background-color: white;
+p-confirmDialog{
+     background-color: white;
+ }
+
+input {
+    margin-bottom: 5px;
+    padding: 5px;
+    font-size: 18px;
+    border-width: 0px;
+    border-color: #CCCCCC;
+    background-color: #FFFFFF;
+    color: #000000;
+    border-style: solid;
+    border-radius: 7px;
+    box-shadow: 0px 0px 2px rgba(66,66,66,.75);
 }
 
-.p-field {
+form{
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    margin-bottom: 2px;
-}
-
-.p-field button {
-    width: 100%;
-    margin-top: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#input-obrigatorio {
-    justify-content: space-between;
-    flex-direction: row;
 }

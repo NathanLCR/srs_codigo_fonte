@@ -1,8 +1,8 @@
-export default interface Equipamento{
+export default interface Equipamento {
     id: Number;
     nome: String;
-    idTipoEquipamento: Number;
+    idTipoEquipamento: number;
     precoDiaria: Number;
-    obrigatorio: any;
+    obrigatorio: Number;
     tipoEquipamento?: String;
 }

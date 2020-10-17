@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ListarReservaModel } from '../../models/listar-reserva.model';
+import { ListarReservaModel } from 'src/app/models/listar-reserva.model';
 import { ReservaService } from '../../services/reserva.service';
 
 @Component({
@@ -11,6 +11,7 @@ import { ReservaService } from '../../services/reserva.service';
 export class ListarReservasComponent implements OnInit {
 
   listaReservas: ListarReservaModel[];
+  displayForm = false;
 
   constructor(
     private reservaService: ReservaService,
@@ -36,5 +37,14 @@ export class ListarReservasComponent implements OnInit {
   direcionarEditarReserva(id: number) {
     this.router.navigate([`../editar-reservas/${id}`])
   }
+
+  direcionarDeletarReserva(id: number) {
+    this.router.navigate([`../deletar-reservas/${id}`])
+  }
+
+  showForm() {
+    this.displayForm = true;
+  }
+
   
 }

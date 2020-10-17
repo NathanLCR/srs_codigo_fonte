@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { InfoReservaModel } from '../../models/info-reserva.model';
+import { InfoReservaModel } from 'src/app/models/info-reserva.model';
+
 import { ReservaService } from '../../services/reserva.service';
 
 @Component({
