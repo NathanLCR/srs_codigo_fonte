@@ -1,132 +1,129 @@
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
 
-<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+<div class="card">
+    <p-toolbar>
+        <div id="toolbar">
+            <p-button label="Novo" (click)="showForm()"></p-button>
 
-<p-toolbar>
-    <div id="toolbar">
-        <p-button label="Novo" (click)="showForm()"></p-button>
-
-        <div>
-            <i class="pi pi-search"></i>
-            <input
-                pInputText
-                type="text"
-                (input)="dt.filterGlobal($event.target.value, 'contains')"
-                placeholder="Procurar..."
-            />
-        </div>
-    </div>
-</p-toolbar>
-
-<p-dialog header="Cadastrar Sala" [(visible)]="displayForm">
-    <form
-        [formGroup]="salaForm"
-        (ngSubmit)="handleSubmit(salaForm.value)"
-    >
-        <div class="p-fluid">
-            <div class="p-field">
-                <label for="descricao">Descrição</label>
+            <div>
+                <i class="pi pi-search"></i>
                 <input
-                    type="text"
                     pInputText
-                    placeholder="Descrição"
-                    formControlName="descricao"
+                    type="text"
+                    (input)="dt.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Search..."
                 />
             </div>
-            <br>
-            <div class="p-field">
-                <label for="precoDiaria">Preço da Diária</label>
-                <p-inputNumber
-                    formControlName="precoDiaria"
-                    mode="currency"
-                    currency="BRL"
-                    [minFractionDigits]="2"
-                    [maxFractionDigits]="2"
-                >
-                </p-inputNumber>
-            </div>
-            <br>
-            <div class="p-field">
-                <label for="capacidade">Capacidade</label>
-                <p-inputNumber
-                    formControlName="capacidade"
-                >
-                </p-inputNumber>
-            </div>
-            <br>
-            <div class="p-field">
-                <label for="disponivel">Disponibilidade</label>
-                <p-inputNumber
-                    formControlName="disponivel"
-                >
-                </p-inputNumber>
-            </div>
-            <br>
-            <div class="p-field">
-                <label for="idTipoSala">Tipo da Sala</label>
-                <p-dropdown
-                    [options]="tiposDeSala"
-                    formControlName="idTipoSala"
-                ></p-dropdown>
-            </div>
-            <br>
-            
-            <div class="p-field">
-                <label for="equipamentos">Equipamentos</label>
-                
-                <p-multiSelect [options]="equipamentos" formControlName="equipamentos"></p-multiSelect>
-                
-            </div>
-            <br>
-            <div class="p-field">
-                <p-button
-                    label="Enviar"
-                    icon="pi pi-check"
-                    [disabled]="!salaForm.valid"
-                ></p-button>
-            </div>
         </div>
-    </form>
-</p-dialog>
+    </p-toolbar>
 
-<p-table #dt [value]="salas" [globalFilterFields]="['Descrição']">
-    <ng-template pTemplate="header">
-        <tr>
-            <th pSortableColumn="descricao">Descrição</th>
-            <th pSortableColumn="precoDiaria">Preço diária</th>
-            <th pSortableColumn="capacidade">Capacidade</th>
-            <th pSortableColumn="disponivel">Disponibilidade</th>
-            <th pSortableColumn="tipoSala">Tipo de Sala</th>
-            <th pSortableColumn="equipamentos">Equipamentos</th>
-            <th p>Ações</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-sala>
-        <tr>
-            <td>{{ sala.descricao }}</td>
-            <td>{{ sala.precoDiaria | currency: "BRL" }}</td>
-            <td>{{ sala.capacidade }}</td>
-            <td>{{ sala.disponivel === 1 ? "Sim" : "Não" }}</td>
-            <td>{{ sala.tipoSala }}</td>
-            <td>{{ sala.equipamentos }}</td>
-            <td>
-                <button
-                    pButton
-                    pRipple
-                    type="button"
-                    icon="pi pi-times"
-                    class="p-button-rounded p-button-danger"
-                    (click)="handleDelete(sala)"
-                ></button>
-                <button
-                    pButton
-                    pRipple
-                    type="button"
-                    icon="pi pi-cog"
-                    class="p-button-rounded p-button-danger"
-                    (click)="showForm()"
-                    (click)="handleEdit(sala)"
-                ></button>
-            </td>
-        </tr>
-    </ng-template>
-</p-table>
+    <p-dialog header="Cadastrar Sala" [(visible)]="displayForm">
+        <form [formGroup]="salaForm" (ngSubmit)="handleSubmit(salaForm.value)">
+            <div class="p-fluid">
+                <div class="p-field">
+                    <label for="descricao">Descrição</label>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Descrição"
+                        formControlName="descricao"
+                    />
+                </div>
+                <br />
+                <div class="p-field">
+                    <label for="precoDiaria">Preço da Diária</label>
+                    <p-inputNumber
+                        formControlName="precoDiaria"
+                        mode="currency"
+                        currency="BRL"
+                        [minFractionDigits]="2"
+                        [maxFractionDigits]="2"
+                    >
+                    </p-inputNumber>
+                </div>
+                <br />
+                <div class="p-field">
+                    <label for="capacidade">Capacidade</label>
+                    <p-inputNumber formControlName="capacidade">
+                    </p-inputNumber>
+                </div>
+                <br />
+                <div class="p-field">
+                    <label for="disponivel">Disponibilidade</label>
+                    <p-inputNumber formControlName="disponivel">
+                    </p-inputNumber>
+                </div>
+                <br />
+                <div class="p-field">
+                    <label for="idTipoSala">Tipo da Sala</label>
+                    <p-dropdown
+                        [options]="tiposDeSala"
+                        formControlName="idTipoSala"
+                        placeholder="Selecione"
+                    ></p-dropdown>
+                </div>
+                <br />
+
+                <div class="p-field">
+                    <label for="equipamentos">Equipamentos</label>
+
+                    <p-multiSelect
+                        [options]="equipamentos"
+                        formControlName="equipamentos"
+                    ></p-multiSelect>
+                </div>
+                <br />
+                <div class="p-field">
+                    <p-button
+                        label="Enviar"
+                        icon="pi pi-check"
+                        [disabled]="!salaForm.valid"
+                    ></p-button>
+                </div>
+            </div>
+        </form>
+    </p-dialog>
+
+    <p-table #dt [value]="salas" [globalFilterFields]="['Descrição']">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="descricao">Descrição</th>
+                <th pSortableColumn="precoDiaria">Preço diária</th>
+                <th pSortableColumn="capacidade">Capacidade</th>
+                <th pSortableColumn="disponivel">Disponibilidade</th>
+                <th pSortableColumn="tipoSala">Tipo de Sala</th>
+                <th pSortableColumn="equipamentos">Equipamentos</th>
+                <th p>Ações</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-sala>
+            <tr>
+                <td>{{ sala.descricao }}</td>
+                <td>{{ sala.precoDiaria | currency: "BRL" }}</td>
+                <td>{{ sala.capacidade }}</td>
+                <td>{{ sala.disponivel === 1 ? "Sim" : "Não" }}</td>
+                <td>{{ sala.tipoSala }}</td>
+                <td>{{ sala.equipamentos }}</td>
+                <td>
+                    <button
+                        pButton
+                        pRipple
+                        type="button"
+                        icon="pi pi-times"
+                        class="p-button-rounded p-button-danger"
+                        (click)="handleDelete(sala)"
+                    ></button>
+                    <button
+                        pButton
+                        pRipple
+                        type="button"
+                        icon="pi pi-cog"
+                        class="p-button-rounded p-button-danger"
+                        (click)="showForm()"
+                        (click)="handleEdit(sala)"
+                    ></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
