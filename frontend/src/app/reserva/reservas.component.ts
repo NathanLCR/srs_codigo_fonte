@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ListarReservaModel } from 'src/app/models/listar-reserva.model';
-import { ReservaService } from '../services/reserva.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InfoReservaModel } from 'src/app/models/info-reserva.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {MessageService} from 'primeng/api';
+import { ReservaService } from './reserva.service';
 
 @Component({
   selector: 'app-listar-reservas',
@@ -15,7 +15,7 @@ import {MessageService} from 'primeng/api';
 export class ReservasComponent implements OnInit {
 
   listaReservas: ListarReservaModel[];
-  displayForm = false;
+  displayForm = false; 
   formReserva: FormGroup; 
   reserva:InfoReservaModel;
   reservaForm;

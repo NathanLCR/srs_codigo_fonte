@@ -5,7 +5,7 @@ import { DiarioErrosComponent } from './components/diario-erros/diario-erros.com
 import { LoginSuccessComponent } from '@nuvem/angular-base';
 import {EquipamentoComponent} from './equipamento/equipamento.component';
 import { ClienteComponent } from './cliente/cliente.component';
-import { ReservasComponent } from './reserva/components/reservas.component';
+import { ReservasComponent } from './reserva/reservas.component';
 
 const routes: Routes = [
     { path: 'diario-erros', component: DiarioErrosComponent, data: { breadcrumb: 'Diário de Erros'} },
@@ -18,4 +18,4 @@ const routes: Routes = [
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {} 

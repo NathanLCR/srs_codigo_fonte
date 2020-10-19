@@ -17,7 +17,7 @@ import { PageNotificationModule, BreadcrumbModule, MenuModule, ErrorStackModule 
 import { SecurityModule, VersionTagModule } from '@nuvem/angular-base';
 import { DiarioErrosComponent } from './components/diario-erros/diario-erros.component';
 import { BlockUIModule } from 'ng-block-ui';
-import { ReservasComponent } from './reserva/components/reservas.component';
+import { ReservasComponent } from './reserva/reservas.component';
 import { ButtonModule } from 'primeng';
 
 
