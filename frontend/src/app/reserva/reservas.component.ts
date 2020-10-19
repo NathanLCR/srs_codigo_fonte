@@ -42,10 +42,10 @@ export class ReservasComponent implements OnInit {
 
   addSucess() {
     this.messageService.add({severity:'success', summary:'Sucesso!', detail:'Reserva Cadastrada'});
-}
+    }
   addError() {
-  this.messageService.add({severity:'info', summary:'Sucesso!', detail:'Reserva Cancelada'});
-}
+  this.messageService.add({severity:'warn', summary:'Sucesso!', detail:'Reserva Cancelada'});
+    }
 
   ngOnInit(): void {
     this.listarReservas();
@@ -111,6 +111,7 @@ export class ReservasComponent implements OnInit {
     this.reservaService.cadastrarReserva(value).subscribe(
       () => {
         console.log('Reserva Cadastrada');
+        this.listaReservas.push(value);
         this.router.navigate(['../reservas']);
       },
       () => {

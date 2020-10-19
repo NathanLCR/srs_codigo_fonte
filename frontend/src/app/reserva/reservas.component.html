@@ -1,7 +1,8 @@
+
 <p-toolbar class="toolbar">
     <p-button label="Nova Reserva" icon="pi pi-plus" (click)="direcionarSalvar(reserva)"></p-button>
     <i class="pi pi-search" ></i>
-    <input pInputText type="text" (input)="scr.filterGlobal($event.target.value, 'contains')" placeholder="Pesquisar..." />
+    <input pInputText type="text" (input)="scr.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
 </p-toolbar>
 
 
@@ -28,7 +29,7 @@
             <p-inputNumber  formControlName="total" mode="currency" currency="BRL" [minFractionDigits]="2" [maxFractionDigits]="2"> </p-inputNumber>   
         </div>
         <div class="p-field">
-            <p-button label="Salvar" icon="pi pi-check" iconPos="right" ></p-button>    
+            <p-button label="Enviar" icon="pi pi-check" iconPos="right" ></p-button>    
         </div>
     </div>   
     </form>    
@@ -53,9 +54,9 @@
             <td>{{reserva.idCliente}}</td>
             <td>{{reserva.idSala}}</td>
             <td>
-                <button  type = "button" pButton pRipple  icon="pi pi-bars" 
+                <button  type = "button" pButton pRipple  icon="pi pi-cog" style="background-color:rgb(63, 63, 179)" 
                 class="p-button-rounded p-button-danger" (click)="editarReserva(reserva)"></button>
-                <button type="button" pButton pRipple icon="pi pi-times" 
+                <button type="button" pButton pRipple icon="pi pi-trash"  style="background: rgb(155, 45, 45);"
                 class="p-button-rounded p-button-danger" (click)="direcionarDeletarReserva(reserva)"></button>
             </td>
         </tr>
@@ -63,4 +64,6 @@
 </p-table>
 
 <p-toast position="top-right"></p-toast>
+
+
 
