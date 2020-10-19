@@ -30,13 +30,7 @@ export class EquipamentoComponent implements OnInit {
         },
     ];
 
-    equipamentoForm = new FormGroup({
-        id: new FormControl(""),
-        nome: new FormControl("", [Validators.required]),
-        idTipoEquipamento: new FormControl("", Validators.required),
-        precoDiaria: new FormControl("", Validators.required),
-        obrigatorio: new FormControl(false),
-    });
+    equipamentoForm;
 
     constructor(
         private equipamentoService: EquipamentoService,
@@ -44,23 +38,33 @@ export class EquipamentoComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this.equipamentoForm = new FormGroup({
+            id: new FormControl(null),
+            nome: new FormControl(null, [Validators.required]),
+            idTipoEquipamento: new FormControl(1, Validators.required),
+            precoDiaria: new FormControl(null, [
+                Validators.required,
+                Validators.min(0),
+            ]),
+            obrigatorio: new FormControl(false),
+        });
         this.equipamentoService.getEquipamentos().subscribe((resultado) => {
             this.equipamentos = resultado;
             this.equipamentos.forEach((e) => this.getTipoEquipamento(e));
         });
     }
 
-    ngOnChanges(): void {}
-
     getTipoEquipamento(equipamento) {
         const { label } = this.tiposDeEquipamento.find(
             (t) => t.value === equipamento.idTipoEquipamento
         );
-
-        console.log(label);
-
         equipamento.tipoEquipamento = label;
+
         return equipamento;
+    }
+
+    get equipamentoFormControl() {
+        return this.equipamentoForm.controls;
     }
 
     handleDelete(equipamento) {

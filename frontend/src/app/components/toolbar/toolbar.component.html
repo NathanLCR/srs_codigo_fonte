@@ -1,0 +1,15 @@
+<p-toolbar>
+    <div id="toolbar">
+        <p-button label="Novo" (click)="showForm()"></p-button>
+
+        <div>
+            <i class="pi pi-search"></i>
+            <input
+                pInputText
+                type="text"
+                (input)="dt.filterGlobal($event.target.value, 'contains')"
+                placeholder="Search..."
+            />
+        </div>
+    </div>
+</p-toolbar>
