@@ -1,5 +1,5 @@
 
-<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>  
 
 <p-toolbar>
     <div id="toolbar">
@@ -73,7 +73,43 @@
             <div class="p-field">
                 <label for="equipamentos">Equipamentos</label>
                 
-                <p-multiSelect [options]="equipamentos" formControlName="equipamentos"></p-multiSelect>
+                <p-button  label="Adicionar Equipamento" (click)="showFormEquipamentos()"></p-button>
+                <p-dialog header="Adicionar Equipamento" [(visible)]="displayEquipamentoForm">
+                    <form
+                [formGroup]="salaEquipamentoForm"
+                (ngSubmit)="handleEquipamentoSubmit(salaEquipamentoForm.value)"
+                >
+                    <div>
+                        <label for="idEquipamento">Equipamento</label>
+
+                        <!-- trocar o multiselect por dropdown, pois tem que realizar um cadastro por vez para cada equipamento
+                        e o resultado desse cadastro (ao clicar em Enviar) será um objeto do tipo SalaEquipamento, que será adicionado 
+                        à lista -->
+                        <p-dropdown
+                            [options]="equipamentos" 
+                            formControlName="idEquipamento"
+                        >
+                        </p-dropdown>
+                        <!-- <p-multiSelect [options]="equipamentos" formControlName="idEquipamento"></p-multiSelect> -->
+                    </div>
+                    <br>
+                    <div>
+                        <label for="quantidade">Quantidade</label>
+                        <p-inputNumber
+                        formControlName="quantidade"
+                        >
+                        </p-inputNumber>
+                    </div>
+                    <br>
+                    <div class="p-field">
+                        <p-button
+                            label="Enviar"
+                            icon="pi pi-check"
+                            [disabled]="!salaEquipamentoForm.valid"
+                        ></p-button>
+                    </div>
+                </form>
+                </p-dialog>
                 
             </div>
             <br>
