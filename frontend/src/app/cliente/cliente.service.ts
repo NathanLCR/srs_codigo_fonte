@@ -19,7 +19,6 @@ export class ClienteService {
     getClienteById(id){
         return this.http.get<Cliente>(this.PATH + '/{id}')
     }
-    
     postCliente(cliente: Cliente){
         return this.http.post(this.PATH,cliente);
     }
@@ -31,5 +30,4 @@ export class ClienteService {
         return this.http.delete(this.PATH + id);
     }
 
-    
 }

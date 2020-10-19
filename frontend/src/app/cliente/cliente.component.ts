@@ -7,9 +7,6 @@ import { FormGroup, Validators, FormControl } from "@angular/forms";
 
 
 
-
-
-
 @Component({
   selector: 'app-cliente',
   templateUrl: './cliente.component.html',
@@ -18,6 +15,8 @@ import { FormGroup, Validators, FormControl } from "@angular/forms";
 })
 export class ClienteComponent implements OnInit {
 
+
+  clienteDialog: boolean;
 
   clientes: Cliente[];
 

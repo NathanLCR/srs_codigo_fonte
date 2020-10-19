@@ -31,6 +31,7 @@ import { ToolbarComponent } from "./components/toolbar/toolbar.component";
         AppTopbarComponent,
         AppFooterComponent,
         DiarioErrosComponent,
+        ClienteComponent,
         EquipamentoComponent,
         ClienteComponent,
         SalaComponent,

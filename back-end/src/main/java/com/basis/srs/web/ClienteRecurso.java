@@ -39,7 +39,11 @@ public class ClienteRecurso {
     }
 
     @PostMapping
+<<<<<<< HEAD
+    public ResponseEntity<ClienteDTO> cadastrarCliente(@Valid @RequestBody  ClienteDTO clienteDto) throws URISyntaxException {
+=======
     public ResponseEntity<ClienteDTO> cadastrarCliente(@Valid @RequestBody ClienteDTO clienteDto) throws URISyntaxException {
+>>>>>>> fe8655038ed0757a48b2a5cecc43e6a54668beb1
         ClienteDTO clienteSalvo = clienteServico.salvar(clienteDto);
         return ResponseEntity.created(new URI("/api/clientes/")).body(clienteSalvo);
     }
