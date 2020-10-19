@@ -1,15 +1,10 @@
-import { NgModule } from '@angular/core';
-import { PRIMENG_IMPORTS } from './primeng-imports';
-import { ReservaFormComponent } from './reserva/reserva-form/reserva-form.component';
+import { NgModule } from "@angular/core";
+import { PRIMENG_IMPORTS } from "./primeng-imports";
 
 @NgModule({
-    imports: [
-        PRIMENG_IMPORTS,
-    ],
+    imports: [PRIMENG_IMPORTS],
     providers: [],
-    exports: [
-        PRIMENG_IMPORTS,
-    ],
-    declarations: [ReservaFormComponent]
+    exports: [PRIMENG_IMPORTS],
+    declarations: [],
 })
-export class SharedModule { }
+export class SharedModule {}
