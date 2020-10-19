@@ -4,11 +4,13 @@ import { ReservaService } from '../services/reserva.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InfoReservaModel } from 'src/app/models/info-reserva.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-listar-reservas',
   templateUrl: './reservas.component.html',
   styleUrls: ['./reservas.component.css']
+  
 })
 export class ReservasComponent implements OnInit {
 
@@ -22,7 +24,8 @@ export class ReservasComponent implements OnInit {
     private reservaService: ReservaService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private actRouter: ActivatedRoute
+    private actRouter: ActivatedRoute,
+    private messageService: MessageService
 
   ) { 
     this.reservaForm = this.formBuilder.group(
@@ -36,6 +39,10 @@ export class ReservasComponent implements OnInit {
       }
   )
   }
+
+  addSingle() {
+    this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
+}
 
   ngOnInit(): void {
     this.listarReservas();
@@ -84,14 +91,15 @@ export class ReservasComponent implements OnInit {
     this.displayForm = true;
     this.reservaForm.setValue(
     {
-      id: this.reserva.id,
-      idCliente:this.reserva.idCliente,
-      idSala:this.reserva.idSala,
-      dataInicio: this.reserva.dataInicio,
-      dataFim: this.reserva.dataFim,
-      total: this.reserva.total
-    }
-    )}
+      id: reserva.id,
+      idCliente:reserva.idCliente,
+      idSala:reserva.idSala,
+      dataInicio: reserva.dataInicio,
+      dataFim: reserva.dataFim,
+      total: reserva.total
+    })
+    
+  }
 
   cadastrarReserva(value) {
     this.reservaService.cadastrarReserva(value).subscribe(
@@ -102,6 +110,7 @@ export class ReservasComponent implements OnInit {
       () => {
         console.log('Erro ao chamar serviço');
       });
+      
       
   
 }
