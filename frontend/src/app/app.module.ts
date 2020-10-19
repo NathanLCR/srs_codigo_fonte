@@ -10,14 +10,15 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { AppTopbarComponent } from './components/topbar/app.topbar.component';
 import { AppFooterComponent } from './components/footer/app.footer.component';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { LocationStrategy, HashLocationStrategy, CommonModule } from '@angular/common';
 import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { PageNotificationModule, BreadcrumbModule, MenuModule, ErrorStackModule } from '@nuvem/primeng-components';
 import { SecurityModule, VersionTagModule } from '@nuvem/angular-base';
 import { DiarioErrosComponent } from './components/diario-erros/diario-erros.component';
 import { BlockUIModule } from 'ng-block-ui';
-import { ReservaModule } from './reserva/reserva.module';
+import { ReservasComponent } from './reserva/components/reservas.component';
+import { ButtonModule } from 'primeng';
 
 
 
@@ -29,7 +30,8 @@ import { ReservaModule } from './reserva/reserva.module';
         DiarioErrosComponent,
         EquipamentoComponent,
         ClienteComponent,
-        SalaComponent
+        SalaComponent,
+        ReservasComponent
     ],
     imports: [
         BlockUIModule.forRoot({
@@ -48,7 +50,8 @@ import { ReservaModule } from './reserva/reserva.module';
         MenuModule,
         FormsModule,
         ReactiveFormsModule,
-        ReservaModule
+        ButtonModule,
+        CommonModule
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy }
