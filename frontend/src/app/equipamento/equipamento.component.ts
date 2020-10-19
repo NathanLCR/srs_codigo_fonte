@@ -3,7 +3,6 @@ import Equipamento from "../models/Equipamento";
 import { EquipamentoService } from "./equipamento.service";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ConfirmationService } from "primeng/api";
-import { CaptchaModule } from "primeng";
 
 @Component({
     selector: "app-equipamento",
