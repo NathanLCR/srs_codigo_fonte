@@ -10,6 +10,7 @@ import {environment} from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
+  
 })
 export class ReservaService {
 
@@ -28,14 +29,6 @@ export class ReservaService {
   }
 
   recuperarReserva(id: number): Observable<InfoReservaModel> {
-    return of<InfoReservaModel>({
-      id,
-      idCliente: 5,
-      idSala: 3,
-      dataInicio: 23,
-      dataFim: 22,
-      total: 90.0
-    })
     return this.http.get<InfoReservaModel>(`${environment.apiUrl}/reservas/${id}`);
   }
 
@@ -44,7 +37,7 @@ export class ReservaService {
   }
 
   deletarReserva(id:number){
-    return this.http.delete(`${environment.apiUrl}/reservas` + id);
+    return this.http.delete(`${environment.apiUrl}/reservas/${id}`);
   }
 
 }
