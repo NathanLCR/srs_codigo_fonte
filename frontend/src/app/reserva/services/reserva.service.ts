@@ -37,7 +37,7 @@ export class ReservaService {
   }
 
   deletarReserva(id:number){
-    return this.http.delete(`${environment.apiUrl}/reservas/${id}`);
+    return this.http.delete(`${environment.apiUrl}/reservas/${id}`);  
   }
 
 }
