@@ -2,11 +2,21 @@ package com.basis.srs.servico;
 
 import com.basis.srs.dominio.Equipamento;
 import com.basis.srs.dominio.Sala;
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+=======
+import com.basis.srs.dominio.SalaEquipamento;
+import com.basis.srs.repositorio.EquipamentoRepositorio;
+import com.basis.srs.repositorio.ReservaRepositorio;
+import com.basis.srs.repositorio.SalaEquipamentoRepositorio;
+>>>>>>> Stashed changes
+=======
 import com.basis.srs.dominio.SalaEquipamento;
 import com.basis.srs.repositorio.EquipamentoRepositorio;
 import com.basis.srs.dominio.SalaEquipamentoKey;
 import com.basis.srs.repositorio.ReservaRepositorio;
 import com.basis.srs.repositorio.SalaEquipamentoRepositorio;
+>>>>>>> fe8655038ed0757a48b2a5cecc43e6a54668beb1
 import com.basis.srs.repositorio.SalaRepositorio;
 import com.basis.srs.servico.dto.SalaDTO;
 import com.basis.srs.servico.dto.SalaEquipamentoDTO;
@@ -20,8 +30,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+
+=======
+import java.util.ArrayList;
+>>>>>>> Stashed changes
+=======
 import java.time.LocalDate;
 import java.util.ArrayList;
+>>>>>>> fe8655038ed0757a48b2a5cecc43e6a54668beb1
 import java.util.List;
 
 @Service
@@ -31,11 +49,21 @@ public class SalaServico {
 
     private final SalaMapper salaMapper;
     private final SalaRepositorio salaRepositorio;
+<<<<<<< HEAD
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> fe8655038ed0757a48b2a5cecc43e6a54668beb1
     private final SalaEquipamentoRepositorio salaEquipamentoRepositorio;
     private final EquipamentoRepositorio equipamentoRepositorio;
     private final SalaEquipamentoMapper salaEquipamentoMapper;
     private final EquipamentoMapper equipamentoMapper;
     private final ReservaRepositorio reservaRepositorio;
+<<<<<<< HEAD
+    //private final SalaEquipamentoMapper salaEquipamentoMapper;
+>>>>>>> Stashed changes
+=======
+>>>>>>> fe8655038ed0757a48b2a5cecc43e6a54668beb1
 
     //GET
     public List<SalaDTO> listarTodas() {
@@ -52,6 +80,14 @@ public class SalaServico {
         return salaDto;
     }
 
+<<<<<<< HEAD
+    //POST
+    public void cadastrarSala(SalaDto salaDto) {
+        Sala sala = salaMapper.toEntity(salaDto);
+        salaRepositorio.save(sala);
+
+<<<<<<< Updated upstream
+=======
     //POST e put
     public SalaDTO salvar(SalaDTO salaDto) {
         // CHECAR SE É UMA ATUALIZAÇÃO
@@ -62,13 +98,17 @@ public class SalaServico {
         List<SalaEquipamento> novosEquipamentos = sala2.getEquipamentos();
         sala2.setEquipamentos(new ArrayList<>());
         salaRepositorio.save(sala2);
-        novosEquipamentos.forEach(equipamento -> {
-            equipamento.setSala(sala2);
-            equipamento.getId().setIdSala(sala2.getId());
-        });
-        salaEquipamentoRepositorio.saveAll(novosEquipamentos);
+        if (novosEquipamentos != null) {
+            novosEquipamentos.forEach(equipamento -> {
+                equipamento.setSala(sala2);
+                equipamento.getId().setIdSala(sala2.getId());
+            });
+            salaEquipamentoRepositorio.saveAll(novosEquipamentos);
+        }
+
         sala2.setEquipamentos(novosEquipamentos);
         return salaMapper.toDto(sala2);
+>>>>>>> fe8655038ed0757a48b2a5cecc43e6a54668beb1
     }
 
     private void validaAtualizacao(SalaDTO salaDto) {
@@ -95,6 +135,12 @@ public class SalaServico {
         }
     }
 
+=======
+        salaEquipamentoRepositorio.saveAll(equipamentos);
+        sala.setEquipamentos(equipamentos);
+        return salaMapper.toDto(sala);
+    }
+>>>>>>> Stashed changes
     //DELETE POR ID
     public void deletarSala (Integer id) {
 

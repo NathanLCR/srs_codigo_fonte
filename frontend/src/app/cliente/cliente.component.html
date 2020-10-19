@@ -1,31 +1,23 @@
-
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
 
 <div class="card">
-   
-    <p-toolbar class="toolbar">
-        <button
-            pButton
-            pRipple
-            icon="pi pi-times"
-            class="p-button-rounded p-button-success"
-            (click)="showForm()"
-            (click)="addCliente(cliente)"
-            label="Novo">
-        </button>
-        <div>
-            <i class="pi pi-search"></i>
-            <input
-                pInputText
-                type="text"
-                placeholder="Search..."
-                (input)="dt.filterGlobal($event.target.value, 'contains')"
-            />
+    <p-toolbar>
+        <div id="toolbar">
+            <p-button label="Novo" (click)="showForm()"></p-button>
+
+            <div>
+                <i class="pi pi-search"></i>
+                <input
+                    pInputText
+                    type="text"
+                    (input)="dt.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Search..."
+                />
+            </div>
         </div>
     </p-toolbar>
-    
 
-   <p-dialog header="Cadastrar Cliente" [(visible)]="displayForm">
+    <p-dialog header="Cadastrar Cliente" [(visible)]="displayForm">
         <form
             [formGroup]="clienteForm"
             (ngSubmit)="handleSubmit(clienteForm.value)"
@@ -42,15 +34,14 @@
                 </div>
 
                 <div class="p-field">
-                        <label for="dataNascimento">Data de Nascimento</label>
-                        <input
-                            type="date"
-                            pInputText
-                            placeholder="dataNascimento"
-                            formControlName="dataNascimento"
-                        />
-                    </div>
-
+                    <label for="dataNascimento">Data de Nascimento</label>
+                    <input
+                        type="date"
+                        pInputText
+                        placeholder="dataNascimento"
+                        formControlName="dataNascimento"
+                    />
+                </div>
                 <div class="p-field">
                     <label for="cpf">CPF</label>
                     <input
@@ -82,14 +73,14 @@
                 </div>
 
                 <div class="p-field">
-                        <label for="telefone">Telefone</label>
-                        <input
-                            type="tel"
-                            pInputText
-                            placeholder="Telefone"
-                            formControlName="telefone"
-                        />
-                    </div>
+                    <label for="telefone">Telefone</label>
+                    <input
+                        type="tel"
+                        pInputText
+                        placeholder="Telefone"
+                        formControlName="telefone"
+                    />
+                </div>
 
                 <div class="p-field">
                     <label for="email">Email</label>
@@ -110,8 +101,7 @@
                 </div>
             </div>
         </form>
-   </p-dialog>
-
+    </p-dialog>
     <p-table #dt [value]="clientes" [globalFilterFields]="['nome']">
         <ng-template pTemplate="header">
             <tr>
@@ -127,34 +117,32 @@
         </ng-template>
         <ng-template pTemplate="body" let-cliente>
             <tr>
-                <td>{{cliente.nome}}</td>
-                <td>{{cliente.cpf}}</td>
-                <td>{{cliente.rg}}</td>
-                <td>{{cliente.dataNascimento}}</td>
-                <td>{{cliente.endereco}}</td>
-                <td>{{cliente.email}}</td>
-                <td>{{cliente.telefone}}</td>
+                <td>{{ cliente.nome }}</td>
+                <td>{{ cliente.cpf }}</td>
+                <td>{{ cliente.rg }}</td>
+                <td>{{ cliente.dataNascimento }}</td>
+                <td>{{ cliente.endereco }}</td>
+                <td>{{ cliente.email }}</td>
+                <td>{{ cliente.telefone }}</td>
                 <td>
-                    <button 
+                    <button
                         pButton
                         pRipple
                         icon="pi pi-times"
                         class="p-button-rounded p-button-success"
                         (click)="showForm()"
-                        (click)="editCliente(cliente)">
-                    </button>
+                        (click)="editCliente(cliente)"
+                    ></button>
 
                     <button
-                        pButton 
+                        pButton
                         pRipple
                         icon="pi pi-cog"
                         class="p-button-rounded p-button-success"
-                        (click)="deleteCliente(cliente)">
-                    </button>
-                    
+                        (click)="deleteCliente(cliente)"
+                    ></button>
                 </td>
             </tr>
         </ng-template>
     </p-table>
 </div>
-

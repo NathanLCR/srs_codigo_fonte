@@ -1,55 +1,40 @@
-.p-toolbar{
+#toolbar {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    margin-bottom: 12px;
     flex: 1;
     justify-content: space-between;
+    align-items: center;
 }
 
-.p-toolbar input {
-    color: black;
+#toolbar input {
+    color: white;
     margin-left: 2px;
 }
-.p-toolbar div {
+#toolbar div {
     display: flex;
-    justify-content: right;
-    align-items: right;
+    justify-content: center;
+    align-items: center;
 }
-
-p-toolbar p-button{
+p-toolbar p-button {
     margin-right: 12px;
 }
 
-input{
+input {
     flex: 1;
 }
 
-td{
+td {
     text-align: center;
 }
 
 td button + button {
     margin-left: 8px;
 }
- p-confirmDialog{
-     background-color: white;
- }
-
-input {
-    margin-bottom: 8px;
-    padding: 5px;
-    font-size: 18px;
-    border-width: 0px;
-    border-color: #CCCCCC;
-    background-color: #FFFFFF;
-    color: #000000;
-    border-style: solid;
-    border-radius: 7px;
-    box-shadow: 0px 0px 2px rgba(66,66,66,.75);
+p-confirmDialog {
+    background-color: white;
 }
 
-form{
+form {
     display: flex;
     align-items: center;
     justify-content: center;
