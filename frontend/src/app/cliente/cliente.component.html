@@ -1,37 +1,150 @@
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
 
 <div class="card">
-    <p-toolbar class="toolbar">
-        <p-button label="Novo" (click)="showForm()"></p-button>
-        <i class="pi pi-search"></i>
-        <input pInputText type="text" placeholder="Search..." style="color: black;"/>
-        
+    <p-toolbar>
+        <div id="toolbar">
+            <p-button label="Novo" (click)="showForm()"></p-button>
+
+            <div>
+                <i class="pi pi-search"></i>
+                <input
+                    pInputText
+                    type="text"
+                    (input)="dt.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Search..."
+                />
+            </div>
+        </div>
     </p-toolbar>
 
-    <p-table [value]="clientes">
+    <p-dialog header="Cadastrar Cliente" [(visible)]="displayForm">
+        <form
+            [formGroup]="clienteForm"
+            (ngSubmit)="handleSubmit(clienteForm.value)"
+        >
+            <div class="p-fluid">
+                <div class="p-field">
+                    <label for="nome">Nome</label>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Nome"
+                        formControlName="nome"
+                    />
+                </div>
+
+                <div class="p-field">
+                    <label for="dataNascimento">Data de Nascimento</label>
+                    <input
+                        type="date"
+                        pInputText
+                        placeholder="dataNascimento"
+                        formControlName="dataNascimento"
+                    />
+                </div>
+
+                <div class="p-field">
+                    <label for="cpf">CPF</label>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="CPF"
+                        formControlName="cpf"
+                    />
+                </div>
+
+                <div class="p-field">
+                    <label for="rg">RG</label>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="RG"
+                        formControlName="rg"
+                    />
+                </div>
+
+                <div class="p-field">
+                    <label for="endereco">Endereço</label>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="endereco"
+                        formControlName="endereco"
+                    />
+                </div>
+
+                <div class="p-field">
+                    <label for="telefone">Telefone</label>
+                    <input
+                        type="tel"
+                        pInputText
+                        placeholder="Telefone"
+                        formControlName="telefone"
+                    />
+                </div>
+
+                <div class="p-field">
+                    <label for="email">Email</label>
+                    <input
+                        type="email"
+                        pInputText
+                        placeholder="Email"
+                        formControlName="email"
+                    />
+                </div>
+
+                <div class="p-field">
+                    <p-button
+                        label="Enviar"
+                        icon="pi pi-check"
+                        [disabled]="!clienteForm.valid"
+                    ></p-button>
+                </div>
+            </div>
+        </form>
+    </p-dialog>
+
+    <p-table #dt [value]="clientes" [globalFilterFields]="['nome']">
         <ng-template pTemplate="header">
             <tr>
-                <th>Nome</th>
-                <th>CPF</th>
-                <th>RG</th>
-                <th>Data de Nascimento</th>
-                <th>Endereço</th>
-                <th>Email</th>
+                <th pSortableColum="nome">Nome</th>
+                <th pSortableColum="cpf">CPF</th>
+                <th pSortableColum="rg">RG</th>
+                <th pSortableColum="dataNascimento">Data de Nascimento</th>
+                <th pSortableColum="endereco">Endereço</th>
+                <th pSortableColum="email">Email</th>
+                <th pSortableColum="telefone">Telefone</th>
+                <th>Ações</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-cliente>
             <tr>
-                <td>{{cliente.nome}}</td>
-                <td>{{cliente.CPF}}</td>
-                <td>{{cliente.RG}}</td>
-                <td>{{cliente.dataNascimento}}</td>
-                <td>{{cliente.endereco}}</td>
-                <td>{{cliente.email}}</td>
+                <td>{{ cliente.nome }}</td>
+                <td>{{ cliente.cpf }}</td>
+                <td>{{ cliente.rg }}</td>
+                <td>{{ cliente.dataNascimento }}</td>
+                <td>{{ cliente.endereco }}</td>
+                <td>{{ cliente.email }}</td>
+                <td>{{ cliente.telefone }}</td>
                 <td>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editProduct(product)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(product)"></button>
+                    <button
+                        pButton
+                        pRipple
+                        icon="pi pi-times"
+                        class="p-button-rounded p-button-success"
+                        (click)="showForm()"
+                        (click)="editCliente(cliente)"
+                    ></button>
+
+                    <button
+                        pButton
+                        pRipple
+                        icon="pi pi-cog"
+                        class="p-button-rounded p-button-success"
+                        (click)="deleteCliente(cliente)"
+                    ></button>
                 </td>
             </tr>
         </ng-template>
     </p-table>
 </div>
-

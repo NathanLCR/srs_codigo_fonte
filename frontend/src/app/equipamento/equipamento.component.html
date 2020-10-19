@@ -1,56 +1,133 @@
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
 
-<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+<div class="card">
+    <p-toolbar>
+        <div id="toolbar">
+            <p-button label="Novo" (click)="showForm()"></p-button>
 
-<p-toolbar class="toolbar">
-    <p-button label="Novo" (click)="showForm()"></p-button>
-    <i class="pi pi-search"></i>
-    <input pInputText type="text" 
-    (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." style="color: white;"/>
-</p-toolbar>
+            <div>
+                <i class="pi pi-search"></i>
+                <input
+                    pInputText
+                    type="text"
+                    (input)="dt.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Search..."
+                />
+            </div>
+        </div>
+    </p-toolbar>
 
-<p-dialog header="Cadastrar Equipamento" [(visible)]="displayForm">
-    <form [formGroup]="equipamentoForm" (ngSubmit)="handleSubmit(equipamentoForm.value)">    
-    <div class="p-fluid">
-        <div class="p-field">
-            <input type="text" pInputText placeholder="Nome" formControlName="nome">
-        </div>
-        <div class="p-field">
-            <input type="number" pInputText placeholder="Preco Diaria" formControlName="precoDiaria">  
-        </div>
-        <div class="p-field">            
-            <input type="number" pInputText placeholder="Tipo Equipamento" formControlName="idTipoEquipamento">     
-        </div>
-        <div class="p-field">
-            <h4>Obrigatorio: </h4>
-            <p-toggleButton formControlName="obrigatorio" onLabel="Sim" offLabel="Não" ></p-toggleButton>
-        </div>
-        <div class="p-field">            
-            <p-button label="Submit" icon="pi pi-check"></p-button>    
-        </div>
-    </div>       
-</form>
-</p-dialog>
+    <p-dialog header="Cadastrar Equipamento" [(visible)]="displayForm">
+        <form
+            [formGroup]="equipamentoForm"
+            (ngSubmit)="handleSubmit(equipamentoForm.value)"
+        >
+            <div class="p-fluid">
+                <div class="p-field">
+                    <label for="nome">Nome</label>
+                    <input
+                        id="nome"
+                        class="formInput"
+                        type="text"
+                        pInputText
+                        placeholder="Nome"
+                        formControlName="nome"
+                        class="p-invalid"
+                    />
+                    <p-message
+                        severity="error"
+                        text="Nome requerido"
+                        *ngIf="
+                            equipamentoFormControl.nome.errors?.required &&
+                            equipamentoFormControl.nome.touched
+                        "
+                    ></p-message>
+                </div>
+                <div class="p-field">
+                    <label for="precoDiaria">Preço da Diaria</label>
+                    <p-inputNumber
+                        id="precoDiaria"
+                        class="formInput"
+                        formControlName="precoDiaria"
+                        mode="currency"
+                        currency="BRL"
+                        [minFractionDigits]="2"
+                        [maxFractionDigits]="2"
+                    >
+                    </p-inputNumber>
+                    <p-message
+                        severity="error"
+                        text="Preço requerido"
+                        *ngIf="
+                            equipamentoFormControl.precoDiaria.errors &&
+                            equipamentoFormControl.precoDiaria.touched
+                        "
+                    ></p-message>
+                </div>
+                <div class="p-field">
+                    <label>Tipo de Equipamento</label>
+                    <p-dropdown
+                        [options]="tiposDeEquipamento"
+                        formControlName="idTipoEquipamento"
+                        class="formInput"
+                        placeholder="Selecione ..."
+                    ></p-dropdown>
+                </div>
+                <div class="p-field" id="input-obrigatorio">
+                    <h4>Obrigatorio:</h4>
+                    <p-toggleButton
+                        formControlName="obrigatorio"
+                        onLabel="Sim"
+                        offLabel="Não"
+                    ></p-toggleButton>
+                </div>
+                <div class="p-field">
+                    <p-button
+                        label="Enviar"
+                        icon="pi pi-check"
+                        [disabled]="!equipamentoForm.valid"
+                    ></p-button>
+                </div>
+            </div>
+        </form>
+    </p-dialog>
 
-<p-table #dt [value]="equipamentos" [globalFilterFields]="['nome']">
-    <ng-template pTemplate="header">
-        <tr>
-            <th pSortableColumn="nome">Nome</th>
-            <th pSortableColumn="precoDiaria">Preço diária</th>
-            <th pSortableColumn="obrigatorio">Obrigatório</th>
-            <th pSortableColumn="idTipoEquipamento">Tipo do equipamento</th>
-            <th p>Ações</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-equipamento>
-        <tr>
-            <td>{{equipamento.nome}}</td>
-            <td>{{equipamento.precoDiaria | currency:'BRL'}}</td>
-            <td>{{equipamento.obrigatorio  === 1 ? 'Sim' : 'Não'}}</td>
-            <td>{{equipamento.tipoEquipamento}}</td>
-            <td>
-                <button pButton pRipple type="button" icon="pi pi-times" class="p-button-rounded p-button-danger" (click)="handleDelete(equipamento)" ></button>
-                <button pButton pRipple type="button" icon="pi-info" class="p-button-rounded p-button-danger" (click)="handleEdit(equipamento)" (click)="showForm()"></button>
-            </td>
-        </tr>
-    </ng-template>
-</p-table>
+    <p-table #dt [value]="equipamentos" [globalFilterFields]="['nome']">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="nome">Nome</th>
+                <th pSortableColumn="precoDiaria">Preço diária</th>
+                <th pSortableColumn="obrigatorio">Obrigatório</th>
+                <th pSortableColumn="idTipoEquipamento">Tipo do equipamento</th>
+                <th p>Ações</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-equipamento>
+            <tr>
+                <td>{{ equipamento.nome }}</td>
+                <td>{{ equipamento.precoDiaria | currency: "BRL" }}</td>
+                <td>{{ equipamento.obrigatorio === 1 ? "Sim" : "Não" }}</td>
+                <td>{{ equipamento.tipoEquipamento }}</td>
+                <td>
+                    <button
+                        pButton
+                        pRipple
+                        type="button"
+                        icon="pi pi-times"
+                        class="p-button-rounded p-button-danger"
+                        (click)="handleDelete(equipamento)"
+                    ></button>
+                    <button
+                        pButton
+                        pRipple
+                        type="button"
+                        icon="pen"
+                        class="p-button-rounded p-button-danger"
+                        (click)="showForm()"
+                        (click)="handleEdit(equipamento)"
+                    ></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

@@ -15,27 +15,3 @@
     justify-content: center;
     align-items: center;
 }
-p-toolbar p-button {
-    margin-right: 12px;
-}
-
-input {
-    flex: 1;
-}
-
-td {
-    text-align: center;
-}
-
-td button + button {
-    margin-left: 8px;
-}
-p-confirmDialog {
-    background-color: white;
-}
-
-form {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}

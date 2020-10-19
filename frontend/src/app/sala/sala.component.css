@@ -15,6 +15,9 @@
     justify-content: center;
     align-items: center;
 }
+input {
+    flex: 1;
+}
 
 td {
     text-align: center;
@@ -27,23 +30,8 @@ p-confirmDialog {
     background-color: white;
 }
 
-.p-field {
+form {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    margin-bottom: 2px;
-}
-
-.p-field button {
-    width: 100%;
-    margin-top: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#input-obrigatorio {
-    justify-content: space-between;
-    flex-direction: row;
 }
