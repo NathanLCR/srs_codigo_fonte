@@ -19,9 +19,10 @@
 td {
     text-align: center;
 }
-
-td button + button {
-    margin-left: 8px;
+#toolbar div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 p-confirmDialog {
     background-color: white;

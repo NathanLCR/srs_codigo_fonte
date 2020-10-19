@@ -55,6 +55,8 @@ import { ToolbarComponent } from "./components/toolbar/toolbar.component";
         MenuModule,
         FormsModule,
         ReactiveFormsModule,
+        ButtonModule,
+        CommonModule
     ],
     providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
     bootstrap: [AppComponent],
