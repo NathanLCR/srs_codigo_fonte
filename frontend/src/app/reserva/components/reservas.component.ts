@@ -40,8 +40,11 @@ export class ReservasComponent implements OnInit {
   )
   }
 
-  addSingle() {
-    this.messageService.add({severity:'success', summary:'Service Message', detail:'Via MessageService'});
+  addSucess() {
+    this.messageService.add({severity:'success', summary:'Sucesso!', detail:'Reserva Cadastrada'});
+}
+  addError() {
+  this.messageService.add({severity:'info', summary:'Sucesso!', detail:'Reserva Cancelada'});
 }
 
   ngOnInit(): void {
@@ -64,6 +67,7 @@ export class ReservasComponent implements OnInit {
 
 
   direcionarDeletarReserva(reserva) {
+    this.addError();
     this.reservaService.deletarReserva(reserva.id)
     .subscribe();   
     this.listaReservas = this.listaReservas.filter(val => val.id !== reserva.id);
@@ -102,6 +106,8 @@ export class ReservasComponent implements OnInit {
   }
 
   cadastrarReserva(value) {
+    this.displayForm = false;
+    this.addSucess();
     this.reservaService.cadastrarReserva(value).subscribe(
       () => {
         console.log('Reserva Cadastrada');
