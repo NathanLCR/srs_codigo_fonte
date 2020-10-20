@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import Equipamento from "../models/Equipamento";
 import { EquipamentoService } from "./equipamento.service";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ConfirmationService } from "primeng/api";
+import { ConfirmationService, MessageService } from "primeng/api";
 
 @Component({
     selector: "app-equipamento",
@@ -34,27 +34,30 @@ export class EquipamentoComponent implements OnInit {
 
     constructor(
         private equipamentoService: EquipamentoService,
-        private confirmationService: ConfirmationService
+        private confirmationService: ConfirmationService,
+        private messageService: MessageService
     ) {}
 
     ngOnInit(): void {
         this.equipamentoForm = new FormGroup({
             id: new FormControl(null),
             nome: new FormControl(null, [Validators.required]),
-            idTipoEquipamento: new FormControl(1, Validators.required),
+            idTipoEquipamento: new FormControl(null, Validators.required),
             precoDiaria: new FormControl(null, [
                 Validators.required,
                 Validators.min(0),
             ]),
             obrigatorio: new FormControl(false),
         });
-        this.equipamentoService.getEquipamentos().subscribe((resultado) => {
-            this.equipamentos = resultado;
-            this.equipamentos.forEach((e) => this.getTipoEquipamento(e));
-        });
+        this.equipamentoService
+            .getEquipamentos()
+            .subscribe((resultado: Equipamento[]) => {
+                this.equipamentos = resultado;
+                this.equipamentos.forEach((e) => this.getTipoEquipamento(e));
+            });
     }
 
-    getTipoEquipamento(equipamento) {
+    getTipoEquipamento(equipamento: Equipamento) {
         const { label } = this.tiposDeEquipamento.find(
             (t) => t.value === equipamento.idTipoEquipamento
         );
@@ -67,7 +70,7 @@ export class EquipamentoComponent implements OnInit {
         return this.equipamentoForm.controls;
     }
 
-    handleDelete(equipamento) {
+    handleDelete(equipamento: Equipamento) {
         this.confirmationService.confirm({
             message:
                 "Tem certeza que desejar excluir o equipamento " +
@@ -77,10 +80,19 @@ export class EquipamentoComponent implements OnInit {
             accept: () => {
                 this.equipamentoService
                     .deleteEquipamento(equipamento.id)
-                    .subscribe();
-                this.equipamentos = this.equipamentos.filter(
-                    (val) => val.id !== equipamento.id
-                );
+                    .subscribe(
+                        () => {
+                            this.equipamentos = this.equipamentos.filter(
+                                (val) => val.id !== equipamento.id
+                            );
+                            this.addToast(
+                                "success",
+                                "Deletado",
+                                "Equipamento deletado com sucesso"
+                            );
+                        },
+                        (error) => this.addErrorToast(error)
+                    );
             },
         });
     }
@@ -91,7 +103,7 @@ export class EquipamentoComponent implements OnInit {
         this.displayForm = true;
     }
 
-    handleEdit(equipamento) {
+    handleEdit(equipamento: Equipamento) {
         this.equipamentoForm.setValue({
             id: equipamento.id,
             nome: equipamento.nome,
@@ -101,18 +113,71 @@ export class EquipamentoComponent implements OnInit {
         });
     }
 
-    handleSubmit(value) {
+    handleSubmit(value: Equipamento) {
         value.obrigatorio = value.obrigatorio ? 1 : 0;
-        this.equipamentoService.postEquipamento(value).subscribe();
-        value = this.getTipoEquipamento(value);
         if (!value.id) {
-            this.equipamentos.push(value);
+            this.addEquipamento(value);
         } else {
-            const index = this.equipamentos.findIndex((e) => e.id === value.id);
-            this.equipamentos[index] = value;
+            this.editEquipamento(value);
         }
-        this.displayForm = false;
+    }
 
-        this.equipamentoForm.reset();
+    addEquipamento(equipamento: Equipamento) {
+        this.equipamentoService.postEquipamento(equipamento).subscribe(
+            (response: Equipamento) => {
+                this.addToast(
+                    "success",
+                    "Cadastrado",
+                    "Equipamento cadastrado com sucesso"
+                );
+
+                this.equipamentos.push(this.getTipoEquipamento(response));
+
+                this.displayForm = false;
+
+                this.equipamentoForm.reset();
+            },
+            (error) => {
+                this.addErrorToast(error);
+            }
+        );
+    }
+
+    editEquipamento(equipamento: Equipamento) {
+        this.equipamentoService.putEquipamento(equipamento).subscribe(
+            (response: Equipamento) => {
+                this.addToast(
+                    "success",
+                    "Alterado",
+                    "Equipamento alterado com sucesso"
+                );
+                const index = this.equipamentos.findIndex(
+                    (e) => e.id === equipamento.id
+                );
+                this.equipamentos[index] = this.getTipoEquipamento(response);
+
+                this.displayForm = false;
+
+                this.equipamentoForm.reset();
+            },
+            (error) => this.addErrorToast(error)
+        );
+    }
+
+    addToast(severity, summary, detail) {
+        this.messageService.add({
+            severity: severity,
+            summary: summary,
+            detail: detail,
+        });
+    }
+
+    addErrorToast(error) {
+        this.messageService.add({
+            severity: "error",
+            summary: "Error no servidor",
+            detail: "Error no servidor, favor tentar mais tarde",
+        });
+        console.log(error);
     }
 }
