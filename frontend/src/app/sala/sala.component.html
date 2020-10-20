@@ -87,6 +87,7 @@
     <p-table #dt [value]="salas" [globalFilterFields]="['Descrição']">
         <ng-template pTemplate="header">
             <tr>
+    
                 <th pSortableColumn="descricao">Descrição</th>
                 <th pSortableColumn="precoDiaria">Preço diária</th>
                 <th pSortableColumn="capacidade">Capacidade</th>
@@ -98,6 +99,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-sala>
             <tr>
+                
                 <td>{{ sala.descricao }}</td>
                 <td>{{ sala.precoDiaria | currency: "BRL" }}</td>
                 <td>{{ sala.capacidade }}</td>

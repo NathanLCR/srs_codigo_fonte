@@ -13,23 +13,25 @@
     >
     <div class="p-fluid">
         <div class="p-field">
-            <input type="text" id="idCliente" class="formInput" formControlName="idCliente" class="p-invalid" pInputText placeholder="ID Cliente">  
+            <input type="text" id="idCliente" class="formInput" formControlName="idCliente" class="p-invalid" pInputText placeholder="Número Cliente">  
         </div>
         <div class="p-field">
-            <input type="text" id="idSala" class="formInput" formControlName="idSala" class="p-invalid" pInputText placeholder="ID Sala">  
+            <input type="text" id="idSala" class="formInput" formControlName="idSala" class="p-invalid" pInputText placeholder="Número Sala">  
         </div>
         <div class="p-field">
-            <input type="text" id="dataInicio" class="formInput" formControlName="dataInicio" class="p-invalid" pInputText placeholder="Data de Inicio">  
+            <label for="dataInicio">Data de Início </label>
+            <input type="date" id="dataInicio" class="formInput" formControlName="dataInicio" class="p-invalid" pInputText placeholder="Data de Inicio">  
         </div>
         <div class="p-field">
-            <input type="text" id="dataFim" class="formInput" formControlName="dataFim" class="p-invalid" pInputText placeholder="Data de Fim">  
+            <label for="dataFim"> Data de Fim </label>
+            <input type="date" id="dataFim" class="formInput" formControlName="dataFim" class="p-invalid" pInputText placeholder="Data de Fim">  
         </div>
         <div class="p-field">
             <label for="total">Valor Total</label>
             <p-inputNumber  formControlName="total" mode="currency" currency="BRL" [minFractionDigits]="2" [maxFractionDigits]="2"> </p-inputNumber>   
         </div>
         <div class="p-field">
-            <p-button label="Enviar" icon="pi pi-check" iconPos="right" ></p-button>    
+            <p-button label="Enviar" icon="pi pi-check" iconPos="right" ></p-button> 
         </div>
     </div>   
     </form>    
@@ -63,7 +65,7 @@
     </ng-template>
 </p-table>
 
-<p-toast position="top-right"></p-toast>
+
 
 
 
