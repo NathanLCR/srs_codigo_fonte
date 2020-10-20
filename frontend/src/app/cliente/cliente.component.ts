@@ -9,7 +9,7 @@ import { FormGroup, Validators, FormControl } from "@angular/forms";
     selector: "app-cliente",
     templateUrl: "./cliente.component.html",
     styleUrls: ["./cliente.component.css"],
-    providers: [ConfirmationService],
+    providers: [ConfirmationService, MessageService],
 })
 export class ClienteComponent implements OnInit {
     clienteDialog: boolean;
@@ -19,7 +19,6 @@ export class ClienteComponent implements OnInit {
     cliente: Cliente;
 
     displayForm = false;
-
     constructor(
         private clienteService: ClienteService,
         private messageService: MessageService,
@@ -56,7 +55,7 @@ export class ClienteComponent implements OnInit {
         });
     }
 
-    handleSubmit(value) {
+    editarCliente(value) {
         this.clienteService.putCliente(value).subscribe();
 
         if (!value.id) {
@@ -71,7 +70,7 @@ export class ClienteComponent implements OnInit {
         this.clienteForm.reset();
     }
 
-    addCliente(cliente) {
+    handleSubmit(cliente) {
         this.clienteService.postCliente(cliente).subscribe();
 
         if (!cliente.id) {
@@ -93,7 +92,13 @@ export class ClienteComponent implements OnInit {
             header: "Confirmar exclusão",
             icon: "pi pi-exclamation-triangle",
             accept: () => {
-                this.clienteService.deleteCliente(cliente.id).subscribe();
+                this.clienteService.deleteCliente(cliente.id).subscribe(() => {
+                    this.addSuccess(
+                        "success",
+                        "Deleção",
+                        "Cliente apagado com Sucesso!"
+                    );
+                });
                 this.clientes = this.clientes.filter(
                     (val) => val.id !== cliente.id
                 );
@@ -104,5 +109,21 @@ export class ClienteComponent implements OnInit {
     showForm() {
         this.clienteForm.reset();
         this.displayForm = true;
+    }
+    addSuccess(severity, summary, detail) {
+        this.messageService.add({
+            severity: severity,
+            summary: summary,
+            detail: detail,
+        });
+    }
+
+    addErrorToast(error) {
+        this.messageService.add({
+            severity: "Error",
+            summary: "Error inesperado",
+            detail: "Error no service",
+        });
+        console.log(error);
     }
 }

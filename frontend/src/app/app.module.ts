@@ -24,6 +24,7 @@ import { SecurityModule, VersionTagModule } from "@nuvem/angular-base";
 import { DiarioErrosComponent } from "./components/diario-erros/diario-erros.component";
 import { BlockUIModule } from "ng-block-ui";
 import { ToolbarComponent } from "./components/toolbar/toolbar.component";
+import {ToastModule} from 'primeng/toast';
 
 @NgModule({
     declarations: [
@@ -55,6 +56,7 @@ import { ToolbarComponent } from "./components/toolbar/toolbar.component";
         MenuModule,
         FormsModule,
         ReactiveFormsModule,
+        ToastModule
     ],
     providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
     bootstrap: [AppComponent],

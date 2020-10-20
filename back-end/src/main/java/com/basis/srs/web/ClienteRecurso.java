@@ -3,7 +3,6 @@ package com.basis.srs.web;
 
 import com.basis.srs.servico.ClienteServico;
 import com.basis.srs.servico.dto.ClienteDTO;
-import com.basis.srs.servico.dto.EquipamentoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,11 +38,7 @@ public class ClienteRecurso {
     }
 
     @PostMapping
-<<<<<<< HEAD
-    public ResponseEntity<ClienteDTO> cadastrarCliente(@Valid @RequestBody  ClienteDTO clienteDto) throws URISyntaxException {
-=======
     public ResponseEntity<ClienteDTO> cadastrarCliente(@Valid @RequestBody ClienteDTO clienteDto) throws URISyntaxException {
->>>>>>> fe8655038ed0757a48b2a5cecc43e6a54668beb1
         ClienteDTO clienteSalvo = clienteServico.salvar(clienteDto);
         return ResponseEntity.created(new URI("/api/clientes/")).body(clienteSalvo);
     }
