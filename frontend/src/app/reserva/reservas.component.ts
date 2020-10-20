@@ -43,9 +43,16 @@ export class ReservasComponent implements OnInit {
   addSucess() {
     this.messageService.add({severity:'success', summary:'Sucesso!', detail:'Reserva Cadastrada'});
     }
+  addDelete() {
+      this.messageService.add({severity:'success', summary:'Sucesso!', detail:'Reserva Cancelada'});
+      }
   addError() {
-  this.messageService.add({severity:'warn', summary:'Sucesso!', detail:'Reserva Cancelada'});
+  this.messageService.add({severity:'warn', summary:'Atenção!', detail:'Erro ao Chamar Serviço'});
     }
+  addAtt() {
+    this.messageService.add({severity:'info', summary:'Sucesso!', detail:'Reserva Atualizada'});
+      }
+
 
   ngOnInit(): void {
     this.listarReservas();
@@ -66,11 +73,18 @@ export class ReservasComponent implements OnInit {
   }
 
 
-  direcionarDeletarReserva(reserva) {
-    this.addError();
-    this.reservaService.deletarReserva(reserva.id)
-    .subscribe();   
-    this.listaReservas = this.listaReservas.filter(val => val.id !== reserva.id);
+  direcionarDeletarReserva(value) {
+    this.reservaService.deletarReserva(value.id)
+    .subscribe(() => {
+      console.log('Reserva Deletada');
+      this.reservaForm.reset();
+      this.addDelete();
+    },
+    () => {
+      this.addError();
+      console.log('Erro ao chamar serviço');
+    });;   
+    this.listaReservas = this.listaReservas.filter(val => val.id !== value.id);
   }
 
   recuperarIdRota(){
@@ -102,21 +116,21 @@ export class ReservasComponent implements OnInit {
       dataFim: reserva.dataFim,
       total: reserva.total
     })
-    
   }
 
   cadastrarReserva(value) {
     this.displayForm = false;
-    this.addSucess();
+    this.reservaForm.reset();
     this.reservaService.cadastrarReserva(value).subscribe(
       () => {
         console.log('Reserva Cadastrada');
-        this.reservaForm.reset();
         this.listaReservas.push(value);
-        this.router.navigate(['../reservas']);
+        this.addSucess();
+        this.listarReservas();
       },
       () => {
         console.log('Erro ao chamar serviço');
+        this.addError();
       });
       
       
