@@ -111,6 +111,7 @@ export class ReservasComponent implements OnInit {
     this.reservaService.cadastrarReserva(value).subscribe(
       () => {
         console.log('Reserva Cadastrada');
+        this.reservaForm.reset();
         this.listaReservas.push(value);
         this.router.navigate(['../reservas']);
       },

@@ -3,10 +3,7 @@ package com.basis.srs.util;
 import com.basis.srs.SistemaDeReservaDeSalasApplication;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
-<<<<<<< HEAD
-=======
 import org.junit.runner.RunWith;
->>>>>>> fe8655038ed0757a48b2a5cecc43e6a54668beb1
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
