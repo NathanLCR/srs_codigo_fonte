@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import Equipamento from "../models/Equipamento";
 import { EquipamentoService } from "./equipamento.service";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { ConfirmationService } from "primeng/api";
+import { ConfirmationService, MessageService } from "primeng/api";
 
 @Component({
     selector: "app-equipamento",
@@ -34,7 +34,8 @@ export class EquipamentoComponent implements OnInit {
 
     constructor(
         private equipamentoService: EquipamentoService,
-        private confirmationService: ConfirmationService
+        private confirmationService: ConfirmationService,
+        private messageService: MessageService
     ) {}
 
     ngOnInit(): void {
@@ -77,10 +78,19 @@ export class EquipamentoComponent implements OnInit {
             accept: () => {
                 this.equipamentoService
                     .deleteEquipamento(equipamento.id)
-                    .subscribe();
-                this.equipamentos = this.equipamentos.filter(
-                    (val) => val.id !== equipamento.id
-                );
+                    .subscribe(
+                        () => {
+                            this.equipamentos = this.equipamentos.filter(
+                                (val) => val.id !== equipamento.id
+                            );
+                            this.addToast(
+                                "success",
+                                "Deletado",
+                                "Equipamento deletado com sucesso"
+                            );
+                        },
+                        (error) => this.addErrorToast(error)
+                    );
             },
         });
     }
@@ -103,16 +113,46 @@ export class EquipamentoComponent implements OnInit {
 
     handleSubmit(value) {
         value.obrigatorio = value.obrigatorio ? 1 : 0;
-        this.equipamentoService.postEquipamento(value).subscribe();
-        value = this.getTipoEquipamento(value);
-        if (!value.id) {
-            this.equipamentos.push(value);
-        } else {
-            const index = this.equipamentos.findIndex((e) => e.id === value.id);
-            this.equipamentos[index] = value;
-        }
-        this.displayForm = false;
+        this.equipamentoService.postEquipamento(value).subscribe(
+            () => {
+                this.addToast(
+                    "success",
+                    "Cadastrado",
+                    "Equipamento cadastrado com sucesso"
+                );
+                value = this.getTipoEquipamento(value);
+                if (!value.id) {
+                    this.equipamentos.push(value);
+                } else {
+                    const index = this.equipamentos.findIndex(
+                        (e) => e.id === value.id
+                    );
+                    this.equipamentos[index] = value;
+                }
+                this.displayForm = false;
 
-        this.equipamentoForm.reset();
+                this.equipamentoForm.reset();
+            },
+            (error) => {
+                this.addErrorToast(error);
+            }
+        );
+    }
+
+    addToast(severity, summary, detail) {
+        this.messageService.add({
+            severity: severity,
+            summary: summary,
+            detail: detail,
+        });
+    }
+
+    addErrorToast(error) {
+        this.messageService.add({
+            severity: "error",
+            summary: "Error no servidor",
+            detail: "Error no servidor, favor tentar mais tarde",
+        });
+        console.log(error);
     }
 }

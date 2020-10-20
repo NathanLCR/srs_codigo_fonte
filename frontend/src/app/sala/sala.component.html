@@ -18,7 +18,10 @@
     </p-toolbar>
 
     <p-dialog header="Cadastrar Sala" [(visible)]="displayForm">
-        <form [formGroup]="salaForm" (ngSubmit)="handleSubmit(salaForm.value)">
+        <form
+            [formGroup]="salaForm"
+            (ngSubmit)="handleSubmit(handleSubmit(salaForm.value))"
+        >
             <div class="p-fluid">
                 <div class="p-field">
                     <label for="descricao">Descrição</label>
@@ -64,17 +67,44 @@
                 </div>
                 <br />
 
+                <button
+                    pButton
+                    type="button"
+                    label="Adicionar Equipamento"
+                    (click)="showEquipamentoForm()"
+                ></button>
+
+                <p-table [value]="equipamentoForm.value">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Nome</th>
+                            <th>Preço</th>
+                            <th>Quantidade</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-equipamento>
+                        <tr>
+                            <td>{{ equipamento.equipamento.nome }}</td>
+                            <td>{{ equipamento.equipamento.preco }}</td>
+                            <td>{{ equipamento.quantidade }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
                 <div class="p-field">
-                    <label for="equipamentos">Equipamentos</label>
-                    <p-button label="Adicionar Equipamento" (click)="showEquipamentoForm()"></p-button>
-                    <p-dialog>
-                        <form [formGroup]="salaEquipamentoForm" (ngSubmit)="handleSalaEquipamentoSubmit(salaEquipamentoForm.value)">
-                            <div class="p-field">
+                    <p-dialog [(visible)]="displayEquipamentoForm">
+                        <form
+                            [formGroup]="salaEquipamentoForm"
+                            (ngSubmit)="
+                                addEquipamento(salaEquipamentoForm.value)
+                            "
+                        >
+                            <div class="p-grid">
                                 <label for="idEquipamento">Equipamento</label>
                                 <p-dropdown
-                                    [options]="tiposDeSala"
-                                    formControlName="idEquipamento"
-                                    placeholder="idEquipamento"
+                                    [options]="equipamentos"
+                                    formControlName="equipamento"
+                                    placeholder="Equipamentos"
                                 ></p-dropdown>
                                 <div class="p-field">
                                     <label for="quantidade">Quantidade</label>
@@ -91,18 +121,13 @@
                             </div>
                         </form>
                     </p-dialog>
-
-                    <p-multiSelect
-                        [options]="equipamentos"
-                        formControlName="equipamentos"
-                    ></p-multiSelect>
                 </div>
                 <br />
                 <div class="p-field">
                     <p-button
+                        type="submit"
                         label="Enviar"
                         icon="pi pi-check"
-                        [disabled]="!salaForm.valid"
                     ></p-button>
                 </div>
             </div>
