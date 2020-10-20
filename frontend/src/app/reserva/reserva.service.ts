@@ -1,22 +1,43 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-import Reserva from '../models/Reserva';
+import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { CadastrarReservaModel } from 'src/app/models/cadastrar-reserva.model';
+import { EditarReservaModel } from 'src/app/models/editar-reserva.model';
+import { InfoReservaModel } from 'src/app/models/info-reserva.model';
+import { ListarReservaModel } from 'src/app/models/listar-reserva.model';
+import {environment} from 'src/environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
+  
 })
 export class ReservaService {
 
-  private readonly PATH = environment.apiUrl + "/reservas/";
+  constructor(
+    private http: HttpClient
+  ) { }
 
-  constructor(private http: HttpClient) { }
-
-  getReservas(){
-    return this.http.get<Reserva[]>(this.PATH);
+  listarReservas():Observable<ListarReservaModel[]>{
+    return this.http.get<ListarReservaModel[]>(`${environment.apiUrl}/reservas`);
   }
 
-  deleteReserva(id){
-    return this.http.delete(this.PATH + id);
+
+  cadastrarReserva(cadastroReserva: CadastrarReservaModel):Observable<InfoReservaModel>{ 
+    return this.http.post<InfoReservaModel>(`${environment.apiUrl}/reservas`,cadastroReserva);
+
   }
+
+  recuperarReserva(id: number): Observable<InfoReservaModel> {
+    return this.http.get<InfoReservaModel>(`${environment.apiUrl}/reservas/${id}`);
+  }
+
+  editarReserva(editarReservaModel: EditarReservaModel): Observable<InfoReservaModel> {
+    return this.http.put<InfoReservaModel>(`${environment.apiUrl}/reservas`, editarReservaModel);
+  }
+
+  deletarReserva(id:number){
+    return this.http.delete(`${environment.apiUrl}/reservas/${id}`);   
+  }
+
 }
