@@ -42,7 +42,7 @@ export class EquipamentoComponent implements OnInit {
         this.equipamentoForm = new FormGroup({
             id: new FormControl(null),
             nome: new FormControl(null, [Validators.required]),
-            idTipoEquipamento: new FormControl(1, Validators.required),
+            idTipoEquipamento: new FormControl(null, Validators.required),
             precoDiaria: new FormControl(null, [
                 Validators.required,
                 Validators.min(0),
