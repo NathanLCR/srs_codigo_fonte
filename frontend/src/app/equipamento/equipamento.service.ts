@@ -19,11 +19,15 @@ export class EquipamentoService {
         return this.http.get<Equipamento[]>(this.PATH + id);
     }
 
-    deleteEquipamento(id) {
+    deleteEquipamento(id: number) {
         return this.http.delete(this.PATH + id);
     }
 
     postEquipamento(equipamento: Equipamento) {
+        return this.http.post(this.PATH, equipamento);
+    }
+
+    putEquipamento(equipamento: Equipamento) {
         return this.http.post(this.PATH, equipamento);
     }
 }

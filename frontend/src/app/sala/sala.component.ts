@@ -78,7 +78,7 @@ export class SalaComponent implements OnInit {
             this.salas = resultado;
 
             this.salas.forEach((s) => {
-                console.log(s);
+                console.log(s.equipamentos);
                 return this.getTipoSala(s);
             });
         });

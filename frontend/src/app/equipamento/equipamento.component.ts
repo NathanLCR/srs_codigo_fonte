@@ -49,13 +49,15 @@ export class EquipamentoComponent implements OnInit {
             ]),
             obrigatorio: new FormControl(false),
         });
-        this.equipamentoService.getEquipamentos().subscribe((resultado) => {
-            this.equipamentos = resultado;
-            this.equipamentos.forEach((e) => this.getTipoEquipamento(e));
-        });
+        this.equipamentoService
+            .getEquipamentos()
+            .subscribe((resultado: Equipamento[]) => {
+                this.equipamentos = resultado;
+                this.equipamentos.forEach((e) => this.getTipoEquipamento(e));
+            });
     }
 
-    getTipoEquipamento(equipamento) {
+    getTipoEquipamento(equipamento: Equipamento) {
         const { label } = this.tiposDeEquipamento.find(
             (t) => t.value === equipamento.idTipoEquipamento
         );
@@ -68,7 +70,7 @@ export class EquipamentoComponent implements OnInit {
         return this.equipamentoForm.controls;
     }
 
-    handleDelete(equipamento) {
+    handleDelete(equipamento: Equipamento) {
         this.confirmationService.confirm({
             message:
                 "Tem certeza que desejar excluir o equipamento " +
@@ -101,7 +103,7 @@ export class EquipamentoComponent implements OnInit {
         this.displayForm = true;
     }
 
-    handleEdit(equipamento) {
+    handleEdit(equipamento: Equipamento) {
         this.equipamentoForm.setValue({
             id: equipamento.id,
             nome: equipamento.nome,
@@ -111,24 +113,26 @@ export class EquipamentoComponent implements OnInit {
         });
     }
 
-    handleSubmit(value) {
+    handleSubmit(value: Equipamento) {
         value.obrigatorio = value.obrigatorio ? 1 : 0;
-        this.equipamentoService.postEquipamento(value).subscribe(
-            () => {
+        if (!value.id) {
+            this.addEquipamento(value);
+        } else {
+            this.editEquipamento(value);
+        }
+    }
+
+    addEquipamento(equipamento: Equipamento) {
+        this.equipamentoService.postEquipamento(equipamento).subscribe(
+            (response: Equipamento) => {
                 this.addToast(
                     "success",
                     "Cadastrado",
                     "Equipamento cadastrado com sucesso"
                 );
-                value = this.getTipoEquipamento(value);
-                if (!value.id) {
-                    this.equipamentos.push(value);
-                } else {
-                    const index = this.equipamentos.findIndex(
-                        (e) => e.id === value.id
-                    );
-                    this.equipamentos[index] = value;
-                }
+
+                this.equipamentos.push(this.getTipoEquipamento(response));
+
                 this.displayForm = false;
 
                 this.equipamentoForm.reset();
@@ -136,6 +140,27 @@ export class EquipamentoComponent implements OnInit {
             (error) => {
                 this.addErrorToast(error);
             }
+        );
+    }
+
+    editEquipamento(equipamento: Equipamento) {
+        this.equipamentoService.putEquipamento(equipamento).subscribe(
+            (response: Equipamento) => {
+                this.addToast(
+                    "success",
+                    "Alterado",
+                    "Equipamento alterado com sucesso"
+                );
+                const index = this.equipamentos.findIndex(
+                    (e) => e.id === equipamento.id
+                );
+                this.equipamentos[index] = this.getTipoEquipamento(response);
+
+                this.displayForm = false;
+
+                this.equipamentoForm.reset();
+            },
+            (error) => this.addErrorToast(error)
         );
     }
 
