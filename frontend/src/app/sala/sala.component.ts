@@ -25,6 +25,8 @@ export class SalaComponent implements OnInit {
 
     salaForm;
 
+    salaEquipamentoForm;
+
     equipamentos;
 
     tiposDeSala = [
@@ -66,6 +68,12 @@ export class SalaComponent implements OnInit {
             tipoSala: null,
             equipamentos: [],
         });
+
+        this.salaEquipamentoForm = this.formBuilder.group({
+            idSala: this.salaForm.id,
+            idEquipamento: "",
+            quantidade: "",
+        })
     }
 
     ngOnInit(): void {
@@ -97,6 +105,10 @@ export class SalaComponent implements OnInit {
         this.displayForm = true;
     }
 
+    showEquipamentoForm() {
+        this.displayForm = true;
+    }
+
     getTipoSala(sala) {
         const { label } = this.tiposDeSala.find(
             (t) => t.value === sala.idTipoSala
@@ -119,6 +131,12 @@ export class SalaComponent implements OnInit {
         }
         this.displayForm = false;
 
+        this.salaForm.reset();
+    }
+
+    handleSalaEquipamentoSubmit(value) {
+        this.salaForm.equipamentos.push(this.salaEquipamentoForm);
+        this.displayForm = false;
         this.salaForm.reset();
     }
 

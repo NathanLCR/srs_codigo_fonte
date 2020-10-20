@@ -66,6 +66,31 @@
 
                 <div class="p-field">
                     <label for="equipamentos">Equipamentos</label>
+                    <p-button label="Adicionar Equipamento" (click)="showEquipamentoForm()"></p-button>
+                    <p-dialog>
+                        <form [formGroup]="salaEquipamentoForm" (ngSubmit)="handleSalaEquipamentoSubmit(salaEquipamentoForm.value)">
+                            <div class="p-field">
+                                <label for="idEquipamento">Equipamento</label>
+                                <p-dropdown
+                                    [options]="tiposDeSala"
+                                    formControlName="idEquipamento"
+                                    placeholder="idEquipamento"
+                                ></p-dropdown>
+                                <div class="p-field">
+                                    <label for="quantidade">Quantidade</label>
+                                    <p-inputNumber formControlName="quantidade">
+                                    </p-inputNumber>
+                                </div>
+                                <div class="p-field">
+                                    <p-button
+                                        label="Enviar"
+                                        icon="pi pi-check"
+                                        [disabled]="!salaEquipamentoForm.valid"
+                                    ></p-button>
+                                </div>
+                            </div>
+                        </form>
+                    </p-dialog>
 
                     <p-multiSelect
                         [options]="equipamentos"
