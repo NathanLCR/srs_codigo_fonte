@@ -100,10 +100,9 @@ public class SalaRecursoIT extends IntTestComum {
     ///////////////////////////////////TESTE DE ENDPOINTS COM BAD REQUEST///////////////////////////////////////////////
 
     @Test
-    public void atualizarExcessao1() throws Exception { //irá testar quando apagar um equipamento obrigatório - deve retornar BAD REQUEST
-        Sala sala = salaBuilder.construir();
-        List<SalaEquipamento> salaEquipamentos = new ArrayList<SalaEquipamento>();
-        sala.setEquipamentos(salaEquipamentos);
+    public void atualizarExcessao1() throws Exception { //irá testar quando editar um  um equipamento obrigatório - deve retornar BAD REQUEST
+        Sala sala = salaBuilder.construirEntidade();
+        sala.setId(9000);
         SalaDTO salaDTO = salaBuilder.converterParaDto(sala);
         getMockMvc().perform(put("/api/salas/")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -112,20 +111,6 @@ public class SalaRecursoIT extends IntTestComum {
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
-    @Test
-    public void atualizarExcessao2() throws Exception { //irá testar quando zerar a quantidade de um equipamento obrigatório - deve retornar BAD REQUEST
-        Sala sala = salaBuilder.construir();
-        List<SalaEquipamento> salaEquipamentos = sala.getEquipamentos();
-        for (int i = 0; i < salaEquipamentos.size(); i ++) {
-            salaEquipamentos.get(i).setQuantidade(0);
-        }
-        sala.setEquipamentos(salaEquipamentos);
-        getMockMvc().perform(put("/api/salas/")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(salaBuilder.converterParaDto(sala)))
-        )
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
-    }
 
     @Test
     public void deletarExcessao1() throws Exception { //irá testar quando apagar uma sala que não existe - deve retornar BAD REQUEST
@@ -138,13 +123,14 @@ public class SalaRecursoIT extends IntTestComum {
     @Test
     public void deletarExcessao2() throws Exception { //irá testar quando apagar uma sala que está reservada - deve retornar BAD REQUEST
         Reserva reserva = reservaBuilder.construir();
-
-        getMockMvc().perform(delete("/api/salas/" + reserva.getSala().getId()))
+        Sala sala = salaBuilder.construir();
+        reserva.setSala(sala);
+        getMockMvc().perform(delete("/api/salas/" + sala.getId()))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     @Test
-    public void listarPorIdExcessao() throws Exception { //irá testar quando apagar um elemento obrigatório - deve retornar BAD REQUEST
+    public void listarPorIdExcessao() throws Exception { //irá testar quando tentar listar uma sala que não existe - deve retornar BAD REQUEST
         Sala sb = salaBuilder.construir();
         getMockMvc().perform(get("/api/salas/" + 89))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());

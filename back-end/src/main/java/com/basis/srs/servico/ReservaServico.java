@@ -1,14 +1,21 @@
 package com.basis.srs.servico;
 
+import com.basis.srs.dominio.Equipamento;
 import com.basis.srs.dominio.ReservaEquipamento;
 import com.basis.srs.dominio.Sala;
 import com.basis.srs.dominio.SalaEquipamento;
+import com.basis.srs.repositorio.EquipamentoRepositorio;
 import com.basis.srs.repositorio.ReservaEquipamentoRepositorio;
 import com.basis.srs.repositorio.ReservaRepositorio;
 import com.basis.srs.repositorio.SalaRepositorio;
 import com.basis.srs.servico.dto.ReservaDTO;
+import com.basis.srs.servico.dto.ReservaEquipamentoDTO;
+import com.basis.srs.servico.dto.SalaDTO;
+import com.basis.srs.servico.dto.SalaEquipamentoDTO;
 import com.basis.srs.servico.exception.RegraNegocioException;
 import com.basis.srs.servico.mapper.ReservaMapper;
+import com.basis.srs.servico.mapper.SalaMapper;
+import java.time.temporal.ChronoUnit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.basis.srs.dominio.Reserva;
@@ -27,6 +34,9 @@ public class ReservaServico {
     private final ReservaRepositorio reservaRepositorio;
     private final SalaRepositorio salaRepositorio;
     private final ReservaEquipamentoRepositorio reservaEquipamentoRepositorio;
+    private final SalaServico salaServico;
+    private final SalaMapper salaMapper;
+    private final EquipamentoRepositorio equipamentoRepositorio;
 
 
     //Get
@@ -56,12 +66,16 @@ public class ReservaServico {
         if(reservaDto.getId() == null && verificarSeDataJaEstaReservada(reservaDto)) {
             throw new RegraNegocioException("Data ja esta reservada");
         }
+        if (!reservaDto.getDataInicio().isBefore(reservaDto.getDataFim())) {
+            throw new RegraNegocioException("Não é possível cadastrar uma reserva que tenha a data de início após a data do fim.");
+        }
 
         Reserva reserva = reservaMapper.toEntity(reservaDto);
 
         List<ReservaEquipamento> equipamentos = reserva.getEquipamentos();
         reserva.setEquipamentos(new ArrayList<>());
         reservaRepositorio.save(reserva);
+
         if (equipamentos != null) {
             equipamentos.forEach(equipamento -> {
                 equipamento.setReserva(reserva);
@@ -72,7 +86,7 @@ public class ReservaServico {
         }
 
         reserva.setEquipamentos(equipamentos);
-
+        reserva.setTotal(this.custoTotalReserva(reservaDto));
         return reservaMapper.toDto(reservaRepositorio.save(reserva));
     }
 
@@ -82,4 +96,32 @@ public class ReservaServico {
         return reservas.stream().anyMatch(reserva -> !(reservaDto.getDataInicio().isAfter(reserva.getDataFim()) | reservaDto.getDataFim().isBefore(reserva.getDataInicio())));
     }
 
+    private Double custoTotalReserva (ReservaDTO reservaDTO) {
+        /*Não tratei todos os erros aqui porque, se chegar-mos ao momentos de calcular o preço, é porque a reserva já foi
+        validada pelo método salvar()*/
+
+        Sala sala = salaRepositorio.findById(reservaDTO.getIdSala()).get();
+        List<SalaEquipamento> salaEquipamento = sala.getEquipamentos();
+        List<ReservaEquipamentoDTO> reservaEquipamentos = reservaDTO.getEquipamentos();
+
+        Double custo = sala.getPrecoDiaria();
+
+        Long dias = ChronoUnit.DAYS.between(reservaDTO.getDataInicio(), reservaDTO.getDataFim());
+
+        if (salaEquipamento != null) {
+            for (int i = 0; i < salaEquipamento.size(); i++) {
+                Equipamento equipamento = equipamentoRepositorio.findById(salaEquipamento.get(i).getEquipamento().getId()).get();
+                custo += (equipamento.getPrecoDiaria() * salaEquipamento.get(i).getQuantidade());
+            }
+        }
+
+        if (reservaEquipamentos != null) {
+            for (int i = 0; i < reservaEquipamentos.size(); i++) {
+                Equipamento equipamento = equipamentoRepositorio.findById(reservaEquipamentos.get(i).getIdEquipamento()).get();
+                custo += (equipamento.getPrecoDiaria() * reservaEquipamentos.get(i).getQuantidade());
+            }
+        }
+        custo *= dias;
+        return custo;
+    }
 }

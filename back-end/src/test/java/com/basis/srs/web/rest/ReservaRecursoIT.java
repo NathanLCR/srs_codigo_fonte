@@ -10,6 +10,7 @@ import com.basis.srs.servico.dto.ClienteDTO;
 import com.basis.srs.servico.dto.ReservaDTO;
 import com.basis.srs.util.IntTestComum;
 import com.basis.srs.util.TestUtil;
+import java.time.LocalDate;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -67,16 +68,6 @@ public class ReservaRecursoIT extends IntTestComum {
     }
 
     @Test
-    public void salvarEmDataOcupada() throws Exception {
-        Reserva reserva = reservaBuilder.construir();
-        getMockMvc().perform(post("/api/reservas/")
-                .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(reservaBuilder.converterParaDto(reserva)))
-        )
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
-    }
-
-    @Test
     public void atualizar() throws Exception {
         Reserva reserva = reservaBuilder.construir();
         ReservaDTO dto = reservaBuilder.converterParaDto(reserva);
@@ -93,5 +84,30 @@ public class ReservaRecursoIT extends IntTestComum {
         Reserva reserva = reservaBuilder.construir();
         getMockMvc().perform(delete("/api/reservas/" + reserva.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////TESTE DE EXCEÇÕES/////////////////////////////////////////////////////////////
+
+    @Test
+    public void salvarEmDataInvalida() throws Exception { //testar quando inserir data inicio posterior à data final
+        Reserva reserva = reservaBuilder.construir();
+        reserva.setDataFim(LocalDate.of(2020,12,8));
+        reserva.setDataInicio(LocalDate.of(2020,11,7));
+        getMockMvc().perform(post("/api/reservas/")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(reservaBuilder.converterParaDto(reserva)))
+        )
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    public void salvarEmDataOcupada() throws Exception { // testar quando
+        Reserva reserva = reservaBuilder.construir();
+        getMockMvc().perform(post("/api/reservas/")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(reservaBuilder.converterParaDto(reserva)))
+        )
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 }

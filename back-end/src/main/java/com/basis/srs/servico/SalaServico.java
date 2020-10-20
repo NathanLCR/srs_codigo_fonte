@@ -1,6 +1,5 @@
 package com.basis.srs.servico;
 
-import com.basis.srs.dominio.Equipamento;
 import com.basis.srs.dominio.Sala;
 import com.basis.srs.dominio.SalaEquipamento;
 import com.basis.srs.repositorio.EquipamentoRepositorio;
@@ -8,10 +7,7 @@ import com.basis.srs.repositorio.ReservaRepositorio;
 import com.basis.srs.repositorio.SalaEquipamentoRepositorio;
 import com.basis.srs.repositorio.SalaRepositorio;
 import com.basis.srs.servico.dto.SalaDTO;
-import com.basis.srs.servico.dto.SalaEquipamentoDTO;
 import com.basis.srs.servico.exception.RegraNegocioException;
-import com.basis.srs.servico.mapper.EquipamentoMapper;
-import com.basis.srs.servico.mapper.SalaEquipamentoMapper;
 import com.basis.srs.servico.mapper.SalaMapper;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +24,7 @@ public class SalaServico {
     private final SalaRepositorio salaRepositorio;
     private final SalaEquipamentoRepositorio salaEquipamentoRepositorio;
     private final EquipamentoRepositorio equipamentoRepositorio;
+    private final ReservaRepositorio reservaRepositorio;
 
     //GET
     public List<SalaDTO> listarTodas() {
@@ -46,10 +43,10 @@ public class SalaServico {
 
     //POST e put
     public SalaDTO salvar(SalaDTO salaDto) {
-        // CHECAR SE É UMA ATUALIZAÇÃO
-//        if (salaDto.getId() != null) {
-//            validaAtualizacao(salaDto);
-//        }
+//         CHECAR SE É UMA ATUALIZAÇÃO
+        if (salaDto.getId() != null) {
+            Sala sala = salaRepositorio.findById(salaDto.getId()).orElseThrow(() -> new RegraNegocioException("Essa sala não existe"));
+        }
         Sala sala2 = salaMapper.toEntity(salaDto);
         List<SalaEquipamento> novosEquipamentos = sala2.getEquipamentos();
         sala2.setEquipamentos(new ArrayList<>());
@@ -67,6 +64,11 @@ public class SalaServico {
     }
 
 //    private void validaAtualizacao(SalaDTO salaDto) {
+//    Essa função havia sido desenvolvida para validar a atualização de salas, verificando se haviam sido excluídos itens obrigatórios
+//    porém, foi estabelecida uma mudança na regra de negócio, que inviabiliza o uso da mesma. Deixei comentada para que, se algum dia
+//    for necessária sua reimplementação, já estará salva.
+//
+//
 //        //PEGAR A ANTIGA SALA, QUE O USUÁRIO QUER ATUALIZAR
 //        Sala sala = salaRepositorio.findById(salaMapper.toEntity(salaDto).getId()).orElse(null);
 //        //PEGAR A LISTA DE EQUIPAMENTOS PASSADOS NA SALA NOVA
@@ -92,15 +94,11 @@ public class SalaServico {
 
     //DELETE POR ID
     public void deletarSala (Integer id) {
-
         Sala sala = salaRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException(id + ": Essa sala não existe."));
-//        if (sala.getDisponivel() == 0) {
-//            throw new RegraNegocioException("Essa sala não pode ser deletada, pois há uma reserva em andamento nela.");
-//        }
-//        else {
-//            salaEquipamentoRepositorio.deleteAllBySalaId(id);
-//            salaRepositorio.deleteById(id);
-//        }
+
+        if(reservaRepositorio.existsBySalaId(id)) {
+            throw new RegraNegocioException("Ja existe reserva nessa sala.");
+        }
 
         salaEquipamentoRepositorio.deleteAllBySalaId(id);
         salaRepositorio.deleteById(id);
