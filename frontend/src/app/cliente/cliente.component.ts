@@ -21,7 +21,6 @@ export class ClienteComponent implements OnInit {
     cliente: Cliente;
 
     displayForm = false;
-
     constructor(
         private clienteService: ClienteService,
         private messageService: MessageService,
@@ -116,7 +115,6 @@ export class ClienteComponent implements OnInit {
         this.clienteForm.reset();
         this.displayForm = true;
     }
-
     addSuccess(severity,summary,detail) {
       this.messageService.add({
         severity:severity, 
@@ -132,5 +130,4 @@ export class ClienteComponent implements OnInit {
       })
       console.log(error)
     }
-
 }
