@@ -1,6 +1,6 @@
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { EquipamentoComponent } from "./equipamento/equipamento.component";
-import { ReservaComponent } from "./reserva/reserva.component";
+import { ReservasComponent } from "./reserva/reservas.component";
 import { ClienteComponent } from "./cliente/cliente.component";
 import { SalaComponent } from "./sala/sala.component";
 import { BrowserModule } from "@angular/platform-browser";
@@ -35,7 +35,7 @@ import { ToolbarComponent } from "./components/toolbar/toolbar.component";
         EquipamentoComponent,
         ClienteComponent,
         SalaComponent,
-        ReservaComponent,
+        ReservasComponent,
         ToolbarComponent,
     ],
     imports: [

@@ -7,10 +7,10 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class SalaEquipamentoDTO {
+public class ReservaEquipamentoDTO {
 
     @NotNull
-    private Integer idSala;
+    private Integer idReserva;
 
     @NotNull
     private Integer idEquipamento;

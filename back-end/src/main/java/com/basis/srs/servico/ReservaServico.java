@@ -1,10 +1,12 @@
 package com.basis.srs.servico;
 
+import com.basis.srs.dominio.ReservaEquipamento;
 import com.basis.srs.dominio.Sala;
+import com.basis.srs.dominio.SalaEquipamento;
+import com.basis.srs.repositorio.ReservaEquipamentoRepositorio;
 import com.basis.srs.repositorio.ReservaRepositorio;
 import com.basis.srs.repositorio.SalaRepositorio;
 import com.basis.srs.servico.dto.ReservaDTO;
-import com.basis.srs.servico.dto.SalaDTO;
 import com.basis.srs.servico.exception.RegraNegocioException;
 import com.basis.srs.servico.mapper.ReservaMapper;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,7 @@ import com.basis.srs.dominio.Reserva;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,6 +26,7 @@ public class ReservaServico {
     private final ReservaMapper reservaMapper;
     private final ReservaRepositorio reservaRepositorio;
     private final SalaRepositorio salaRepositorio;
+    private final ReservaEquipamentoRepositorio reservaEquipamentoRepositorio;
 
 
     //Get
@@ -43,7 +47,6 @@ public class ReservaServico {
     public void deletar(Integer id){
         Reserva reserva = reservaRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Essa reserva não existe ainda."));
         Sala sala = reserva.getSala();
-        sala.setDisponivel(1);
         reservaRepositorio.deleteById(id);
     }
 
@@ -54,14 +57,22 @@ public class ReservaServico {
             throw new RegraNegocioException("Data ja esta reservada");
         }
 
-        if (sala.getDisponivel() == 0) {
-            throw new RegraNegocioException("Essa sala já está reservada, por favor escolha outra.");
-        }
-        else {
-            sala.setDisponivel(0);
+        Reserva reserva = reservaMapper.toEntity(reservaDto);
+
+        List<ReservaEquipamento> equipamentos = reserva.getEquipamentos();
+        reserva.setEquipamentos(new ArrayList<>());
+        reservaRepositorio.save(reserva);
+        if (equipamentos != null) {
+            equipamentos.forEach(equipamento -> {
+                equipamento.setReserva(reserva);
+                equipamento.getId().setIdEquipamento(equipamento.getEquipamento().getId());
+                equipamento.getId().setIdReserva(reserva.getId());
+            });
+            reservaEquipamentoRepositorio.saveAll(equipamentos);
         }
 
-        Reserva reserva = reservaMapper.toEntity(reservaDto);
+        reserva.setEquipamentos(equipamentos);
+
         return reservaMapper.toDto(reservaRepositorio.save(reserva));
     }
 
