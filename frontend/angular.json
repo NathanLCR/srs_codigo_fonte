@@ -83,6 +83,7 @@
                         "styles": [
                             "node_modules/primeng/resources/primeng.min.css",
                             "node_modules/quill/dist/quill.snow.css",
+                            "node_modules/primeicons/primeicons.css",
                             "styles.css"
                         ],
                         "assets": ["src/assets"]

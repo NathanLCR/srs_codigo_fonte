@@ -23,6 +23,7 @@ public class SalaDTO {
 
     @NotNull
     @NotBlank
+    @Size(max = 255)
     private String descricao;
 
     @NotNull
@@ -36,7 +37,5 @@ public class SalaDTO {
 
     @NotNull
     private Integer idTipoSala;
-
-
     private List<SalaEquipamentoDTO> equipamentos;
 }
