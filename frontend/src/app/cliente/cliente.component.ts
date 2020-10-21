@@ -19,6 +19,8 @@ export class ClienteComponent implements OnInit {
 
     displayForm = false;
 
+    clienteForm;
+
     constructor(
         private clienteService: ClienteService,
         private messageService: MessageService,
@@ -26,21 +28,37 @@ export class ClienteComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.clienteForm = new FormGroup({
+            id: new FormControl(""),
+            nome: new FormControl("", [Validators.required]),
+            cpf: new FormControl("", Validators.required),
+            rg: new FormControl("", Validators.required),
+            dataNascimento: new FormControl(""),
+            endereco: new FormControl(""),
+            email: new FormControl(""),
+            telefone: new FormControl(""),
+        });
         this.clienteService.getClientes().subscribe((resultado) => {
             this.clientes = resultado;
         });
     }
 
-    clienteForm = new FormGroup({
-        id: new FormControl(""),
-        nome: new FormControl("", [Validators.required]),
-        cpf: new FormControl("", Validators.required),
-        rg: new FormControl("", Validators.required),
-        dataNascimento: new FormControl(""),
-        endereco: new FormControl(""),
-        email: new FormControl(""),
-        telefone: new FormControl(""),
-    });
+    addErrorToast(error) {
+        this.messageService.add({
+            severity: "error",
+            summary: "Error no servidor",
+            detail: "Error no servidor, favor tentar mais tarde",
+        });
+        console.log(error);
+    }
+
+    addToast(severity, summary, detail) {
+        this.messageService.add({
+            severity: severity,
+            summary: summary,
+            detail: detail,
+        });
+    }
 
     editCliente(cliente) {
         this.clienteForm.setValue({
@@ -56,18 +74,29 @@ export class ClienteComponent implements OnInit {
     }
 
     handleSubmit(value) {
-        this.clienteService.putCliente(value).subscribe();
+        console.log(value);
+        this.clienteService.postCliente(value).subscribe(
+            () => {
+                if (!value.id) {
+                    this.clientes.push(value);
+                } else {
+                    const index = this.clientes.findIndex(
+                        (e) => e.id === value.id
+                    );
+                    this.clientes[index] = value;
+                }
+                this.displayForm = false;
 
-        if (!value.id) {
-            this.clientes.push(value);
-        } else {
-            const index = this.clientes.findIndex((e) => e.id === value.id);
-            this.clientes[index] = value;
-        }
+                this.clienteForm.reset();
 
-        this.displayForm = false;
-
-        this.clienteForm.reset();
+                this.addToast(
+                    "success",
+                    "Cadastrado",
+                    "Cliente cadastrado com sucesso"
+                );
+            },
+            (error) => this.addErrorToast(error)
+        );
     }
 
     addCliente(cliente) {
@@ -105,4 +134,3 @@ export class ClienteComponent implements OnInit {
         this.displayForm = true;
     }
 }
-

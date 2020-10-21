@@ -1,4 +1,5 @@
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+<p-toast position="top-right"></p-toast>
 
 <div class="card">
     <p-toolbar>
@@ -75,7 +76,6 @@
                 <div class="p-field">
                     <label for="telefone">Telefone</label>
                     <input
-                        type="tel"
                         pInputText
                         placeholder="Telefone"
                         formControlName="telefone"
@@ -94,6 +94,7 @@
 
                 <div class="p-field">
                     <p-button
+                        type="submit"
                         label="Enviar"
                         icon="pi pi-check"
                         [disabled]="!clienteForm.valid"

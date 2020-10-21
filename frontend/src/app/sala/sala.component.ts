@@ -3,8 +3,7 @@ import { SalaService } from "./sala.service";
 import { ConfirmationService } from "primeng/api";
 import { Component, OnInit } from "@angular/core";
 import Sala from "../models/Sala";
-import { FormBuilder } from "@angular/forms";
-import Equipamento from "../models/Equipamento";
+import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 
 @Component({
     selector: "app-sala",
@@ -17,56 +16,69 @@ export class SalaComponent implements OnInit {
 
     displayForm = false;
 
+    displayEquipamentoForm = false;
+
     salaForm;
 
-    equipamentos;
+    salaEquipamentoForm;
 
-    tiposDeSala = [
-        {
-            label: "Sala de Reunião",
-            value: 1,
-        },
-        {
-            label: "Sala de Trabalho",
-            value: 2,
-        },
-        {
-            label: "Sala de Vídeo",
-            value: 3,
-        },
-        {
-            label: "Sala de Palestras",
-            value: 4,
-        },
-        {
-            label: "Auditório",
-            value: 5,
-        },
-    ];
+    tiposDeSala;
+
+    equipamentos;
 
     constructor(
         private salaService: SalaService,
         private formBuilder: FormBuilder,
         private confirmationService: ConfirmationService,
         private equipamentoService: EquipamentoService
-    ) {
-        this.salaForm = this.formBuilder.group({
-            id: null,
-            precoDiaria: null,
-            descricao: "",
-            capacidade: "",
-            disponivel: "",
-            idTipoSala: "",
-            tipoSala: null,
-            equipamentos: [],
-        });
-    }
+    ) {}
 
     ngOnInit(): void {
+        this.salaForm = new FormGroup({
+            id: new FormControl(null),
+            precoDiaria: new FormControl(null),
+            descricao: new FormControl(null),
+            capacidade: new FormControl(null),
+            disponivel: new FormControl(null),
+            idTipoSala: new FormControl(null),
+            tipoSala: new FormControl(null),
+            equipamentos: new FormArray([]),
+        });
+
+        this.salaEquipamentoForm = this.formBuilder.group({
+            idSala: null,
+            idEquipamento: "",
+            quantidade: "",
+            equipamento: null,
+        });
+
+        this.tiposDeSala = [
+            {
+                label: "Sala de Reunião",
+                value: 1,
+            },
+            {
+                label: "Sala de Trabalho",
+                value: 2,
+            },
+            {
+                label: "Sala de Vídeo",
+                value: 3,
+            },
+            {
+                label: "Sala de Palestras",
+                value: 4,
+            },
+            {
+                label: "Auditório",
+                value: 5,
+            },
+        ];
         this.salaService.getSalas().subscribe((resultado) => {
             this.salas = resultado;
 
             this.salas.forEach((s) => {
+                console.log(s.equipamentos);
                 return this.getTipoSala(s);
             });
         });
@@ -76,6 +88,16 @@ export class SalaComponent implements OnInit {
                 return { label: e.nome, value: e };
             });
         });
+    }
+
+    get equipamentoForm() {
+        return this.salaForm.get("equipamentos") as FormArray;
+    }
+
+    addEquipamento(value) {
+        this.displayEquipamentoForm = false;
+        value.idEquipamento = value.equipamento.id;
+        this.equipamentoForm.value.push(value);
     }
 
     deletar(sala) {
@@ -91,6 +113,10 @@ export class SalaComponent implements OnInit {
         this.displayForm = true;
     }
 
+    showEquipamentoForm() {
+        this.displayEquipamentoForm = true;
+    }
+
     getTipoSala(sala) {
         const { label } = this.tiposDeSala.find(
             (t) => t.value === sala.idTipoSala
@@ -101,7 +127,6 @@ export class SalaComponent implements OnInit {
     }
 
     handleSubmit(value) {
-        console.log(value);
         this.salaService.postSala(value).subscribe();
         value = this.getTipoSala(value);
         if (!value.id) {
@@ -140,5 +165,7 @@ export class SalaComponent implements OnInit {
         });
     }
 
-    onSubmit() {}
+    getEquipamento(id) {
+        return this.equipamentoService.getEquipamento(id);
+    }
 }

@@ -1,79 +1,131 @@
-
-<p-toolbar class="toolbar">
-    <p-button label="Nova Reserva" icon="pi pi-plus" (click)="direcionarSalvar(reserva)"></p-button>
-    <i class="pi pi-search" ></i>
-    <input pInputText type="text" (input)="scr.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
-</p-toolbar>
-
-
-<p-dialog header="Cadastrar Reserva" [(visible)]="displayForm">
-    <form
-        [formGroup]="reservaForm"
-        (ngSubmit)="salvarReserva(reservaForm.value)" 
-    >
-    <div class="p-fluid">
-        <div class="p-field">
-            <!-- <p-dropdown
-            [options]=""
-            placeholder="Cliente:"
-            ></p-dropdown> -->
-            <input type="text" id="idCliente" class="formInput" formControlName="idCliente" class="p-invalid" pInputText placeholder="Número Cliente">  
+<div class="card">
+    <p-toolbar>
+        <div id="toolbar">
+            <p-button label="Novo" (click)="showForm()"></p-button>
+            <div>
+                <i class="pi pi-search"></i>
+                <input
+                    pInputText
+                    type="text"
+                    (input)="dt.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Search..."
+                />
+            </div>
         </div>
-        <div class="p-field">
-            <!-- <p-dropdown
-            [options]=""
-            placeholder="Cliente:"
-            ></p-dropdown> -->
-            <input type="text" id="idSala" class="formInput" formControlName="idSala" class="p-invalid" pInputText placeholder="Número Sala">  
-        </div>
-        <div class="p-field">
-            <label for="dataInicio">Data de Início </label>
-            <input type="date" id="dataInicio" class="formInput" formControlName="dataInicio" class="p-invalid" pInputText placeholder="Data de Inicio">  
-        </div>
-        <div class="p-field">
-            <label for="dataFim"> Data de Fim </label>
-            <input type="date" id="dataFim" class="formInput" formControlName="dataFim" class="p-invalid" pInputText placeholder="Data de Fim">  
-        </div>
-        <div class="p-field">
-            <label for="total">Valor Total</label>
-            <p-inputNumber  formControlName="total" mode="currency" currency="BRL" [minFractionDigits]="2" [maxFractionDigits]="2"> </p-inputNumber>   
-        </div>
-        <div class="p-field">
-            <p-button label="Enviar" icon="pi pi-check" iconPos="right" ></p-button> 
-        </div>
-    </div>   
-    </form>    
-</p-dialog>
+    </p-toolbar>
+    <p-dialog header="Cadastrar Reserva" [(visible)]="displayForm">
+        <form
+            [formGroup]="reservaForm"
+            (ngSubmit)="cadastrarReserva(reservaForm.value)"
+        >
+            <div class="p-fluid">
+                <div class="p-field">
+                    <input
+                        type="text"
+                        id="idCliente"
+                        class="formInput"
+                        formControlName="idCliente"
+                        class="p-invalid"
+                        pInputText
+                        placeholder="Número Cliente"
+                    />
+                </div>
+                <div class="p-field">
+                    <input
+                        type="text"
+                        id="idSala"
+                        class="formInput"
+                        formControlName="idSala"
+                        class="p-invalid"
+                        pInputText
+                        placeholder="Número Sala"
+                    />
+                </div>
+                <div class="p-field">
+                    <label for="dataInicio">Data de Início </label>
+                    <input
+                        type="date"
+                        id="dataInicio"
+                        class="formInput"
+                        formControlName="dataInicio"
+                        class="p-invalid"
+                        pInputText
+                        placeholder="Data de Inicio"
+                    />
+                </div>
+                <div class="p-field">
+                    <label for="dataFim"> Data de Fim </label>
+                    <input
+                        type="date"
+                        id="dataFim"
+                        class="formInput"
+                        formControlName="dataFim"
+                        class="p-invalid"
+                        pInputText
+                        placeholder="Data de Fim"
+                    />
+                </div>
+                <div class="p-field">
+                    <label for="total">Valor Total</label>
+                    <p-inputNumber
+                        formControlName="total"
+                        mode="currency"
+                        currency="BRL"
+                        [minFractionDigits]="2"
+                        [maxFractionDigits]="2"
+                    >
+                    </p-inputNumber>
+                </div>
+                <div class="p-field">
+                    <p-button
+                        label="Enviar"
+                        icon="pi pi-check"
+                        iconPos="right"
+                    ></p-button>
+                </div>
+            </div>
+        </form>
+    </p-dialog>
 
-<p-table #scr [value]="listaReservas">
-    <ng-template pTemplate="header"> 
-        <tr>
-            <th pSortableColumn="dataInicio">Data de Inicio</th>
-            <th pSortableColumn="dataFim">Data de Fim</th>
-            <th pSortableColumn="total">Preço Total</th>
-            <th pSortableColumn="idCliente">Cliente</th>
-            <th pSortableColumn="idSala">Sala</th>
-            <th>Ações</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-reserva>
-        <tr>
-            <td>{{reserva.dataInicio}}</td>
-            <td>{{reserva.dataFim}}</td>
-            <td>{{reserva.total | currency: "BRL"}}</td>
-            <td>{{reserva.idCliente}}</td>
-            <td>{{reserva.idSala}}</td>
-            <td>
-                <button  type = "button" pButton pRipple  icon="pi pi-cog"  
-                class="p-button-rounded p-button-danger" (click)="editarReserva(reserva)"></button>
-                <button type="button" pButton pRipple icon="pi pi-trash"  
-                class="p-button-rounded p-button-danger" (click)="direcionarDeletarReserva(reserva)"></button>
-            </td>
-        </tr>
-    </ng-template>
-</p-table>
-
-
-
-
-
+    <p-table #dt [value]="listaReservas">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="dataInicio">Data de Inicio</th>
+                <th pSortableColumn="dataFim">Data de Fim</th>
+                <th pSortableColumn="total">Preço Total</th>
+                <th pSortableColumn="idCliente">Cliente</th>
+                <th pSortableColumn="idSala">Sala</th>
+                <th>Ações</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-reserva>
+            <tr>
+                <td>{{ reserva.dataInicio }}</td>
+                <td>{{ reserva.dataFim }}</td>
+                <td>{{ reserva.total | currency: "BRL" }}</td>
+                <td>{{ reserva.idCliente }}</td>
+                <td>{{ reserva.idSala }}</td>
+                <td>
+                    <button
+                        type="button"
+                        pButton
+                        pRipple
+                        icon="pi pi-cog"
+                        style="background-color: rgb(63, 63, 179)"
+                        class="p-button-rounded p-button-danger"
+                        (click)="editarReserva(reserva)"
+                    ></button>
+                    <button
+                        type="button"
+                        pButton
+                        pRipple
+                        icon="pi pi-trash"
+                        style="background: rgb(155, 45, 45)"
+                        class="p-button-rounded p-button-danger"
+                        (click)="direcionarDeletarReserva(reserva)"
+                    ></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

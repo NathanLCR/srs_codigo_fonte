@@ -30,13 +30,7 @@ public class SalaDTO {
     private Integer capacidade;
 
     @NotNull
-    @Min(0)
-    @Max(1)
-    private Integer disponivel;
-
-    @NotNull
     private Integer idTipoSala;
 
-    @NotNull
     private List<SalaEquipamentoDTO> equipamentos;
 }

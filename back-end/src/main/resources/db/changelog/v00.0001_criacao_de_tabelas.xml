@@ -28,6 +28,9 @@
             <column name="email" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
+            <column name="telefone" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
         <addPrimaryKey tableName="cliente" columnNames="id" constraintName="pk_cliente_id"/>
@@ -70,9 +73,6 @@
                 <constraints nullable="false"/>
             </column>
             <column  name="preco_diaria"  type="double">
-                <constraints nullable="false"/>
-            </column>
-            <column  name="disponivel"  type="number">
                 <constraints nullable="false"/>
             </column>
         </createTable>
