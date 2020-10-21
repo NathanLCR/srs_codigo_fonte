@@ -9,9 +9,7 @@ import { FormGroup, Validators, FormControl } from "@angular/forms";
     selector: "app-cliente",
     templateUrl: "./cliente.component.html",
     styleUrls: ["./cliente.component.css"],
-    providers: [
-      ConfirmationService,
-      MessageService]
+    providers: [ConfirmationService, MessageService],
 })
 export class ClienteComponent implements OnInit {
     clienteDialog: boolean;
@@ -21,6 +19,9 @@ export class ClienteComponent implements OnInit {
     cliente: Cliente;
 
     displayForm = false;
+
+    clienteForm;
+
     constructor(
         private clienteService: ClienteService,
         private messageService: MessageService,
@@ -28,22 +29,37 @@ export class ClienteComponent implements OnInit {
     ) {}
 
     ngOnInit() {
+        this.clienteForm = new FormGroup({
+            id: new FormControl(""),
+            nome: new FormControl("", [Validators.required]),
+            cpf: new FormControl("", Validators.required),
+            rg: new FormControl("", Validators.required),
+            dataNascimento: new FormControl(""),
+            endereco: new FormControl(""),
+            email: new FormControl(""),
+            telefone: new FormControl(""),
+        });
         this.clienteService.getClientes().subscribe((resultado) => {
             this.clientes = resultado;
         });
     }
 
-  
-    clienteForm = new FormGroup({
-        id: new FormControl(""),
-        nome: new FormControl("", [Validators.required]),
-        cpf: new FormControl("", Validators.required),
-        rg: new FormControl("", Validators.required),
-        dataNascimento: new FormControl(""),
-        endereco: new FormControl(""),
-        email: new FormControl(""),
-        telefone: new FormControl(""),
-    });
+    addErrorToast(error) {
+        this.messageService.add({
+            severity: "error",
+            summary: "Error no servidor",
+            detail: "Error no servidor, favor tentar mais tarde",
+        });
+        console.log(error);
+    }
+
+    addToast(severity, summary, detail) {
+        this.messageService.add({
+            severity: severity,
+            summary: summary,
+            detail: detail,
+        });
+    }
 
     editCliente(cliente) {
         this.clienteForm.setValue({
@@ -58,22 +74,33 @@ export class ClienteComponent implements OnInit {
         });
     }
 
-    editarCliente(value) {
-        this.clienteService.putCliente(value).subscribe();
+    handleSubmit(value) {
+        console.log(value);
+        this.clienteService.postCliente(value).subscribe(
+            () => {
+                if (!value.id) {
+                    this.clientes.push(value);
+                } else {
+                    const index = this.clientes.findIndex(
+                        (e) => e.id === value.id
+                    );
+                    this.clientes[index] = value;
+                }
+                this.displayForm = false;
 
-        if (!value.id) {
-            this.clientes.push(value);
-        } else {
-            const index = this.clientes.findIndex((e) => e.id === value.id);
-            this.clientes[index] = value;
-        }
+                this.clienteForm.reset();
 
-        this.displayForm = false;
-
-        this.clienteForm.reset();
+                this.addToast(
+                    "success",
+                    "Cadastrado",
+                    "Cliente cadastrado com sucesso"
+                );
+            },
+            (error) => this.addErrorToast(error)
+        );
     }
 
-    handleSubmit(cliente) {
+    addCliente(cliente) {
         this.clienteService.postCliente(cliente).subscribe();
 
         if (!cliente.id) {
@@ -95,15 +122,7 @@ export class ClienteComponent implements OnInit {
             header: "Confirmar exclusão",
             icon: "pi pi-exclamation-triangle",
             accept: () => {
-                this.clienteService.deleteCliente(cliente.id).subscribe(
-                  () => {
-                    this.addSuccess(
-                      "success",
-                      "Deleção",
-                      "Cliente apagado com Sucesso!"
-                    )
-                  }
-                );
+                this.clienteService.deleteCliente(cliente.id).subscribe();
                 this.clientes = this.clientes.filter(
                     (val) => val.id !== cliente.id
                 );
@@ -115,19 +134,20 @@ export class ClienteComponent implements OnInit {
         this.clienteForm.reset();
         this.displayForm = true;
     }
-    addSuccess(severity,summary,detail) {
-      this.messageService.add({
-        severity:severity, 
-        summary:summary, 
-        detail:detail});
+    addSuccess(severity, summary, detail) {
+        this.messageService.add({
+            severity: severity,
+            summary: summary,
+            detail: detail,
+        });
     }
 
-    addErrorToast(error){
-      this.messageService.add({
-        severity:'Error',
-        summary:'Error inesperado',
-        detail:'Error no service'
-      })
-      console.log(error)
+    addErrorToast(error) {
+        this.messageService.add({
+            severity: "Error",
+            summary: "Error inesperado",
+            detail: "Error no service",
+        });
+        console.log(error);
     }
 }

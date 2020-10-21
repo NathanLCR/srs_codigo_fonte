@@ -13,4 +13,5 @@ public interface ReservaRepositorio extends JpaRepository<Reserva, Integer>{
 
     List<Reserva> getAllBySalaId(Integer id);
 
+
 }

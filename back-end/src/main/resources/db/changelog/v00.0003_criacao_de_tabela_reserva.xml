@@ -71,6 +71,27 @@
         </insert>
     </changeSet>
 
+    <changeSet id="tabela_reserva_equipamento" author="nathan.lucio">
+        <createTable tableName="reserva_equipamento">
+            <column  name="id_reserva"  type="number">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id_equipamento" type="number">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantidade" type="number">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey tableName="reserva_equipamento" columnNames="id_reserva, id_equipamento" constraintName="pk_reserva_equipamento" />
+
+        <addForeignKeyConstraint baseTableName="reserva_equipamento" baseColumnNames="id_reserva" constraintName="fk_reserva_equipamento_reserva" referencedTableName="reserva"
+        referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="reserva_equipamento" baseColumnNames="id_equipamento" constraintName="reserva-equipamento-equipamento" referencedTableName="equipamento"
+                                 referencedColumnNames="id" />
+    </changeSet>
+
 
 
 

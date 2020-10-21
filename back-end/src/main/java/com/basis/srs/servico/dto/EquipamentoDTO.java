@@ -29,8 +29,4 @@ public class EquipamentoDTO {
     @Positive
     private double precoDiaria;
 
-    @NotNull
-    @Min(0)
-    @Max(1)
-    private Integer obrigatorio;
 }

@@ -47,7 +47,6 @@ export class EquipamentoComponent implements OnInit {
                 Validators.required,
                 Validators.min(0),
             ]),
-            obrigatorio: new FormControl(false),
         });
         this.equipamentoService
             .getEquipamentos()
@@ -109,12 +108,10 @@ export class EquipamentoComponent implements OnInit {
             nome: equipamento.nome,
             idTipoEquipamento: equipamento.idTipoEquipamento,
             precoDiaria: equipamento.precoDiaria,
-            obrigatorio: equipamento.obrigatorio,
         });
     }
 
     handleSubmit(value: Equipamento) {
-        value.obrigatorio = value.obrigatorio ? 1 : 0;
         if (!value.id) {
             this.addEquipamento(value);
         } else {
