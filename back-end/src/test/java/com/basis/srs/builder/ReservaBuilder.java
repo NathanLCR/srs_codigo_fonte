@@ -39,6 +39,8 @@ public class ReservaBuilder extends ConstrutorDeEntidade<Reserva>{
         reserva.setSala(sala);
         reserva.setDataFim(LocalDate.of(2020,11,8));
         reserva.setDataInicio(LocalDate.of(2020,11,7));
+        Double total = reservaServico.custoTotalReserva(reservaMapper.toDto(reserva));
+        reserva.setTotal(total);
 
 
         Equipamento equipamento = equipamentoBuilder.construir();

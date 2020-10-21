@@ -96,7 +96,7 @@ public class ReservaServico {
         return reservas.stream().anyMatch(reserva -> !(reservaDto.getDataInicio().isAfter(reserva.getDataFim()) | reservaDto.getDataFim().isBefore(reserva.getDataInicio())));
     }
 
-    private Double custoTotalReserva (ReservaDTO reservaDTO) {
+    public Double custoTotalReserva (ReservaDTO reservaDTO) {
         /*Não tratei todos os erros aqui porque, se chegar-mos ao momentos de calcular o preço, é porque a reserva já foi
         validada pelo método salvar()*/
 

@@ -88,7 +88,7 @@
 
         <addForeignKeyConstraint baseTableName="reserva_equipamento" baseColumnNames="id_reserva" constraintName="fk_reserva_equipamento_reserva" referencedTableName="reserva"
         referencedColumnNames="id" />
-        <addForeignKeyConstraint baseTableName="reserva_equipamento" baseColumnNames="id_equipamento" constraintName="fk_equipamento_equipamento_equipamento" referencedTableName="equipamento"
+        <addForeignKeyConstraint baseTableName="reserva_equipamento" baseColumnNames="id_equipamento" constraintName="reserva-equipamento-equipamento" referencedTableName="equipamento"
                                  referencedColumnNames="id" />
     </changeSet>
 

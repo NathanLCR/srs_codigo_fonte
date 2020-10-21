@@ -100,7 +100,7 @@ public class SalaRecursoIT extends IntTestComum {
     ///////////////////////////////////TESTE DE ENDPOINTS COM BAD REQUEST///////////////////////////////////////////////
 
     @Test
-    public void atualizarExcessao1() throws Exception { //irá testar quando editar um  um equipamento obrigatório - deve retornar BAD REQUEST
+    public void atualizarExcessao1() throws Exception { //irá testar quando atualizar uma sala com id inexistente
         Sala sala = salaBuilder.construirEntidade();
         sala.setId(9000);
         SalaDTO salaDTO = salaBuilder.converterParaDto(sala);
@@ -123,8 +123,7 @@ public class SalaRecursoIT extends IntTestComum {
     @Test
     public void deletarExcessao2() throws Exception { //irá testar quando apagar uma sala que está reservada - deve retornar BAD REQUEST
         Reserva reserva = reservaBuilder.construir();
-        Sala sala = salaBuilder.construir();
-        reserva.setSala(sala);
+        Sala sala = salaRepositorio.findById(reserva.getSala().getId()).get();
         getMockMvc().perform(delete("/api/salas/" + sala.getId()))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
