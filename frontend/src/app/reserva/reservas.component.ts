@@ -62,7 +62,7 @@ export class ReservasComponent implements OnInit {
 
     listarReservas() {
         this.reservaService.listarReservas().subscribe((listaReservas) => {
-            this.listaReservas = listaReservas;
+            this.listarReservas = listaReservas;
         });
     }
 
@@ -80,7 +80,7 @@ export class ReservasComponent implements OnInit {
                 this.addError();
             }
         );
-        this.listaReservas = this.listaReservas.filter(
+        this.listarReservas = this.listarReservas.filter(
             (val) => val.id !== value.id
         );
     }
