@@ -3,7 +3,6 @@ package com.basis.srs.web;
 
 import com.basis.srs.servico.ClienteServico;
 import com.basis.srs.servico.dto.ClienteDTO;
-import com.basis.srs.servico.dto.EquipamentoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

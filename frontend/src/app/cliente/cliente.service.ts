@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
-import { Cliente } from "../models/Cliente";
+import Cliente from "../models/Cliente";
 
 @Injectable({
     providedIn: "root",
@@ -18,7 +18,6 @@ export class ClienteService {
     getClienteById(id) {
         return this.http.get<Cliente>(this.PATH + "/{id}");
     }
-
     postCliente(cliente: Cliente) {
         return this.http.post(this.PATH, cliente);
     }

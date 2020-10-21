@@ -4,7 +4,6 @@ import com.basis.srs.dominio.Equipamento;
 import com.basis.srs.dominio.Sala;
 import com.basis.srs.dominio.SalaEquipamento;
 import com.basis.srs.repositorio.EquipamentoRepositorio;
-import com.basis.srs.dominio.SalaEquipamentoKey;
 import com.basis.srs.repositorio.ReservaRepositorio;
 import com.basis.srs.repositorio.SalaEquipamentoRepositorio;
 import com.basis.srs.repositorio.SalaRepositorio;
@@ -14,13 +13,10 @@ import com.basis.srs.servico.exception.RegraNegocioException;
 import com.basis.srs.servico.mapper.EquipamentoMapper;
 import com.basis.srs.servico.mapper.SalaEquipamentoMapper;
 import com.basis.srs.servico.mapper.SalaMapper;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
