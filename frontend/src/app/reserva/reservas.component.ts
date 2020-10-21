@@ -1,9 +1,11 @@
+import { ClienteService } from './../cliente/cliente.service';
 import { Component, OnInit } from "@angular/core";
 import { ListarReservaModel } from "src/app/models/listar-reserva.model";
 import { InfoReservaModel } from "src/app/models/info-reserva.model";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MessageService } from "primeng/api";
 import { ReservaService } from "./reserva.service";
+import Cliente from '../models/Cliente';
 
 @Component({
     selector: "app-listar-reservas",
@@ -11,16 +13,21 @@ import { ReservaService } from "./reserva.service";
     styleUrls: ["./reservas.component.css"],
 })
 export class ReservasComponent implements OnInit {
+
     listaReservas: ListarReservaModel[];
     displayForm = false;
     formReserva: FormGroup;
     reserva: InfoReservaModel;
     reservaForm;
+    clientes;
+    clienteForm;
+    displayClienteForm = false;
 
     constructor(
         private reservaService: ReservaService,
         private formBuilder: FormBuilder,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private clienteService: ClienteService,
     ) {
         this.reservaForm = this.formBuilder.group({
             id: null,
@@ -30,8 +37,24 @@ export class ReservasComponent implements OnInit {
             dataFim: "",
             total: null,
         });
+
+        this.clienteForm = this.formBuilder.group({
+            id: null,
+            nome: null,
+            rg: null,
+            cpf: null,
+            dataNascimento: null,
+            endereco: null,
+        });
+
+
     }
 
+    get clientesForm() {
+        return this.clienteForm.get("clientes") as FormArray;
+    }
+
+    
     addSucess() {
         this.messageService.add({
             severity: "success",
@@ -63,6 +86,12 @@ export class ReservasComponent implements OnInit {
 
     ngOnInit(): void {
         this.listarReservas();
+
+        this.clienteService.getClientes().subscribe((resulta) => {
+            this.clientes = resulta.map((e) => {
+                return { label: e.nome, value: e };
+            });
+        });
     }
 
     listarReservas() {
@@ -73,6 +102,10 @@ export class ReservasComponent implements OnInit {
 
     showForm() {
         this.displayForm = true;
+    }
+
+    showClienteForm() {
+        this.displayClienteForm = true;
     }
 
     direcionarDeletarReserva(value) {
