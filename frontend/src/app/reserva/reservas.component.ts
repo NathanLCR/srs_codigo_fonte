@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ListarReservaModel } from 'src/app/models/listar-reserva.model';
-import { InfoReservaModel } from 'src/app/models/info-reserva.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {MessageService} from 'primeng/api';
+import { ClienteComponent } from '../cliente/cliente.component';
+import { EquipamentoComponent } from '../equipamento/equipamento.component';
+import Cliente from '../models/Cliente';
+import { EditarReservaModel } from '../models/editar-reserva.model';
+import { SalaComponent } from '../sala/sala.component';
 import { ReservaService } from './reserva.service';
 
 @Component({
@@ -13,11 +16,14 @@ import { ReservaService } from './reserva.service';
 })
 export class ReservasComponent implements OnInit {
 
-  listaReservas: ListarReservaModel[];
+  listaReservas: EditarReservaModel[];
   displayForm = false; 
-  formReserva: FormGroup; 
-  reserva:InfoReservaModel;
-  reservaForm;
+  reserva:EditarReservaModel;
+  reservaForm: FormGroup;
+  cliente: ClienteComponent;
+  sala: SalaComponent;
+  equipamento: EquipamentoComponent;
+
 
   constructor(
     private reservaService: ReservaService,
@@ -41,10 +47,10 @@ export class ReservasComponent implements OnInit {
     this.messageService.add({severity:'success', summary:'Sucesso!', detail:'Reserva Cadastrada'});
     }
   addDelete() {
-      this.messageService.add({severity:'info', summary:'Sucesso!', detail:'Reserva Cancelada'});
+      this.messageService.add({severity:'warn', summary:'Sucesso!', detail:'Reserva Cancelada'});
       }
   addError() {
-  this.messageService.add({severity:'warn', summary:'Atenção!', detail:'Erro ao Chamar Serviço'});
+  this.messageService.add({severity:'error', summary:'Atenção!', detail:'Erro ao Chamar Serviço'});
     }
   addAtt() {
     this.messageService.add({severity:'info', summary:'Sucesso!', detail:'Reserva Atualizada'});
@@ -65,6 +71,7 @@ export class ReservasComponent implements OnInit {
 }
 
   direcionarSalvar(reserva) {
+    
     this.displayForm = true;
     
   }
@@ -89,7 +96,7 @@ export class ReservasComponent implements OnInit {
     this.reservaService.recuperarReserva(id)
     .subscribe(reserva =>{
     this.reserva = reserva;
-    this.formReserva.patchValue(reserva);
+    this.reservaForm.patchValue(reserva);
     })
 
   }
@@ -108,8 +115,9 @@ export class ReservasComponent implements OnInit {
     })
   }
 
-  cadastrarReserva(value) {
-    this.displayForm = false;
+  salvarReserva(value) {
+    if(!value.id){
+      this.displayForm = false;
     this.reservaForm.reset();
     this.reservaService.cadastrarReserva(value).subscribe(
       () => {
@@ -119,14 +127,22 @@ export class ReservasComponent implements OnInit {
       },
       () => {
         this.addError();
-      });
-      
-      
-  
-  }
-  
+      });}
+    else{
+      this.displayForm = false;
+      this.reservaService.editarReserva(value).subscribe(
+        () => {
+          this.listaReservas.push(value);
+          this.addAtt();
+          this.listarReservas();
+        },
+        () => {
+          this.addError();
 
-  
+  })
+  }
+}
+
 }
 
 

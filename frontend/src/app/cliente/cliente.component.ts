@@ -13,7 +13,6 @@ import { FormGroup, Validators, FormControl } from "@angular/forms";
 })
 export class ClienteComponent implements OnInit {
     clienteDialog: boolean;
-
     clientes: Cliente[];
 
     cliente: Cliente;
