@@ -52,12 +52,6 @@
                 </div>
                 <br />
                 <div class="p-field">
-                    <label for="disponivel">Disponibilidade</label>
-                    <p-inputNumber formControlName="disponivel">
-                    </p-inputNumber>
-                </div>
-                <br />
-                <div class="p-field">
                     <label for="idTipoSala">Tipo da Sala</label>
                     <p-dropdown
                         [options]="tiposDeSala"
@@ -137,11 +131,9 @@
     <p-table #dt [value]="salas" [globalFilterFields]="['Descrição']">
         <ng-template pTemplate="header">
             <tr>
-    
                 <th pSortableColumn="descricao">Descrição</th>
                 <th pSortableColumn="precoDiaria">Preço diária</th>
                 <th pSortableColumn="capacidade">Capacidade</th>
-                <th pSortableColumn="disponivel">Disponibilidade</th>
                 <th pSortableColumn="tipoSala">Tipo de Sala</th>
                 <th pSortableColumn="equipamentos">Equipamentos</th>
                 <th p>Ações</th>
@@ -149,11 +141,9 @@
         </ng-template>
         <ng-template pTemplate="body" let-sala>
             <tr>
-                
                 <td>{{ sala.descricao }}</td>
                 <td>{{ sala.precoDiaria | currency: "BRL" }}</td>
                 <td>{{ sala.capacidade }}</td>
-                <td>{{ sala.disponivel === 1 ? "Sim" : "Não" }}</td>
                 <td>{{ sala.tipoSala }}</td>
                 <td>{{ sala.equipamentos }}</td>
                 <td>

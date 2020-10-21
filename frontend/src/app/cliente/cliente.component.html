@@ -45,22 +45,24 @@
                 </div>
                 <div class="p-field">
                     <label for="cpf">CPF</label>
-                    <input
+                    <p-inputMask
                         type="text"
                         pInputText
-                        placeholder="CPF"
+                        placeholder="999.999.999-99"
                         formControlName="cpf"
-                    />
+                        mask="999.999.999-99"
+                    ></p-inputMask>
                 </div>
 
                 <div class="p-field">
                     <label for="rg">RG</label>
-                    <input
+                    <p-inputMask
                         type="text"
                         pInputText
-                        placeholder="RG"
+                        placeholder="9.999-999"
+                        mask="9.999-999"
                         formControlName="rg"
-                    />
+                    ></p-inputMask>
                 </div>
 
                 <div class="p-field">
@@ -75,11 +77,12 @@
 
                 <div class="p-field">
                     <label for="telefone">Telefone</label>
-                    <input
+                    <p-inputMask
                         pInputText
-                        placeholder="Telefone"
+                        placeholder="(99)99999-9999"
                         formControlName="telefone"
-                    />
+                        mask="(99)99999-9999"
+                    ></p-inputMask>
                 </div>
 
                 <div class="p-field">
@@ -106,7 +109,6 @@
     <p-table #dt [value]="clientes" [globalFilterFields]="['nome']">
         <ng-template pTemplate="header">
             <tr>
-                
                 <th pSortableColum="nome">Nome</th>
                 <th pSortableColum="cpf">CPF</th>
                 <th pSortableColum="rg">RG</th>
@@ -119,7 +121,6 @@
         </ng-template>
         <ng-template pTemplate="body" let-cliente>
             <tr>
-                
                 <td>{{ cliente.nome }}</td>
                 <td>{{ cliente.cpf }}</td>
                 <td>{{ cliente.rg }}</td>
@@ -133,7 +134,6 @@
                         pRipple
                         icon="pi pi-user-edit"
                         class="p-button-rounded p-button-success"
-                        
                         (click)="editarCliente(cliente)"
                     ></button>
 
