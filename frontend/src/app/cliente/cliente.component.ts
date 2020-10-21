@@ -91,6 +91,8 @@ export class ClienteComponent implements OnInit {
     handleSubmit(cliente) {
         this.clienteService.postCliente(cliente).subscribe();
 
+        console.log(cliente);
+
         if (!cliente.id) {
             this.clientes.push(cliente);
         } else {
