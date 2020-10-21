@@ -26,7 +26,6 @@ public class ReservaDTO {
     @NotNull
     private LocalDate dataFim;
 
-
     private Double total;
 
     private List<ReservaEquipamentoDTO> equipamentos;

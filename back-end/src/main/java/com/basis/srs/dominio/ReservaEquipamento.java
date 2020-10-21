@@ -24,8 +24,8 @@ public class ReservaEquipamento implements Serializable {
     private ReservaEquipamentoKey id;
 
     @ManyToOne(cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
-    @MapsId("idEquipamento")
-    @JoinColumn(name="id_equipamento")
+    @MapsId("idReserva")
+    @JoinColumn(name="id_reserva")
     private Reserva reserva;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)

@@ -11,6 +11,7 @@ import com.basis.srs.servico.dto.ReservaDTO;
 import com.basis.srs.servico.mapper.ReservaMapper;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class ReservaBuilder extends ConstrutorDeEntidade<Reserva>{
     private ClienteBuilder clienteBuilder;
     @Autowired
     private SalaBuilder salaBuilder;
-
+    
     @Override
     public Reserva construirEntidade() throws ParseException {
         Reserva reserva = new Reserva();
@@ -39,9 +40,6 @@ public class ReservaBuilder extends ConstrutorDeEntidade<Reserva>{
         reserva.setSala(sala);
         reserva.setDataFim(LocalDate.of(2020,11,8));
         reserva.setDataInicio(LocalDate.of(2020,11,7));
-        Double total = reservaServico.custoTotalReserva(reservaMapper.toDto(reserva));
-        reserva.setTotal(total);
-
 
         Equipamento equipamento = equipamentoBuilder.construir();
         ReservaEquipamento reservaEquipamento = new ReservaEquipamento();

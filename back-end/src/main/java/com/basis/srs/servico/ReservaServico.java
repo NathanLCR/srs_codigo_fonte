@@ -56,7 +56,9 @@ public class ReservaServico {
     //Delete
     public void deletar(Integer id){
         Reserva reserva = reservaRepositorio.findById(id).orElseThrow(() -> new RegraNegocioException("Essa reserva não existe ainda."));
-        Sala sala = reserva.getSala();
+
+        reservaEquipamentoRepositorio.deleteAllByReservaId(id);
+
         reservaRepositorio.deleteById(id);
     }
 
@@ -70,6 +72,8 @@ public class ReservaServico {
             throw new RegraNegocioException("Não é possível cadastrar uma reserva que tenha a data de início após a data do fim.");
         }
 
+        reservaDto.setTotal(calculaTotalReserva(reservaDto));
+
         Reserva reserva = reservaMapper.toEntity(reservaDto);
 
         List<ReservaEquipamento> equipamentos = reserva.getEquipamentos();
@@ -79,15 +83,14 @@ public class ReservaServico {
         if (equipamentos != null) {
             equipamentos.forEach(equipamento -> {
                 equipamento.setReserva(reserva);
-                equipamento.getId().setIdEquipamento(equipamento.getEquipamento().getId());
                 equipamento.getId().setIdReserva(reserva.getId());
             });
             reservaEquipamentoRepositorio.saveAll(equipamentos);
         }
 
         reserva.setEquipamentos(equipamentos);
-        reserva.setTotal(this.custoTotalReserva(reservaDto));
-        return reservaMapper.toDto(reservaRepositorio.save(reserva));
+        reserva.setTotal(calculaTotalReserva(reservaDto));
+        return reservaMapper.toDto(reserva);
     }
 
     private boolean verificarSeDataJaEstaReservada(ReservaDTO reservaDto){
@@ -96,7 +99,7 @@ public class ReservaServico {
         return reservas.stream().anyMatch(reserva -> !(reservaDto.getDataInicio().isAfter(reserva.getDataFim()) | reservaDto.getDataFim().isBefore(reserva.getDataInicio())));
     }
 
-    public Double custoTotalReserva (ReservaDTO reservaDTO) {
+    public Double calculaTotalReserva (ReservaDTO reservaDTO) {
         /*Não tratei todos os erros aqui porque, se chegar-mos ao momentos de calcular o preço, é porque a reserva já foi
         validada pelo método salvar()*/
 
