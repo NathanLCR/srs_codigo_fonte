@@ -2,7 +2,6 @@
     <p-toolbar>
         <div id="toolbar">
             <p-button label="Novo" (click)="showForm()"></p-button>
-
             <div>
                 <i class="pi pi-search"></i>
                 <input
@@ -14,7 +13,6 @@
             </div>
         </div>
     </p-toolbar>
-
     <p-dialog header="Cadastrar Reserva" [(visible)]="displayForm">
         <form
             [formGroup]="reservaForm"

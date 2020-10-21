@@ -31,7 +31,6 @@ export class ReservasComponent implements OnInit {
             total: null,
         });
     }
-
     addSucess() {
         this.messageService.add({
             severity: "success",
