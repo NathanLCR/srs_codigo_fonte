@@ -9,7 +9,7 @@ import { FormGroup, Validators, FormControl } from "@angular/forms";
     selector: "app-cliente",
     templateUrl: "./cliente.component.html",
     styleUrls: ["./cliente.component.css"],
-    providers: [ConfirmationService],
+    providers: [ConfirmationService, MessageService],
 })
 export class ClienteComponent implements OnInit {
     clienteDialog: boolean;
@@ -73,33 +73,22 @@ export class ClienteComponent implements OnInit {
         });
     }
 
-    handleSubmit(value) {
-        console.log(value);
-        this.clienteService.postCliente(value).subscribe(
-            () => {
-                if (!value.id) {
-                    this.clientes.push(value);
-                } else {
-                    const index = this.clientes.findIndex(
-                        (e) => e.id === value.id
-                    );
-                    this.clientes[index] = value;
-                }
-                this.displayForm = false;
+    editarCliente(value) {
+        this.clienteService.putCliente(value).subscribe();
 
-                this.clienteForm.reset();
+        if (!value.id) {
+            this.clientes.push(value);
+        } else {
+            const index = this.clientes.findIndex((e) => e.id === value.id);
+            this.clientes[index] = value;
+        }
 
-                this.addToast(
-                    "success",
-                    "Cadastrado",
-                    "Cliente cadastrado com sucesso"
-                );
-            },
-            (error) => this.addErrorToast(error)
-        );
+        this.displayForm = false;
+
+        this.clienteForm.reset();
     }
 
-    addCliente(cliente) {
+    handleSubmit(cliente) {
         this.clienteService.postCliente(cliente).subscribe();
 
         if (!cliente.id) {
@@ -121,7 +110,13 @@ export class ClienteComponent implements OnInit {
             header: "Confirmar exclusão",
             icon: "pi pi-exclamation-triangle",
             accept: () => {
-                this.clienteService.deleteCliente(cliente.id).subscribe();
+                this.clienteService.deleteCliente(cliente.id).subscribe(() => {
+                    this.addSuccess(
+                        "success",
+                        "Deleção",
+                        "Cliente apagado com Sucesso!"
+                    );
+                });
                 this.clientes = this.clientes.filter(
                     (val) => val.id !== cliente.id
                 );
@@ -132,5 +127,12 @@ export class ClienteComponent implements OnInit {
     showForm() {
         this.clienteForm.reset();
         this.displayForm = true;
+    }
+    addSuccess(severity, summary, detail) {
+        this.messageService.add({
+            severity: severity,
+            summary: summary,
+            detail: detail,
+        });
     }
 }

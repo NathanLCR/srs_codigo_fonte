@@ -27,6 +27,9 @@ public class ReservaDTO {
     private LocalDate dataFim;
 
     private Double total;
+<<<<<<< HEAD
+=======
 
     private List<ReservaEquipamentoDTO> equipamentos;
+>>>>>>> manter-equipamento
 }

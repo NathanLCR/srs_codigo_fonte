@@ -1,6 +1,11 @@
 package com.basis.srs.builder;
 
 import com.basis.srs.dominio.Cliente;
+<<<<<<< HEAD
+import com.basis.srs.servico.ClienteServico;
+import com.basis.srs.servico.dto.ClienteDTO;
+import com.basis.srs.servico.mapper.ClienteMapper;
+=======
 import com.basis.srs.dominio.Equipamento;
 import com.basis.srs.dominio.Sala;
 import com.basis.srs.dominio.SalaEquipamento;
@@ -11,13 +16,16 @@ import com.basis.srs.servico.dto.ClienteDTO;
 import com.basis.srs.servico.dto.SalaDTO;
 import com.basis.srs.servico.mapper.ClienteMapper;
 import com.basis.srs.servico.mapper.SalaMapper;
+>>>>>>> manter-equipamento
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.Collection;
+<<<<<<< HEAD
+=======
 import java.util.Collections;
+>>>>>>> manter-equipamento
 
 @Component
 public class ClienteBuilder extends ConstrutorDeEntidade<Cliente> {
@@ -40,7 +48,7 @@ public class ClienteBuilder extends ConstrutorDeEntidade<Cliente> {
         cliente.setRg("1234567");
 
         return cliente;
-   }
+    }
 
     @Override
     public Cliente persistir(Cliente entidade) {
