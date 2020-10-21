@@ -37,7 +37,7 @@ public class ClienteBuilder extends ConstrutorDeEntidade<Cliente> {
         cliente.setEndereco("Rua teste");
         cliente.setNome("Teste");
         cliente.setRg("1234567");
-
+        cliente.setTelefone("14253698714");
         return cliente;
     }
 
