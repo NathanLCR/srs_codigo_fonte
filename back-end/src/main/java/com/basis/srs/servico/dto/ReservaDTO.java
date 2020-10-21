@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,7 +26,10 @@ public class ReservaDTO {
     @NotNull
     private LocalDate dataFim;
 
-    @NotNull
-    @Positive
     private Double total;
+<<<<<<< HEAD
+=======
+
+    private List<ReservaEquipamentoDTO> equipamentos;
+>>>>>>> manter-equipamento
 }

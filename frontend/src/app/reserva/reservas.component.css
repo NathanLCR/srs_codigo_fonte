@@ -1,0 +1,42 @@
+td {
+    text-align: center;
+    
+}
+#toolbar {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+}
+#toolbar input {
+    color: white;
+    margin-left: 2px;
+}
+
+
+p-table button{
+    margin-right: 20px;
+}
+
+p-toolbar p-button{
+    margin-bottom: 5px;
+    margin-right: 71%;
+}
+
+p-dialog p-button{
+    margin-top: 10px;
+    margin-left: 145px;
+}
+
+p-dialog input{
+    margin-bottom: 15px;
+}
+
+form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+

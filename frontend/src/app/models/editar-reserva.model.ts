@@ -1,4 +1,4 @@
-export default interface Reserva{
+export interface EditarReservaModel{
     id: Number;
     idSala: Number;
     idCliente: Number;

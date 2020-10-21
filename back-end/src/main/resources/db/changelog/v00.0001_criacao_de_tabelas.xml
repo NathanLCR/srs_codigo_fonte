@@ -75,9 +75,6 @@
             <column  name="preco_diaria"  type="double">
                 <constraints nullable="false"/>
             </column>
-            <column  name="disponivel"  type="number">
-                <constraints nullable="false"/>
-            </column>
         </createTable>
 
         <addPrimaryKey tableName="sala" columnNames="id" constraintName="pk_sala_id"/>
