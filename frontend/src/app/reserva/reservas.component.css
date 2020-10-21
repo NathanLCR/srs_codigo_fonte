@@ -1,7 +1,3 @@
-td {
-    text-align: center;
-    
-}
 #toolbar {
     display: flex;
     flex-direction: row;
@@ -9,27 +5,41 @@ td {
     justify-content: space-between;
     align-items: center;
 }
+
 #toolbar input {
     color: white;
     margin-left: 2px;
 }
+#toolbar div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+td {
+    text-align: center;
+}
+#toolbar div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-p-table button{
+p-table button {
     margin-right: 20px;
 }
 
-p-toolbar p-button{
+p-toolbar p-button {
     margin-bottom: 5px;
     margin-right: 71%;
 }
 
-p-dialog p-button{
+p-dialog p-button {
     margin-top: 10px;
     margin-left: 145px;
 }
 
-p-dialog input{
+p-dialog input {
     margin-bottom: 15px;
 }
 
@@ -38,5 +48,3 @@ form {
     align-items: center;
     justify-content: center;
 }
-
-
