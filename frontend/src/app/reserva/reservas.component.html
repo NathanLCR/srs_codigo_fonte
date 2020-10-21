@@ -1,7 +1,8 @@
+
 <p-toolbar class="toolbar">
     <p-button label="Nova Reserva" icon="pi pi-plus" (click)="direcionarSalvar(reserva)"></p-button>
     <i class="pi pi-search" ></i>
-    <input pInputText type="text" (input)="scr.filterGlobal($event.target.value, 'contains')" placeholder="Pesquisar..." />
+    <input pInputText type="text" (input)="scr.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
 </p-toolbar>
 
 
@@ -12,23 +13,25 @@
     >
     <div class="p-fluid">
         <div class="p-field">
-            <input type="text" id="idCliente" class="formInput" formControlName="idCliente" class="p-invalid" pInputText placeholder="ID Cliente">  
+            <input type="text" id="idCliente" class="formInput" formControlName="idCliente" class="p-invalid" pInputText placeholder="Número Cliente">  
         </div>
         <div class="p-field">
-            <input type="text" id="idSala" class="formInput" formControlName="idSala" class="p-invalid" pInputText placeholder="ID Sala">  
+            <input type="text" id="idSala" class="formInput" formControlName="idSala" class="p-invalid" pInputText placeholder="Número Sala">  
         </div>
         <div class="p-field">
-            <input type="text" id="dataInicio" class="formInput" formControlName="dataInicio" class="p-invalid" pInputText placeholder="Data de Inicio">  
+            <label for="dataInicio">Data de Início </label>
+            <input type="date" id="dataInicio" class="formInput" formControlName="dataInicio" class="p-invalid" pInputText placeholder="Data de Inicio">  
         </div>
         <div class="p-field">
-            <input type="text" id="dataFim" class="formInput" formControlName="dataFim" class="p-invalid" pInputText placeholder="Data de Fim">  
+            <label for="dataFim"> Data de Fim </label>
+            <input type="date" id="dataFim" class="formInput" formControlName="dataFim" class="p-invalid" pInputText placeholder="Data de Fim">  
         </div>
         <div class="p-field">
             <label for="total">Valor Total</label>
             <p-inputNumber  formControlName="total" mode="currency" currency="BRL" [minFractionDigits]="2" [maxFractionDigits]="2"> </p-inputNumber>   
         </div>
         <div class="p-field">
-            <p-button label="Salvar" icon="pi pi-check" iconPos="right" ></p-button>    
+            <p-button label="Enviar" icon="pi pi-check" iconPos="right" ></p-button> 
         </div>
     </div>   
     </form>    
@@ -53,14 +56,16 @@
             <td>{{reserva.idCliente}}</td>
             <td>{{reserva.idSala}}</td>
             <td>
-                <button  type = "button" pButton pRipple  icon="pi pi-bars" 
+                <button  type = "button" pButton pRipple  icon="pi pi-cog" style="background-color:rgb(63, 63, 179)" 
                 class="p-button-rounded p-button-danger" (click)="editarReserva(reserva)"></button>
-                <button type="button" pButton pRipple icon="pi pi-times" 
+                <button type="button" pButton pRipple icon="pi pi-trash"  style="background: rgb(155, 45, 45);"
                 class="p-button-rounded p-button-danger" (click)="direcionarDeletarReserva(reserva)"></button>
             </td>
         </tr>
     </ng-template>
 </p-table>
 
-<p-toast position="top-right"></p-toast>
+
+
+
 

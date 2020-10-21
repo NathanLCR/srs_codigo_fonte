@@ -51,14 +51,11 @@ public class SalaServico {
         List<SalaEquipamento> novosEquipamentos = sala2.getEquipamentos();
         sala2.setEquipamentos(new ArrayList<>());
         salaRepositorio.save(sala2);
-        if (novosEquipamentos != null) {
-            novosEquipamentos.forEach(equipamento -> {
-                equipamento.setSala(sala2);
-                equipamento.getId().setIdSala(sala2.getId());
-            });
-            salaEquipamentoRepositorio.saveAll(novosEquipamentos);
-        }
-
+        novosEquipamentos.forEach(equipamento -> {
+            equipamento.setSala(sala2);
+            equipamento.getId().setIdSala(sala2.getId());
+        });
+        salaEquipamentoRepositorio.saveAll(novosEquipamentos);
         sala2.setEquipamentos(novosEquipamentos);
         return salaMapper.toDto(sala2);
     }

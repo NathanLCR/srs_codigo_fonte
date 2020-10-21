@@ -32,6 +32,5 @@ public class SalaDTO {
     @NotNull
     private Integer idTipoSala;
 
-
     private List<SalaEquipamentoDTO> equipamentos;
 }

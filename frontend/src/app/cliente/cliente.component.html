@@ -106,6 +106,7 @@
     <p-table #dt [value]="clientes" [globalFilterFields]="['nome']">
         <ng-template pTemplate="header">
             <tr>
+                
                 <th pSortableColum="nome">Nome</th>
                 <th pSortableColum="cpf">CPF</th>
                 <th pSortableColum="rg">RG</th>
@@ -118,6 +119,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-cliente>
             <tr>
+                
                 <td>{{ cliente.nome }}</td>
                 <td>{{ cliente.cpf }}</td>
                 <td>{{ cliente.rg }}</td>
