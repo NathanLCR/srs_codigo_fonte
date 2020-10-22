@@ -26,6 +26,7 @@
                         [options]="clientes"
                         formControlName="cliente"
                         placeholder="Clientes"
+                        [filter]="true" filterBy="label,value.cpf"
                     ></p-dropdown>
                 </div>
                 <div class="p-field">
@@ -117,7 +118,7 @@
                         type="button"
                         pButton
                         pRipple
-                        icon="pi pi-cog"
+                        icon="pi pi-pencil"
                         class="p-button-rounded p-button-danger"
                         (click)="editarReserva(reserva)"
                     ></button>

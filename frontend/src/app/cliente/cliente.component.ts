@@ -60,7 +60,8 @@ export class ClienteComponent implements OnInit {
         });
     }
 
-    editCliente(cliente) {
+    handleEdit(cliente) {
+        this.displayForm = true;
         this.clienteForm.setValue({
             id: cliente.id,
             nome: cliente.nome,
@@ -73,61 +74,25 @@ export class ClienteComponent implements OnInit {
         });
     }
 
-<<<<<<< HEAD
-    editarCliente(value) {
-        this.clienteService.putCliente(value).subscribe();
 
-        if (!value.id) {
-            this.clientes.push(value);
-        } else {
-            const index = this.clientes.findIndex((e) => e.id === value.id);
-            this.clientes[index] = value;
-        }
+    editCliente(cliente){
+        this.clienteService.putCliente(cliente).subscribe((response:Cliente) => {
+            const index = this.clientes.findIndex((e) => e.id === cliente.id);
+            this.clientes[index] = response;
+        });
+    }
 
-        this.displayForm = false;
-
-        this.clienteForm.reset();
+    postCliente(cliente){
+        this.clienteService.postCliente(cliente).subscribe((response: Cliente) => {
+            this.clientes.push(response);
+        });
     }
 
     handleSubmit(cliente) {
-=======
-    handleSubmit(value) {
-        console.log(value);
-        this.clienteService.postCliente(value).subscribe(
-            () => {
-                if (!value.id) {
-                    this.clientes.push(value);
-                } else {
-                    const index = this.clientes.findIndex(
-                        (e) => e.id === value.id
-                    );
-                    this.clientes[index] = value;
-                }
-                this.displayForm = false;
-
-                this.clienteForm.reset();
-
-                this.addToast(
-                    "success",
-                    "Cadastrado",
-                    "Cliente cadastrado com sucesso"
-                );
-            },
-            (error) => this.addErrorToast(error)
-        );
-    }
-
-    addCliente(cliente) {
->>>>>>> manter-sala
-        this.clienteService.postCliente(cliente).subscribe();
-
-        console.log(cliente);
-
         if (!cliente.id) {
-            this.clientes.push(cliente);
+            this.postCliente(cliente);
         } else {
-            const index = this.clientes.findIndex((e) => e.id === cliente.id);
-            this.clientes[index] = cliente;
+            this.editCliente(cliente);
         }
 
         this.displayForm = false;
@@ -142,7 +107,6 @@ export class ClienteComponent implements OnInit {
             header: "Confirmar exclusão",
             icon: "pi pi-exclamation-triangle",
             accept: () => {
-<<<<<<< HEAD
                 this.clienteService.deleteCliente(cliente.id).subscribe(() => {
                     this.addSuccess(
                         "success",
@@ -150,9 +114,6 @@ export class ClienteComponent implements OnInit {
                         "Cliente apagado com Sucesso!"
                     );
                 });
-=======
-                this.clienteService.deleteCliente(cliente.id).subscribe();
->>>>>>> manter-sala
                 this.clientes = this.clientes.filter(
                     (val) => val.id !== cliente.id
                 );
@@ -170,8 +131,6 @@ export class ClienteComponent implements OnInit {
             summary: summary,
             detail: detail,
         });
-<<<<<<< HEAD
-=======
     }
 
     addErrorToast(error) {
@@ -181,6 +140,5 @@ export class ClienteComponent implements OnInit {
             detail: "Error no service",
         });
         console.log(error);
->>>>>>> manter-sala
     }
 }

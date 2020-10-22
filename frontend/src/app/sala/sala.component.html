@@ -145,7 +145,12 @@
                 <td>{{ sala.precoDiaria | currency: "BRL" }}</td>
                 <td>{{ sala.capacidade }}</td>
                 <td>{{ sala.tipoSala }}</td>
-                <td>{{ sala.equipamentos }}</td>
+                <td>
+                    <span *ngIf="sala.equipamentos.length > 0; else semEquip">                       
+                    </span>
+                    <ng-template #semEquip>Essa sala não possui equipamentos</ng-template>
+                    
+                </td>
                 <td>
                     <button
                         pButton
