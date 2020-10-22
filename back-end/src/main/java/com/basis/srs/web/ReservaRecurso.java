@@ -27,6 +27,11 @@ public class ReservaRecurso {
         return ResponseEntity.ok(reserva);
     }
 
+    @GetMapping("/total")
+    public ResponseEntity<Double> retornarTotalCusto(@RequestBody ReservaDTO reservaDTO){
+        Double total = reservaServico.calculaTotalReserva(reservaDTO);
+        return ResponseEntity.ok(total);
+    }
 
     @GetMapping
     public ResponseEntity<List<ReservaDTO>> listarReservas (){

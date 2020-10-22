@@ -100,4 +100,6 @@ public class SalaServico {
         salaEquipamentoRepositorio.deleteAllBySalaId(id);
         salaRepositorio.deleteById(id);
     }
+
+    //Criar um método que retorna uma lista de TODOS os equipamentos opcionais
 }
