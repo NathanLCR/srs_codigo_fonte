@@ -8,7 +8,7 @@ export default interface Reserva {
     cliente?: Cliente;
     idSala: number;
     sala?: Sala;
-    equipamentos: Equipamento;
+    equipamentos: Equipamento[];
     dataInicio: Date;
     dataFim: Date;
 }

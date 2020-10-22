@@ -15,25 +15,25 @@ export class ReservaService {
     private http: HttpClient
   ) { }
 
-  listarReservas():Observable<Reserva[]>{
+  getReservas():Observable<Reserva[]>{
     return this.http.get<Reserva[]>(`${environment.apiUrl}/reservas`);
   }
 
 
-  cadastrarReserva(cadastroReserva: Reserva):Observable<Reserva>{ 
+  postReserva(cadastroReserva: Reserva):Observable<Reserva>{ 
     return this.http.post<Reserva>(`${environment.apiUrl}/reservas`,cadastroReserva);
 
   }
 
-  recuperarReserva(id: number): Observable<Reserva> {
+  getReservaById(id: number): Observable<Reserva> {
     return this.http.get<Reserva>(`${environment.apiUrl}/reservas/${id}`);
   }
 
-  editarReserva(reserva: Reserva): Observable<Reserva> {
+  putReserva(reserva: Reserva): Observable<Reserva> {
     return this.http.put<Reserva>(`${environment.apiUrl}/reservas`, reserva);
   }
 
-  deletarReserva(id:number){
+  deleteReserva(id:number){
     return this.http.delete(`${environment.apiUrl}/reservas/${id}`);
   }
 
