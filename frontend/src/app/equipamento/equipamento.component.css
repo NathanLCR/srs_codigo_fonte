@@ -1,0 +1,50 @@
+#toolbar {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#toolbar input {
+    color: white;
+    margin-left: 2px;
+}
+#toolbar div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+td {
+    text-align: center;
+}
+#toolbar div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+p-confirmDialog {
+    background-color: white;
+}
+
+.p-field {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 2px;
+}
+
+.p-field button {
+    width: 100%;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#input-obrigatorio {
+    justify-content: space-between;
+    flex-direction: row;
+}

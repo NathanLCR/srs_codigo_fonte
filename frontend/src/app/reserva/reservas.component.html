@@ -1,0 +1,273 @@
+<div class="card">
+    <p-toolbar>
+        <div id="toolbar">
+            <p-button label="Novo" (click)="showForm()"></p-button>
+
+            <div>
+                <i class="pi pi-search"></i>
+                <input
+                    pInputText
+                    type="text"
+                    (input)="dt.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Search..."
+                />
+            </div>
+        </div>
+    </p-toolbar>
+
+    <p-dialog header="Cadastrar Reserva" [style]="{ width: '450px' }" [(visible)]="displayForm">
+        <form
+            [formGroup]="reservaForm"
+            (ngSubmit)="cadastrarReserva(reservaForm.value)"
+        >
+            <div class="p-fluid">
+                <button
+                    pButton
+                    type="button"
+                    label="Adicionar Cliente"
+                    (click)="showClienteForm()"
+                ></button>
+                
+                <p-table [value]="clienteForm.value">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Nome</th>
+                            <th>Cpf</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-cliente>
+                        <tr>
+                            <td>{{ cliente.cliente.nome }}</td>
+                            <td>{{ cliente.cliente.cpf }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+                <button
+                    pButton
+                    type="button"
+                    label="Adicionar Sala"
+                    (click)="showSalaForm()"
+                ></button>
+
+                <p-table [value]="salaForm.value">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Descricão</th>
+                            <th>Capacidade</th>
+                            <th>Tipo da Sala</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-sala>
+                        <tr>
+                            <td>{{ sala.sala.descricao }}</td>
+                            <td>{{ sala.sala.capacidade }}</td>
+                            <td>{{ sala.sala.tipoSala }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+                <button
+                    pButton
+                    type="button"
+                    label="Adicionar Equipamento"
+                    (click)="showEquipamentoForm()"
+                ></button>
+
+                <p-table [value]="equipamentoForm.value">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Nome</th>
+                            <th>Quantidade</th>
+                            <th>Preço Diária</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-equipamento>
+                        <tr>
+                            <td>{{ equipamento.equipamento.nome }}</td>
+                            <td>{{ equipamento.equipamento.quantidade }}</td>
+                            <td>{{ equipamento.equipamento.precoDiaria }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+                <div class="p-field">
+                    <p-dialog header="Adicionar Cliente" [(visible)]="displayClienteForm">
+                        <form
+                            [formGroup]="clienteForm"
+                            (ngSubmit)="addCliente(clienteForm.value)"
+                        >
+                            <div class="p-grid">
+                                <label for="idCliente">Nome</label>
+                                <p-dropdown
+                                    [options]="clientes"
+                                    formControlName="cliente"
+                                    placeholder="Clientes"
+                                ></p-dropdown>
+                                <div class="p-field">
+                                    <label for="cpf">CPF</label>
+                                    <p-inputNumber formControlName="cpf">
+                                    </p-inputNumber>
+                                </div>
+                                <div class="p-field">
+                                    <p-button
+                                        label="Enviar"
+                                        icon="pi pi-check"
+                                        [disabled]="!clienteForm.valid"
+                                    ></p-button>
+                                </div>
+                            </div>
+                        </form>
+                    </p-dialog>
+                </div>
+
+                <div class="p-field">
+                    <p-dialog header="Adicionar Equipamento" [(visible)]="displayEquipamentoForm">
+                        <form
+                            [formGroup]="equipamentoForm"
+                            (ngSubmit)="addEquipamento(equipamentoForm.value)"
+                        >
+                            <div class="p-grid">
+                                <label for="idCliente">Nome</label>
+                                <p-dropdown
+                                    [options]="clientes"
+                                    formControlName="cliente"
+                                    placeholder="Clientes"
+                                ></p-dropdown>
+                                <div class="p-field">
+                                    <label for="cpf">CPF</label>
+                                    <p-inputNumber formControlName="cpf">
+                                    </p-inputNumber>
+                                </div>
+                                <div class="p-field">
+                                    <p-button
+                                        label="Enviar"
+                                        icon="pi pi-check"
+                                        [disabled]="!clienteForm.valid"
+                                    ></p-button>
+                                </div>
+                            </div>
+                        </form>
+                    </p-dialog>
+                </div>
+
+                <div class="p-field">
+                    <p-dialog header="Adicionar Sala" [(visible)]="displaySalaForm">
+                        <form
+                            [formGroup]="salaForm"
+                            (ngSubmit)="addSala(salaForm.value)"
+                        >
+                            <div class="p-grid">
+                                <label for="idCliente">Nome</label>
+                                <p-dropdown
+                                    [options]="clientes"
+                                    formControlName="cliente"
+                                    placeholder="Clientes"
+                                ></p-dropdown>
+                                <div class="p-field">
+                                    <label for="cpf">CPF</label>
+                                    <p-inputNumber formControlName="cpf">
+                                    </p-inputNumber>
+                                </div>
+                                
+                                <div class="p-field">
+                                    <p-button
+                                        label="Enviar"
+                                        icon="pi pi-check"
+                                        [disabled]="!clienteForm.valid"
+                                    ></p-button>
+                                </div>
+                            </div>
+                        </form>
+                    </p-dialog>
+                </div>
+
+                <br />
+                <div class="p-field">
+                    <label for="dataInicio">Data de Início </label>
+                    <input
+                        type="date"
+                        id="dataInicio"
+                        class="formInput"
+                        formControlName="dataInicio"
+                        class="p-invalid"
+                        pInputText
+                        placeholder="Data de Inicio"
+                    />
+                </div>
+                <div class="p-field">
+                    <label for="dataFim"> Data de Fim </label>
+                    <input
+                        type="date"
+                        id="dataFim"
+                        class="formInput"
+                        formControlName="dataFim"
+                        class="p-invalid"
+                        pInputText
+                        placeholder="Data de Fim"
+                    />
+                </div>
+                <div class="p-field">
+                    <label for="total">Valor Total</label>
+                    <p-inputNumber
+                        formControlName="total"
+                        mode="currency"
+                        currency="BRL"
+                        [minFractionDigits]="2"
+                        [maxFractionDigits]="2"
+                    >
+                    </p-inputNumber>
+                </div>
+                <div class="p-field">
+                    <p-button
+                        label="Enviar"
+                        icon="pi pi-check"
+                        iconPos="right"
+                    ></p-button>
+                </div>
+            </div>
+        </form>
+    </p-dialog>
+
+    <p-table #dt [value]="listaReservas">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="dataInicio">Data de Inicio</th>
+                <th pSortableColumn="dataFim">Data de Fim</th>
+                <th pSortableColumn="total">Preço Total</th>
+                <th pSortableColumn="idCliente">Cliente</th>
+                <th pSortableColumn="idSala">Sala</th>
+                <th>Ações</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-reserva>
+            <tr>
+                <td>{{ reserva.dataInicio }}</td>
+                <td>{{ reserva.dataFim }}</td>
+                <td>{{ reserva.total | currency: "BRL" }}</td>
+                <td>{{ reserva.idCliente }}</td>
+                <td>{{ reserva.idSala }}</td>
+                <td>
+                    <button
+                        type="button"
+                        pButton
+                        pRipple
+                        icon="pi pi-cog"
+                        style="background-color: rgb(63, 63, 179)"
+                        class="p-button-rounded p-button-danger"
+                        (click)="editarReserva(reserva)"
+                    ></button>
+                    <button
+                        type="button"
+                        pButton
+                        pRipple
+                        icon="pi pi-trash"
+                        style="background: rgb(155, 45, 45)"
+                        class="p-button-rounded p-button-danger"
+                        (click)="direcionarDeletarReserva(reserva)"
+                    ></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
