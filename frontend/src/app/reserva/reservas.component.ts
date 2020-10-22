@@ -1,12 +1,11 @@
 import { ClienteService } from './../cliente/cliente.service';
 import { Component, OnInit } from "@angular/core";
-import { ListarReservaModel } from "src/app/models/listar-reserva.model";
-import { InfoReservaModel } from "src/app/models/info-reserva.model";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MessageService } from "primeng/api";
 import { ReservaService } from "./reserva.service";
 import Cliente from '../models/Cliente';
 import { SalaService } from '../sala/sala.service';
+import { EditarReservaModel } from '../models/editar-reserva.model';
 
 @Component({
     selector: "app-listar-reservas",
@@ -15,10 +14,10 @@ import { SalaService } from '../sala/sala.service';
 })
 export class ReservasComponent implements OnInit {
 
-    listaReservas: ListarReservaModel[];
+    listaReservas: EditarReservaModel[];
     
     formReserva: FormGroup;
-    reserva: InfoReservaModel;
+    reserva: EditarReservaModel;
     reservaForm;
 
     clientes;
