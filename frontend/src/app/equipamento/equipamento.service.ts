@@ -16,7 +16,7 @@ export class EquipamentoService {
     }
 
     getEquipamento(id: number) {
-        return this.http.get<Equipamento[]>(this.PATH + id);
+        return this.http.get<Equipamento>(this.PATH + id);
     }
 
     deleteEquipamento(id: number) {

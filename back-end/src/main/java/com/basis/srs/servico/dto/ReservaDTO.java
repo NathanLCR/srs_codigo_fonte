@@ -29,4 +29,5 @@ public class ReservaDTO {
     private Double total;
 
     private List<ReservaEquipamentoDTO> equipamentos;
+
 }

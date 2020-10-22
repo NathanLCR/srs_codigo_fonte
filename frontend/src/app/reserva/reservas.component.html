@@ -26,6 +26,7 @@
                         [options]="clientes"
                         formControlName="cliente"
                         placeholder="Clientes"
+                        [filter]="true"
                     ></p-dropdown>
                 </div>
                 <div class="p-field">
@@ -33,6 +34,7 @@
                         [options]="salas"
                         formControlName="sala"
                         placeholder="Escolha a sala"
+                        [filter]="true"
                     ></p-dropdown>
                 </div>
                 <button
@@ -94,7 +96,7 @@
         </form>
     </p-dialog>
 
-    <p-table #dt [value]="listaReservas">
+    <p-table #dt [value]="reservas">
         <ng-template pTemplate="header">
             <tr>
                 <th pSortableColumn="dataInicio">Data de Inicio</th>
@@ -117,7 +119,7 @@
                         type="button"
                         pButton
                         pRipple
-                        icon="pi pi-cog"
+                        icon="pi pi-pencil"
                         class="p-button-rounded p-button-danger"
                         (click)="editarReserva(reserva)"
                     ></button>

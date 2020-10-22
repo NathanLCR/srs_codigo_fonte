@@ -1,5 +1,4 @@
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
-
 <p-toast position="top-right"></p-toast>
 <div class="card">
     <p-toolbar>
@@ -68,19 +67,11 @@
                 <div class="p-field">
                     <label>Tipo de Equipamento</label>
                     <p-dropdown
-                        [options]="tiposDeEquipamento"
+                        [options]="tiposDeEquipamento.labels"
                         formControlName="idTipoEquipamento"
                         class="formInput"
                         placeholder="Selecione ..."
                     ></p-dropdown>
-                </div>
-                <div class="p-field" id="input-obrigatorio">
-                    <h4>Obrigatorio:</h4>
-                    <p-toggleButton
-                        formControlName="obrigatorio"
-                        onLabel="Sim"
-                        offLabel="Não"n bnbbn t67r78r75it
-                    ></p-toggleButton>
                 </div>
                 <div class="p-field">
                     <p-button
@@ -98,7 +89,6 @@
             <tr>
                 <th pSortableColumn="nome">Nome</th>
                 <th pSortableColumn="precoDiaria">Preço diária</th>
-                <th pSortableColumn="obrigatorio">Obrigatório</th>
                 <th pSortableColumn="idTipoEquipamento">Tipo do equipamento</th>
                 <th p>Ações</th>
             </tr>
@@ -107,7 +97,6 @@
             <tr>
                 <td>{{ equipamento.nome }}</td>
                 <td>{{ equipamento.precoDiaria | currency: "BRL" }}</td>
-                <td>{{ equipamento.obrigatorio === 1 ? "Sim" : "Não" }}</td>
                 <td>{{ equipamento.tipoEquipamento }}</td>
                 <td>
                     <button
