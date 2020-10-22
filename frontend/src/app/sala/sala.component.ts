@@ -2,7 +2,7 @@ import { EquipamentoService } from "./../equipamento/equipamento.service";
 import { SalaService } from "./sala.service";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { Component, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import Sala from "../models/Sala";
 import TiposdeSala from "src/app/models/TiposDeSala";
 
@@ -38,19 +38,22 @@ export class SalaComponent implements OnInit {
     ngOnInit(): void {
         this.salaForm = new FormGroup({
             id: new FormControl(null),
-            precoDiaria: new FormControl(null),
-            descricao: new FormControl(null),
-            capacidade: new FormControl(null),
-            idTipoSala: new FormControl(null),
-            tipoSala: new FormControl(null),
+            precoDiaria: new FormControl(null, [
+                Validators.required,
+                Validators.min(0),
+            ]),
+            descricao: new FormControl(null, [Validators.required]),
+            capacidade: new FormControl(null, [Validators.required]),
+            idTipoSala: new FormControl(null, [Validators.required]),
+            tipoSala: new FormControl(null, [Validators.required]),
             equipamentos: new FormArray([]),
         });
 
         this.salaEquipamentoForm = this.formBuilder.group({
-            idSala: null,
-            idEquipamento: "",
-            quantidade: "",
-            equipamento: null,
+            idSala: new FormControl(null, [Validators.required]),
+            idEquipamento: new FormControl(null, [Validators.required]),
+            quantidade: new FormControl(null, [Validators.required]),
+            equipamento: new FormControl(null, [Validators.required]),
         });
 
         this.salaService.getSalas().subscribe((resultado) => {
@@ -72,6 +75,10 @@ export class SalaComponent implements OnInit {
 
     get equipamentoForm() {
         return this.salaForm.get("equipamentos") as FormArray;
+    }
+
+    get salaFormControl() {
+        return this.salaForm.controls;
     }
 
     addEquipamento(value) {
