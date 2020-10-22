@@ -24,31 +24,27 @@ td {
     justify-content: center;
     align-items: center;
 }
-p-confirmDialog {
-    background-color: white;
+
+p-table button {
+    margin-right: 20px;
 }
 
-.p-field {
+p-toolbar p-button {
+    margin-bottom: 5px;
+    margin-right: 71%;
+}
+
+p-dialog p-button {
+    margin-top: 10px;
+    margin-left: 145px;
+}
+
+p-dialog input {
+    margin-bottom: 15px;
+}
+
+form {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    margin-bottom: 2px;
-}
-
-td button + button {
-    margin-left: 8px;
-}
-
-.p-field button {
-    width: 100%;
-    margin-top: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#input-obrigatorio {
-    justify-content: space-between;
-    flex-direction: row;
 }

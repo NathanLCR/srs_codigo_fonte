@@ -1,10 +1,11 @@
 package com.basis.srs.builder;
 
 import com.basis.srs.dominio.Cliente;
-<<<<<<< HEAD
 import com.basis.srs.servico.ClienteServico;
 import com.basis.srs.servico.dto.ClienteDTO;
 import com.basis.srs.servico.mapper.ClienteMapper;
+<<<<<<< HEAD
+=======
 =======
 import com.basis.srs.dominio.Equipamento;
 import com.basis.srs.dominio.Sala;
@@ -17,15 +18,20 @@ import com.basis.srs.servico.dto.SalaDTO;
 import com.basis.srs.servico.mapper.ClienteMapper;
 import com.basis.srs.servico.mapper.SalaMapper;
 >>>>>>> manter-sala
+>>>>>>> 1460269e837a862fef68e92c6bba320d16f6cd76
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.Collection;
 <<<<<<< HEAD
+
+=======
+<<<<<<< HEAD
 =======
 import java.util.Collections;
 >>>>>>> manter-sala
+>>>>>>> 1460269e837a862fef68e92c6bba320d16f6cd76
 
 @Component
 public class ClienteBuilder extends ConstrutorDeEntidade<Cliente> {

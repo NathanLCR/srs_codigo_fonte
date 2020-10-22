@@ -54,7 +54,7 @@
                 <div class="p-field">
                     <label for="idTipoSala">Tipo da Sala</label>
                     <p-dropdown
-                        [options]="tiposDeSala.labels"
+                        [options]="tiposDeSala"
                         formControlName="idTipoSala"
                         placeholder="Selecione"
                     ></p-dropdown>
@@ -76,11 +76,11 @@
                             <th>Quantidade</th>
                         </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-valor>
+                    <ng-template pTemplate="body" let-equipamento>
                         <tr>
-                            <td>{{ valor.equipamento.nome }}</td>
-                            <td>{{ valor.equipamento.precoDiaria }}</td>
-                            <td>{{ valor.quantidade }}</td>
+                            <td>{{ equipamento.equipamento.nome }}</td>
+                            <td>{{ equipamento.equipamento.preco }}</td>
+                            <td>{{ equipamento.quantidade }}</td>
                         </tr>
                     </ng-template>
                 </p-table>
@@ -156,18 +156,18 @@
                         pButton
                         pRipple
                         type="button"
-                        icon="pi pi-pencil"
+                        icon="pi pi-times"
                         class="p-button-rounded p-button-danger"
-                        (click)="showForm()"
-                        (click)="handleEdit(sala)"
+                        (click)="handleDelete(sala)"
                     ></button>
                     <button
                         pButton
                         pRipple
                         type="button"
-                        icon="pi pi-trash"
+                        icon="pi pi-pencil"
                         class="p-button-rounded p-button-danger"
-                        (click)="handleDelete(sala)"
+                        (click)="showForm()"
+                        (click)="handleEdit(sala)"
                     ></button>
                 </td>
             </tr>

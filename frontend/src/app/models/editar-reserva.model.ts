@@ -1,13 +1,8 @@
-import Cliente from "./Cliente";
-import Sala from "./Sala";
-
 export interface EditarReservaModel{
-    id: number;
-    idSala: number;
-    sala: Sala;
-    idCliente: number;
-    cliente: Cliente;
+    id: Number;
+    idSala: Number;
+    idCliente: Number;
     dataInicio: any;
     dataFim: any;
-    total: number;
+    total: Number;
 }
