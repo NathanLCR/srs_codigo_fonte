@@ -60,7 +60,7 @@ export class ClienteComponent implements OnInit {
         });
     }
 
-    editCliente(cliente) {
+    handleEdit(cliente) {
         this.clienteForm.setValue({
             id: cliente.id,
             nome: cliente.nome,
@@ -74,35 +74,53 @@ export class ClienteComponent implements OnInit {
     }
 
     editarCliente(value) {
-        this.clienteService.putCliente(value).subscribe();
+        this.clienteService.putCliente(value).subscribe(
+            (value: Cliente) => {
+                this.addToast(
+                    "success",
+                    "Alterado",
+                    "Cliente alterado com sucesso"
+                );
+                const index = this.clientes.findIndex(
+                    (e) => e.id === value.id);
+                
+                this.clientes[index] = value;
+                        
+                this.displayForm = false;
+        
+                this.clienteForm.reset();
+            },
+            (error) => this.addErrorToast(error)
+        );
 
-        if (!value.id) {
-            this.clientes.push(value);
-        } else {
-            const index = this.clientes.findIndex((e) => e.id === value.id);
-            this.clientes[index] = value;
-        }
-
-        this.displayForm = false;
-
-        this.clienteForm.reset();
     }
 
-    handleSubmit(cliente) {
-        this.clienteService.postCliente(cliente).subscribe();
-
-        console.log(cliente);
-
+    handleSubmit(cliente: Cliente){
         if (!cliente.id) {
-            this.clientes.push(cliente);
+            this.addCliente(cliente);
         } else {
-            const index = this.clientes.findIndex((e) => e.id === cliente.id);
-            this.clientes[index] = cliente;
+            this.editarCliente(cliente);
         }
+    }
 
-        this.displayForm = false;
+    addCliente(cliente: Cliente) {
+        this.clienteService.postCliente(cliente).subscribe(
+            (cliente: Cliente) => {
+                this.addToast(
+                    "success",
+                    "Cadastrado",
+                    "Equipamento cadastrado com sucesso"
+                );
+                this.clientes.push(cliente);
 
-        this.clienteForm.reset();
+                this.displayForm = false;
+
+                this.clienteForm.reset();
+            },
+            (error) => {
+                this.addErrorToast(error);
+            }
+        );
     }
 
     deleteCliente(cliente) {

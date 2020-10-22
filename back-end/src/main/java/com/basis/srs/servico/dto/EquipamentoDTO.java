@@ -29,11 +29,4 @@ public class EquipamentoDTO {
     @Positive
     private double precoDiaria;
 
-<<<<<<< HEAD
-    @NotNull
-    @Min(0)
-    @Max(1)
-    private Integer obrigatorio;
-=======
->>>>>>> manter-equipamento
 }
