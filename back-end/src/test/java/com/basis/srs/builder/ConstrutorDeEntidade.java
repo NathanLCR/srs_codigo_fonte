@@ -35,5 +35,13 @@ public abstract class ConstrutorDeEntidade<E> {
     public void setCustomizacao(CustomizacaoEntidade<E> customizacao) {
         this.customizacao = customizacao;
     }
+<<<<<<< HEAD
 
 }
+=======
+}
+<<<<<<< HEAD
+
+=======
+>>>>>>> manter-sala
+>>>>>>> 1460269e837a862fef68e92c6bba320d16f6cd76
