@@ -6,6 +6,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MessageService } from "primeng/api";
 import { ReservaService } from "./reserva.service";
 import Cliente from '../models/Cliente';
+import { SalaService } from '../sala/sala.service';
 
 @Component({
     selector: "app-listar-reservas",
@@ -15,19 +16,27 @@ import Cliente from '../models/Cliente';
 export class ReservasComponent implements OnInit {
 
     listaReservas: ListarReservaModel[];
-    displayForm = false;
+    
     formReserva: FormGroup;
     reserva: InfoReservaModel;
     reservaForm;
+
     clientes;
     clienteForm;
+
+    salas;
+    salaForm;
+
+    displayForm = false;
     displayClienteForm = false;
+    displaySalaForm = false;
 
     constructor(
         private reservaService: ReservaService,
         private formBuilder: FormBuilder,
         private messageService: MessageService,
         private clienteService: ClienteService,
+        private salaService: SalaService
     ) {
         this.reservaForm = this.formBuilder.group({
             id: null,
@@ -47,11 +56,26 @@ export class ReservasComponent implements OnInit {
             endereco: null,
         });
 
+        this.salaForm = this.formBuilder.group({
+            id: null,
+            precoDiaria: null,
+            descricao: null,
+            capacidade: null,
+            disponivel: null,
+            idTipoSala: null,
+            tipoSala: null,
+            equipamentos: null
+        });
+
 
     }
 
     get clientesForm() {
         return this.clienteForm.get("clientes") as FormArray;
+    }
+
+    get salasForm(){
+        return this.salaForm.get('salas') as FormArray;
     }
 
     
@@ -92,6 +116,12 @@ export class ReservasComponent implements OnInit {
                 return { label: e.nome, value: e };
             });
         });
+
+        this.salaService.getSalas().subscribe((resulta) => {
+            this.salas= resulta.map((e) => {
+                return { label: e.tipoSala, value: e };
+            });
+        });
     }
 
     listarReservas() {
@@ -106,6 +136,10 @@ export class ReservasComponent implements OnInit {
 
     showClienteForm() {
         this.displayClienteForm = true;
+    }
+
+    showSalaForm() {
+        this.displaySalaForm = true;
     }
 
     direcionarDeletarReserva(value) {
