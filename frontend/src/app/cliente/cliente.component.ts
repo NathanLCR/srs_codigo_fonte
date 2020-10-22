@@ -43,15 +43,6 @@ export class ClienteComponent implements OnInit {
         });
     }
 
-    // addErrorToast(error) {
-    //     this.messageService.add({
-    //         severity: "error",
-    //         summary: "Error no servidor",
-    //         detail: "Error no servidor, favor tentar mais tarde",
-    //     });
-    //     console.log(error);
-    // }
-
     addToast(severity, summary, detail) {
         this.messageService.add({
             severity: severity,
@@ -61,10 +52,7 @@ export class ClienteComponent implements OnInit {
     }
 
     handleEdit(cliente) {
-<<<<<<< HEAD
         this.displayForm = true;
-=======
->>>>>>> 866ec2602ac7c4f4a063dea26d9eb499afc32024
         this.clienteForm.setValue({
             id: cliente.id,
             nome: cliente.nome,
@@ -76,8 +64,6 @@ export class ClienteComponent implements OnInit {
             email: cliente.email,
         });
     }
-
-<<<<<<< HEAD
 
     editCliente(cliente){
         this.clienteService.putCliente(cliente).subscribe((response:Cliente) => {
@@ -97,8 +83,8 @@ export class ClienteComponent implements OnInit {
             this.postCliente(cliente);
         } else {
             this.editCliente(cliente);
-=======
-<<<<<<< HEAD
+        }
+    }
     editarCliente(value) {
         this.clienteService.putCliente(value).subscribe(
             (value: Cliente) => {
@@ -121,51 +107,6 @@ export class ClienteComponent implements OnInit {
 
     }
 
-<<<<<<< HEAD
-    handleSubmit(cliente: Cliente){
-=======
-    handleSubmit(cliente) {
-=======
-    handleSubmit(value) {
-        console.log(value);
-        this.clienteService.postCliente(value).subscribe(
-            () => {
-                if (!value.id) {
-                    this.clientes.push(value);
-                } else {
-                    const index = this.clientes.findIndex(
-                        (e) => e.id === value.id
-                    );
-                    this.clientes[index] = value;
-                }
-                this.displayForm = false;
-
-                this.clienteForm.reset();
-
-                this.addToast(
-                    "success",
-                    "Cadastrado",
-                    "Cliente cadastrado com sucesso"
-                );
-            },
-            (error) => this.addErrorToast(error)
-        );
-    }
-
-    addCliente(cliente) {
->>>>>>> manter-sala
-        this.clienteService.postCliente(cliente).subscribe();
-
-        console.log(cliente);
-
->>>>>>> 1460269e837a862fef68e92c6bba320d16f6cd76
-        if (!cliente.id) {
-            this.addCliente(cliente);
-        } else {
-            this.editarCliente(cliente);
->>>>>>> 866ec2602ac7c4f4a063dea26d9eb499afc32024
-        }
-    }
 
     addCliente(cliente: Cliente) {
         this.clienteService.postCliente(cliente).subscribe(

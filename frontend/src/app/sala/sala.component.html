@@ -54,7 +54,7 @@
                 <div class="p-field">
                     <label for="idTipoSala">Tipo da Sala</label>
                     <p-dropdown
-                        [options]="tiposDeSala"
+                        [options]="tiposDeSala.labels"
                         formControlName="idTipoSala"
                         placeholder="Selecione"
                     ></p-dropdown>
@@ -166,8 +166,8 @@
                         type="button"
                         icon="pi pi-pencil"
                         class="p-button-rounded p-button-danger"
-                        (click)="showForm()"
                         (click)="handleEdit(sala)"
+                        (click)="showForm()"
                     ></button>
                 </td>
             </tr>

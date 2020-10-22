@@ -1,6 +1,6 @@
 import { EquipamentoService } from "./../equipamento/equipamento.service";
 import { SalaService } from "./sala.service";
-import { ConfirmationService } from "primeng/api";
+import { ConfirmationService, MessageService } from "primeng/api";
 import { Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import Sala from "../models/Sala";
@@ -31,7 +31,8 @@ export class SalaComponent implements OnInit {
         private salaService: SalaService,
         private formBuilder: FormBuilder,
         private confirmationService: ConfirmationService,
-        private equipamentoService: EquipamentoService
+        private equipamentoService: EquipamentoService,
+        private messageService: MessageService,
     ) {}
 
     ngOnInit(): void {
@@ -97,7 +98,9 @@ export class SalaComponent implements OnInit {
     }
 
     handleSubmit(value) {
-        this.salaService.postSala(value).subscribe();
+        this.salaService.postSala(value).subscribe(()=>this.addToast("success","Cadastrado","Sala cadastrada com sucesso"),
+            (error) => this.addErrorToast(error),
+        );
         value = this.tiposDeSala.getTipoSala(value);
         if (!value.id) {
             this.salas.push(value);
@@ -118,6 +121,7 @@ export class SalaComponent implements OnInit {
             descricao: sala.descricao,
             capacidade: sala.capacidade,
             idTipoSala: sala.idTipoSala,
+            tipoSala: sala.tipoSala,
             equipamentos: sala.equipamentos,
         });
     }
@@ -136,5 +140,22 @@ export class SalaComponent implements OnInit {
 
     getEquipamento(id) {
         return this.equipamentoService.getEquipamento(id);
+    }
+
+    addToast(severity, summary, detail) {
+        this.messageService.add({
+            severity: severity,
+            summary: summary,
+            detail: detail,
+        });
+    }
+
+    addErrorToast(error) {
+        this.messageService.add({
+            severity: "error",
+            summary: "Error no servidor",
+            detail: "Error no servidor, favor tentar mais tarde",
+        });
+        console.log(error);
     }
 }

@@ -1,13 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { CadastrarReservaModel } from 'src/app/models/cadastrar-reserva.model';
-import { EditarReservaModel } from 'src/app/models/editar-reserva.model';
+import { Observable } from 'rxjs';
 import {environment} from 'src/environments/environment';
+import Reserva from '../models/Reserva';
 
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
   
 })
 export class ReservaService {
@@ -16,26 +15,26 @@ export class ReservaService {
     private http: HttpClient
   ) { }
 
-  listarReservas():Observable<EditarReservaModel[]>{
-    return this.http.get<EditarReservaModel[]>(`${environment.apiUrl}/reservas`);
+  listarReservas():Observable<Reserva[]>{
+    return this.http.get<Reserva[]>(`${environment.apiUrl}/reservas`);
   }
 
 
-  cadastrarReserva(cadastroReserva: CadastrarReservaModel):Observable<EditarReservaModel>{ 
-    return this.http.post<EditarReservaModel>(`${environment.apiUrl}/reservas`,cadastroReserva);
+  cadastrarReserva(cadastroReserva: Reserva):Observable<Reserva>{ 
+    return this.http.post<Reserva>(`${environment.apiUrl}/reservas`,cadastroReserva);
 
   }
 
-  recuperarReserva(id: number): Observable<EditarReservaModel> {
-    return this.http.get<EditarReservaModel>(`${environment.apiUrl}/reservas/${id}`);
+  recuperarReserva(id: number): Observable<Reserva> {
+    return this.http.get<Reserva>(`${environment.apiUrl}/reservas/${id}`);
   }
 
-  editarReserva(editarReservaModel: EditarReservaModel): Observable<EditarReservaModel> {
-    return this.http.put<EditarReservaModel>(`${environment.apiUrl}/reservas`, editarReservaModel);
+  editarReserva(reserva: Reserva): Observable<Reserva> {
+    return this.http.put<Reserva>(`${environment.apiUrl}/reservas`, reserva);
   }
 
   deletarReserva(id:number){
-    return this.http.delete(`${environment.apiUrl}/reservas/${id}`);   
+    return this.http.delete(`${environment.apiUrl}/reservas/${id}`);
   }
 
 }
