@@ -24,23 +24,25 @@ td {
     justify-content: center;
     align-items: center;
 }
-
-p-table button {
-    margin-right: 20px;
+p-confirmDialog {
+    background-color: white;
 }
 
-
-
-p-dialog p-button {
-    margin-top: 10px;
-    margin-left: 145px;
+.p-field {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 2px;
 }
 
-p-dialog input {
-    margin-bottom: 15px;
+td button + button {
+    margin-left: 8px;
 }
 
-form {
+.p-field button {
+    width: 100%;
+    margin-top: 5px;
     display: flex;
     align-items: center;
     justify-content: center;

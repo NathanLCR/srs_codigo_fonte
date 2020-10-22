@@ -48,10 +48,11 @@ export class ReservasComponent implements OnInit {
         this.reservaForm = this.formBuilder.group({
             id: null,
             idCliente: null,
+            cliente: null,
             idSala: null,
+            sala: null,
             dataInicio: "",
             dataFim: "",
-            total: null,
         });
 
         this.clienteForm = this.formBuilder.group({
@@ -81,8 +82,28 @@ export class ReservasComponent implements OnInit {
             precoDiaria: null,
             tipoEquipamento: null,
         })
+    }
 
+    ngOnInit(): void {
+        this.listarReservas();
 
+        this.clienteService.getClientes().subscribe((resulta) => {
+            this.clientes = resulta.map((e) => {
+                return { label: e.nome, value: e };
+            });
+        });
+
+        this.salaService.getSalas().subscribe((resulta) => {
+            this.salas= resulta.map((e) => {
+                return { label: e.descricao, value: e };
+            });
+        });
+
+        this.equipamentoService.getEquipamentos().subscribe((resulta) => {
+            this.equipamentos= resulta.map((e) => {
+                return { label: e.nome, value: e };
+            });
+        });
     }
 
     get clientesForm() {
@@ -123,27 +144,7 @@ export class ReservasComponent implements OnInit {
         });
     }
 
-    ngOnInit(): void {
-        this.listarReservas();
-
-        this.clienteService.getClientes().subscribe((resulta) => {
-            this.clientes = resulta.map((e) => {
-                return { label: e.nome, value: e };
-            });
-        });
-
-        this.salaService.getSalas().subscribe((resulta) => {
-            this.salas= resulta.map((e) => {
-                return { label: e.descricao, value: e };
-            });
-        });
-
-        this.equipamentoService.getEquipamentos().subscribe((resulta) => {
-            this.equipamentos= resulta.map((e) => {
-                return { label: e.nome, value: e };
-            });
-        });
-    }
+    
 
     addCliente(value) {
         this.displayClienteForm = false;
@@ -164,19 +165,20 @@ export class ReservasComponent implements OnInit {
     listarReservas() {
         this.reservaService.listarReservas().subscribe((listaReservas) => {
             this.listaReservas = listaReservas;
+            listaReservas.forEach(r => {
+                this.salaService.getSalaById(r.idSala).subscribe((response)=>{
+                    r.sala = response
+                });
+                this.clienteService.getClienteById(r.idCliente).subscribe((response)=>{
+                    r.cliente = response;
+                });
+                return r;
+            })
         });
     }
 
     showForm() {
         this.displayForm = true;
-    }
-
-    showClienteForm() {
-        this.displayClienteForm = true;
-    }
-
-    showSalaForm() {
-        this.displaySalaForm = true;
     }
 
     showEquipamentoForm() {
@@ -211,18 +213,20 @@ export class ReservasComponent implements OnInit {
             id: reserva.id,
             idCliente: reserva.idCliente,
             idSala: reserva.idSala,
+            equipamento: null,
             dataInicio: reserva.dataInicio,
             dataFim: reserva.dataFim,
-            total: reserva.total,
         });
     }
 
     cadastrarReserva(value) {
         this.displayForm = false;
         this.reservaForm.reset();
+        value.idSala = value.sala.id;
+        value.idCliente = value.cliente.id;
         this.reservaService.cadastrarReserva(value).subscribe(
-            () => {
-                this.listaReservas.push(value);
+            (response) => {
+                this.listaReservas.push(response);
                 this.addSucess();
                 this.listarReservas();
             },
