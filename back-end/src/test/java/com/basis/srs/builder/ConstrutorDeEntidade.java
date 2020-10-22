@@ -36,4 +36,7 @@ public abstract class ConstrutorDeEntidade<E> {
         this.customizacao = customizacao;
     }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> manter-sala

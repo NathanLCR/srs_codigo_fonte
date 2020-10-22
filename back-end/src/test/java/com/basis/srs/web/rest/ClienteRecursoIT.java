@@ -91,4 +91,7 @@ public class ClienteRecursoIT extends IntTestComum {
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> manter-sala
