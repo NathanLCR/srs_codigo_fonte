@@ -1,3 +1,4 @@
+import { EquipamentoService } from './../equipamento/equipamento.service';
 import { ClienteService } from './../cliente/cliente.service';
 import { Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
@@ -26,16 +27,23 @@ export class ReservasComponent implements OnInit {
     salas;
     salaForm;
 
+    equipamentos;
+    equipamentoForm;
+
+    reservaEquipamentoForm;
+
     displayForm = false;
     displayClienteForm = false;
     displaySalaForm = false;
+    displayEquipamentoForm = false;
 
     constructor(
         private reservaService: ReservaService,
         private formBuilder: FormBuilder,
         private messageService: MessageService,
         private clienteService: ClienteService,
-        private salaService: SalaService
+        private salaService: SalaService,
+        private equipamentoService: EquipamentoService,
     ) {
         this.reservaForm = this.formBuilder.group({
             id: null,
@@ -66,6 +74,14 @@ export class ReservasComponent implements OnInit {
             equipamentos: null
         });
 
+        this.equipamentoForm = this.formBuilder.group({
+            id: null,
+            nome: null,
+            idTipoEquipamento: null,
+            precoDiaria: null,
+            tipoEquipamento: null,
+        })
+
 
     }
 
@@ -74,7 +90,7 @@ export class ReservasComponent implements OnInit {
     }
 
     get salasForm(){
-        return this.salaForm.get('salas') as FormArray;
+        return this.salaForm.get("salas") as FormArray;
     }
 
     
@@ -118,9 +134,31 @@ export class ReservasComponent implements OnInit {
 
         this.salaService.getSalas().subscribe((resulta) => {
             this.salas= resulta.map((e) => {
-                return { label: e.tipoSala, value: e };
+                return { label: e.descricao, value: e };
             });
         });
+
+        this.equipamentoService.getEquipamentos().subscribe((resulta) => {
+            this.equipamentos= resulta.map((e) => {
+                return { label: e.nome, value: e };
+            });
+        });
+    }
+
+    addCliente(value) {
+        this.displayClienteForm = false;
+        this.reservaForm.idCliente = value.id;
+    }
+
+    addSala(value) {
+        this.displaySalaForm = false;
+        this.reservaForm.idSala = value.id;
+    }
+
+    addEquipamento(value) {
+        this.displayEquipamentoForm = false;
+        value.idReserva = value.reserva.id;
+        this.reservaEquipamentoForm.idEquipamento = value.id;
     }
 
     listarReservas() {
@@ -139,6 +177,10 @@ export class ReservasComponent implements OnInit {
 
     showSalaForm() {
         this.displaySalaForm = true;
+    }
+
+    showEquipamentoForm() {
+        this.displayEquipamentoForm = true;
     }
 
     direcionarDeletarReserva(value) {
