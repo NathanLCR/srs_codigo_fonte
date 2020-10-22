@@ -103,18 +103,18 @@
                         pButton
                         pRipple
                         type="button"
-                        icon="pi pi-times"
-                        class="p-button-rounded p-button-danger"
-                        (click)="handleDelete(equipamento)"
+                        icon="pi pi-pencil"
+                        class="p-button-rounded"
+                        (click)="showForm()"
+                        (click)="handleEdit(equipamento)"
                     ></button>
                     <button
                         pButton
                         pRipple
                         type="button"
-                        icon="pi pi-pencil"
-                        class="p-button-rounded"
-                        (click)="showForm()"
-                        (click)="handleEdit(equipamento)"
+                        icon="pi pi-trash"
+                        class="p-button-rounded p-button-danger"
+                        (click)="handleDelete(equipamento)"
                     ></button>
                 </td>
             </tr>

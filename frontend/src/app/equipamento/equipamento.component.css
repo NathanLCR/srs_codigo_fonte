@@ -36,6 +36,10 @@ p-confirmDialog {
     margin-bottom: 2px;
 }
 
+td button + button {
+    margin-left: 8px;
+}
+
 .p-field button {
     width: 100%;
     margin-top: 5px;

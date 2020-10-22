@@ -41,7 +41,6 @@ export class SalaComponent implements OnInit {
             descricao: new FormControl(null),
             capacidade: new FormControl(null),
             idTipoSala: new FormControl(null),
-            tipoSala: new FormControl(null),
             equipamentos: new FormArray([]),
         });
 
@@ -75,6 +74,8 @@ export class SalaComponent implements OnInit {
         this.displayEquipamentoForm = false;
         value.idEquipamento = value.equipamento.id;
         this.equipamentoForm.value.push(value);
+        console.log(value);
+        console.log(this.equipamentoForm.value);
     }
 
     deletar(sala) {
@@ -94,22 +95,33 @@ export class SalaComponent implements OnInit {
         this.displayEquipamentoForm = true;
     }
 
-    handleSubmit(value) {
-        this.salaService.postSala(value).subscribe();
-        value = this.tiposDeSala.getTipoSala(value);
+    handleSubmit(value: Sala) {
         if (!value.id) {
-            this.salas.push(value);
-            console.log("ok");
+            this.addSala(value);
         } else {
-            const index = this.salas.findIndex((e) => e.id === value.id);
-            this.salas[index] = value;
+            this.editSala(value);
         }
-        this.displayForm = false;
-
-        this.salaForm.reset();
     }
 
-    handleEdit(sala) {
+    addSala(sala: Sala) {
+        this.salaService.postSala(sala).subscribe((response: Sala) => {
+            this.salas.push(this.tiposDeSala.getTipoSala(response));
+
+            this.displayForm = false;
+        });
+    }
+
+    editSala(sala: Sala) {
+        this.salaService.putSala(sala).subscribe((response: Sala) => {
+            const index = this.salas.findIndex((e) => e.id === sala.id);
+            this.salas[index] = this.tiposDeSala.getTipoSala(response);
+
+            this.displayForm = false;
+        });
+    }
+
+    handleEdit(sala: Sala) {
+        console.log(sala);
         this.salaForm.setValue({
             id: sala.id,
             precoDiaria: sala.precoDiaria,
@@ -118,6 +130,7 @@ export class SalaComponent implements OnInit {
             idTipoSala: sala.idTipoSala,
             equipamentos: sala.equipamentos,
         });
+        console.log(this.salaForm.controls.value);
     }
 
     handleDelete(sala) {

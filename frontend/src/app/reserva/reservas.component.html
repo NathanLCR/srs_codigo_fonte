@@ -16,7 +16,7 @@
     <p-dialog header="Cadastrar Reserva" [(visible)]="displayForm">
         <form
             [formGroup]="reservaForm"
-            (ngSubmit)="cadastrarReserva(reservaForm.value)"
+            (ngSubmit)="handleSubmit(reservaForm.value)"
         >
             <div class="p-fluid">
                 <div class="p-field">
@@ -66,17 +66,6 @@
                     />
                 </div>
                 <div class="p-field">
-                    <label for="total">Valor Total</label>
-                    <p-inputNumber
-                        formControlName="total"
-                        mode="currency"
-                        currency="BRL"
-                        [minFractionDigits]="2"
-                        [maxFractionDigits]="2"
-                    >
-                    </p-inputNumber>
-                </div>
-                <div class="p-field">
                     <p-button
                         label="Enviar"
                         icon="pi pi-check"
@@ -87,7 +76,7 @@
         </form>
     </p-dialog>
 
-    <p-table #dt [value]="listaReservas">
+    <p-table #dt [value]="reservas">
         <ng-template pTemplate="header">
             <tr>
                 <th pSortableColumn="dataInicio">Data de Inicio</th>
@@ -110,19 +99,17 @@
                         type="button"
                         pButton
                         pRipple
-                        icon="pi pi-cog"
-                        style="background-color: rgb(63, 63, 179)"
+                        icon="pi pi-pencil"
                         class="p-button-rounded p-button-danger"
-                        (click)="editarReserva(reserva)"
+                        (click)="handleEdit(reserva)"
                     ></button>
                     <button
-                        type="button"
                         pButton
                         pRipple
+                        type="button"
                         icon="pi pi-trash"
-                        style="background: rgb(155, 45, 45)"
                         class="p-button-rounded p-button-danger"
-                        (click)="direcionarDeletarReserva(reserva)"
+                        (click)="handleDelete(reserva)"
                     ></button>
                 </td>
             </tr>

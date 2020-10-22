@@ -1,21 +1,30 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { MessageService } from "primeng/api";
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { ConfirmationService, MessageService } from "primeng/api";
+import Reserva from "../models/Reserva";
 import { ReservaService } from "./reserva.service";
+import { EquipamentoService } from "../equipamento/equipamento.service";
+import { ClienteService } from "../cliente/cliente.service";
 
 @Component({
     selector: "app-listar-reservas",
     templateUrl: "./reservas.component.html",
     styleUrls: ["./reservas.component.css"],
+    providers: [ConfirmationService]
 })
 export class ReservasComponent implements OnInit {
     displayForm = false;
     formReserva: FormGroup;
     reservaForm;
 
+    reservas: Reserva[];
+
     constructor(
+        private equipamentoService: EquipamentoService,
+        private clienteService: ClienteService,
         private reservaService: ReservaService,
         private formBuilder: FormBuilder,
+        private confirmationService: ConfirmationService,
         private messageService: MessageService
     ) {
         this.reservaForm = this.formBuilder.group({
@@ -24,9 +33,26 @@ export class ReservasComponent implements OnInit {
             idSala: null,
             dataInicio: "",
             dataFim: "",
-            total: null,
         });
     }
+
+    ngOnInit(): void {
+        this.reservaService
+            .getReservas()
+            .subscribe((response: Reserva[]) => (this.reservas = response));
+    }
+
+    getClientes() {
+        const clientes = this.clienteService
+            .getClientes()
+            .subscribe((response) => {
+                console.log(response);
+            });
+
+        console.log(clientes);
+        return clientes;
+    }
+
     addSucess() {
         this.messageService.add({
             severity: "success",
@@ -56,43 +82,33 @@ export class ReservasComponent implements OnInit {
         });
     }
 
-    ngOnInit(): void {
-        this.listarReservas();
-    }
-
-    listarReservas() {
-        this.reservaService.listarReservas().subscribe((listaReservas) => {
-            this.listarReservas = listaReservas;
-        });
-    }
-
     showForm() {
         this.displayForm = true;
     }
 
-    direcionarDeletarReserva(value) {
-        this.reservaService.deletarReserva(value.id).subscribe(
-            () => {
-                this.reservaForm.reset();
-                this.addDelete();
-            },
-            () => {
-                this.addError();
-            }
-        );
-        this.listarReservas = this.listarReservas.filter(
-            (val) => val.id !== value.id
-        );
-    }
+    handleDelete(reserva: Reserva) {
+        this.reservaService.deleteReserva(reserva.id).subscribe(() => {
+            this.reservas = this.reservas.filter(
+                (val) => val.id !== reserva.id
+            );
 
-    recuperarReserva(id: number) {
-        this.reservaService.recuperarReserva(id).subscribe((reserva) => {
-            this.reserva = reserva;
-            this.formReserva.patchValue(reserva);
+        });
+        this.confirmationService.confirm({
+            message: "Tem certeza que deseja excluir essa reserva",
+            header: "Confirmar exclusão",
+            icon: "pi pi-exclamation-triangle",
+            accept: () => {
+                this.reservaService.deleteReserva(reserva.id).subscribe(() => {
+                    this.reservas = this.reservas.filter(
+                        (val) => val.id !== reserva.id
+                    );
+
+                });
+            },
         });
     }
 
-    editarReserva(reserva) {
+    handleEdit(reserva) {
         this.displayForm = true;
         this.reservaForm.setValue({
             id: reserva.id,
@@ -100,18 +116,16 @@ export class ReservasComponent implements OnInit {
             idSala: reserva.idSala,
             dataInicio: reserva.dataInicio,
             dataFim: reserva.dataFim,
-            total: reserva.total,
         });
     }
 
-    cadastrarReserva(value) {
+    handleSubmit(value) {
         this.displayForm = false;
         this.reservaForm.reset();
-        this.reservaService.cadastrarReserva(value).subscribe(
-            () => {
-                this.listaReservas.push(value);
+        this.reservaService.postReserva(value).subscribe(
+            (response: Reserva) => {
+                this.reservas.push(response);
                 this.addSucess();
-                this.listarReservas();
             },
             () => {
                 this.addError();

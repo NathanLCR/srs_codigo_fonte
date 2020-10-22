@@ -90,8 +90,5 @@ public class ClienteRecursoIT extends IntTestComum {
         getMockMvc().perform(delete("/api/clientes/" + cliente.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> manter-equipamento
+
