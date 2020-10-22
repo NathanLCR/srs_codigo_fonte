@@ -9,7 +9,7 @@ import { FormGroup, Validators, FormControl } from "@angular/forms";
     selector: "app-cliente",
     templateUrl: "./cliente.component.html",
     styleUrls: ["./cliente.component.css"],
-    providers: [ConfirmationService],
+    providers: [ConfirmationService, MessageService],
 })
 export class ClienteComponent implements OnInit {
     clienteDialog: boolean;
@@ -43,15 +43,6 @@ export class ClienteComponent implements OnInit {
         });
     }
 
-    addErrorToast(error) {
-        this.messageService.add({
-            severity: "error",
-            summary: "Error no servidor",
-            detail: "Error no servidor, favor tentar mais tarde",
-        });
-        console.log(error);
-    }
-
     addToast(severity, summary, detail) {
         this.messageService.add({
             severity: severity,
@@ -60,7 +51,8 @@ export class ClienteComponent implements OnInit {
         });
     }
 
-    editCliente(cliente) {
+    handleEdit(cliente) {
+        this.displayForm = true;
         this.clienteForm.setValue({
             id: cliente.id,
             nome: cliente.nome,
@@ -73,45 +65,67 @@ export class ClienteComponent implements OnInit {
         });
     }
 
-    handleSubmit(value) {
-        console.log(value);
-        this.clienteService.postCliente(value).subscribe(
-            () => {
-                if (!value.id) {
-                    this.clientes.push(value);
-                } else {
-                    const index = this.clientes.findIndex(
-                        (e) => e.id === value.id
-                    );
-                    this.clientes[index] = value;
-                }
-                this.displayForm = false;
+    editCliente(cliente){
+        this.clienteService.putCliente(cliente).subscribe((response:Cliente) => {
+            const index = this.clientes.findIndex((e) => e.id === cliente.id);
+            this.clientes[index] = response;
+        });
+    }
 
-                this.clienteForm.reset();
+    postCliente(cliente){
+        this.clienteService.postCliente(cliente).subscribe((response: Cliente) => {
+            this.clientes.push(response);
+        });
+    }
 
+    handleSubmit(cliente) {
+        if (!cliente.id) {
+            this.postCliente(cliente);
+        } else {
+            this.editCliente(cliente);
+        }
+    }
+    editarCliente(value) {
+        this.clienteService.putCliente(value).subscribe(
+            (value: Cliente) => {
                 this.addToast(
                     "success",
-                    "Cadastrado",
-                    "Cliente cadastrado com sucesso"
+                    "Alterado",
+                    "Cliente alterado com sucesso"
                 );
+                const index = this.clientes.findIndex(
+                    (e) => e.id === value.id);
+                
+                this.clientes[index] = value;
+                        
+                this.displayForm = false;
+        
+                this.clienteForm.reset();
             },
             (error) => this.addErrorToast(error)
         );
+
     }
 
-    addCliente(cliente) {
-        this.clienteService.postCliente(cliente).subscribe();
 
-        if (!cliente.id) {
-            this.clientes.push(cliente);
-        } else {
-            const index = this.clientes.findIndex((e) => e.id === cliente.id);
-            this.clientes[index] = cliente;
-        }
+    addCliente(cliente: Cliente) {
+        this.clienteService.postCliente(cliente).subscribe(
+            (cliente: Cliente) => {
+                this.addToast(
+                    "success",
+                    "Cadastrado",
+                    "Equipamento cadastrado com sucesso"
+                );
+                this.clientes.push(cliente);
 
-        this.displayForm = false;
+                this.displayForm = false;
 
-        this.clienteForm.reset();
+                this.clienteForm.reset();
+            },
+            (error) => {
+                this.addErrorToast(error);
+            }
+        );
     }
 
     deleteCliente(cliente) {
@@ -121,7 +135,13 @@ export class ClienteComponent implements OnInit {
             header: "Confirmar exclusão",
             icon: "pi pi-exclamation-triangle",
             accept: () => {
-                this.clienteService.deleteCliente(cliente.id).subscribe();
+                this.clienteService.deleteCliente(cliente.id).subscribe(() => {
+                    this.addSuccess(
+                        "success",
+                        "Deleção",
+                        "Cliente apagado com Sucesso!"
+                    );
+                });
                 this.clientes = this.clientes.filter(
                     (val) => val.id !== cliente.id
                 );
@@ -132,5 +152,21 @@ export class ClienteComponent implements OnInit {
     showForm() {
         this.clienteForm.reset();
         this.displayForm = true;
+    }
+    addSuccess(severity, summary, detail) {
+        this.messageService.add({
+            severity: severity,
+            summary: summary,
+            detail: detail,
+        });
+    }
+
+    addErrorToast(error) {
+        this.messageService.add({
+            severity: "Error",
+            summary: "Error inesperado",
+            detail: "Error no service",
+        });
+        console.log(error);
     }
 }

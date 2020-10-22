@@ -11,7 +11,11 @@ import { AppComponent } from "./app.component";
 import { SharedModule } from "./shared/shared.module";
 import { AppTopbarComponent } from "./components/topbar/app.topbar.component";
 import { AppFooterComponent } from "./components/footer/app.footer.component";
-import { LocationStrategy, HashLocationStrategy, CommonModule } from "@angular/common";
+import {
+    LocationStrategy,
+    HashLocationStrategy,
+    CommonModule,
+} from "@angular/common";
 import { environment } from "../environments/environment";
 import { HttpClientModule } from "@angular/common/http";
 import {
@@ -25,7 +29,6 @@ import { DiarioErrosComponent } from "./components/diario-erros/diario-erros.com
 import { BlockUIModule } from "ng-block-ui";
 import { ToolbarComponent } from "./components/toolbar/toolbar.component";
 import { ButtonModule } from "primeng";
-
 
 @NgModule({
     declarations: [
@@ -58,7 +61,7 @@ import { ButtonModule } from "primeng";
         FormsModule,
         ReactiveFormsModule,
         ButtonModule,
-        CommonModule
+        CommonModule,
     ],
     providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
     bootstrap: [AppComponent],

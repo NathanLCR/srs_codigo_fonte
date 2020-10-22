@@ -2,6 +2,7 @@
     <p-toolbar>
         <div id="toolbar">
             <p-button label="Novo" (click)="showForm()"></p-button>
+
             <div>
                 <i class="pi pi-search"></i>
                 <input
@@ -13,34 +14,53 @@
             </div>
         </div>
     </p-toolbar>
-    <p-dialog header="Cadastrar Reserva" [(visible)]="displayForm">
+
+    <p-dialog header="Cadastrar Reserva" [style]="{ width: '450px' }" [(visible)]="displayForm">
         <form
             [formGroup]="reservaForm"
             (ngSubmit)="cadastrarReserva(reservaForm.value)"
         >
             <div class="p-fluid">
                 <div class="p-field">
-                    <input
-                        type="text"
-                        id="idCliente"
-                        class="formInput"
-                        formControlName="idCliente"
-                        class="p-invalid"
-                        pInputText
-                        placeholder="Número Cliente"
-                    />
+                    <p-dropdown
+                        [options]="clientes"
+                        formControlName="cliente"
+                        placeholder="Clientes"
+                        [filter]="true"
+                    ></p-dropdown>
                 </div>
                 <div class="p-field">
-                    <input
-                        type="text"
-                        id="idSala"
-                        class="formInput"
-                        formControlName="idSala"
-                        class="p-invalid"
-                        pInputText
-                        placeholder="Número Sala"
-                    />
+                    <p-dropdown
+                        [options]="salas"
+                        formControlName="sala"
+                        placeholder="Escolha a sala"
+                        [filter]="true"
+                    ></p-dropdown>
                 </div>
+                <button
+                    pButton
+                    type="button"
+                    label="Adicionar Equipamento"
+                    (click)="showEquipamentoForm()"
+                ></button>
+
+                <p-table [value]="equipamentoForm.value">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Nome</th>
+                            <th>Quantidade</th>
+                            <th>Preço Diária</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-equipamento>
+                        <tr>
+                            <td>{{ equipamento.equipamento.nome }}</td>
+                            <td>{{ equipamento.equipamento.quantidade }}</td>
+                            <td>{{ equipamento.equipamento.precoDiaria }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                <br />
                 <div class="p-field">
                     <label for="dataInicio">Data de Início </label>
                     <input
@@ -66,17 +86,6 @@
                     />
                 </div>
                 <div class="p-field">
-                    <label for="total">Valor Total</label>
-                    <p-inputNumber
-                        formControlName="total"
-                        mode="currency"
-                        currency="BRL"
-                        [minFractionDigits]="2"
-                        [maxFractionDigits]="2"
-                    >
-                    </p-inputNumber>
-                </div>
-                <div class="p-field">
                     <p-button
                         label="Enviar"
                         icon="pi pi-check"
@@ -87,7 +96,7 @@
         </form>
     </p-dialog>
 
-    <p-table #dt [value]="listaReservas">
+    <p-table #dt [value]="reservas">
         <ng-template pTemplate="header">
             <tr>
                 <th pSortableColumn="dataInicio">Data de Inicio</th>
@@ -103,15 +112,14 @@
                 <td>{{ reserva.dataInicio }}</td>
                 <td>{{ reserva.dataFim }}</td>
                 <td>{{ reserva.total | currency: "BRL" }}</td>
-                <td>{{ reserva.idCliente }}</td>
-                <td>{{ reserva.idSala }}</td>
+                <td>{{ reserva.cliente.nome }}</td>
+                <td>{{ reserva.sala.descricao }}</td>
                 <td>
                     <button
                         type="button"
                         pButton
                         pRipple
-                        icon="pi pi-cog"
-                        style="background-color: rgb(63, 63, 179)"
+                        icon="pi pi-pencil"
                         class="p-button-rounded p-button-danger"
                         (click)="editarReserva(reserva)"
                     ></button>
@@ -120,7 +128,6 @@
                         pButton
                         pRipple
                         icon="pi pi-trash"
-                        style="background: rgb(155, 45, 45)"
                         class="p-button-rounded p-button-danger"
                         (click)="direcionarDeletarReserva(reserva)"
                     ></button>

@@ -16,7 +16,7 @@ export class ClienteService {
     }
 
     getClienteById(id) {
-        return this.http.get<Cliente>(this.PATH + "/{id}");
+        return this.http.get<Cliente>(this.PATH + id);
     }
     postCliente(cliente: Cliente) {
         return this.http.post(this.PATH, cliente);

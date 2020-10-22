@@ -3,6 +3,7 @@ import Equipamento from "../models/Equipamento";
 import { EquipamentoService } from "./equipamento.service";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ConfirmationService, MessageService } from "primeng/api";
+import TiposDeEquipamento from "../models/TiposDeEquipamento";
 
 @Component({
     selector: "app-equipamento",
@@ -15,22 +16,9 @@ export class EquipamentoComponent implements OnInit {
 
     displayForm = false;
 
-    tiposDeEquipamento = [
-        {
-            label: "Móvel",
-            value: 1,
-        },
-        {
-            label: "Eletrodoméstico",
-            value: 2,
-        },
-        {
-            label: "Informática",
-            value: 3,
-        },
-    ];
-
     equipamentoForm;
+
+    tiposDeEquipamento = new TiposDeEquipamento();
 
     constructor(
         private equipamentoService: EquipamentoService,
@@ -52,17 +40,10 @@ export class EquipamentoComponent implements OnInit {
             .getEquipamentos()
             .subscribe((resultado: Equipamento[]) => {
                 this.equipamentos = resultado;
-                this.equipamentos.forEach((e) => this.getTipoEquipamento(e));
+                this.equipamentos.forEach((e) =>
+                    this.tiposDeEquipamento.getTipoEquipamento(e)
+                );
             });
-    }
-
-    getTipoEquipamento(equipamento: Equipamento) {
-        const { label } = this.tiposDeEquipamento.find(
-            (t) => t.value === equipamento.idTipoEquipamento
-        );
-        equipamento.tipoEquipamento = label;
-
-        return equipamento;
     }
 
     get equipamentoFormControl() {
@@ -128,7 +109,9 @@ export class EquipamentoComponent implements OnInit {
                     "Equipamento cadastrado com sucesso"
                 );
 
-                this.equipamentos.push(this.getTipoEquipamento(response));
+                this.equipamentos.push(
+                    this.tiposDeEquipamento.getTipoEquipamento(response)
+                );
 
                 this.displayForm = false;
 
@@ -151,7 +134,9 @@ export class EquipamentoComponent implements OnInit {
                 const index = this.equipamentos.findIndex(
                     (e) => e.id === equipamento.id
                 );
-                this.equipamentos[index] = this.getTipoEquipamento(response);
+                this.equipamentos[
+                    index
+                ] = this.tiposDeEquipamento.getTipoEquipamento(response);
 
                 this.displayForm = false;
 
