@@ -86,7 +86,13 @@ export class SalaComponent implements OnInit {
     }
 
     atualizar(sala) {
-        this.salaService.putSala(sala).subscribe();
+        this.salaService.putSala(sala).subscribe((response: Sala)=>{
+            const index = this.salas.findIndex(s => s.id === sala.id);
+
+            this.salas[index] = response;
+            this.displayForm = false;
+            this.addEdit();
+        });
     }
 
     showForm() {
@@ -97,7 +103,16 @@ export class SalaComponent implements OnInit {
         this.displayEquipamentoForm = true;
     }
 
-    handleSubmit(value) {
+    handleSubmit(sala) {
+        if (!sala.id) {
+            this.postSala(sala);
+        } else {
+            this.atualizar(sala);
+            
+        }
+    }
+
+    postSala(value) {
         this.salaService.postSala(value).subscribe(()=>this.addToast("success","Cadastrado","Sala cadastrada com sucesso"),
             (error) => this.addErrorToast(error),
         );
@@ -124,6 +139,7 @@ export class SalaComponent implements OnInit {
             tipoSala: sala.tipoSala,
             equipamentos: sala.equipamentos,
         });
+        
     }
 
     handleDelete(sala) {
@@ -132,6 +148,7 @@ export class SalaComponent implements OnInit {
             header: "Confirmar exclusão",
             icon: "pi pi-exclamation-triangle",
             accept: () => {
+                this.addDelete();
                 this.salaService.deleteSala(sala.id).subscribe();
                 this.salas = this.salas.filter((val) => val.id !== sala.id);
             },
@@ -158,4 +175,20 @@ export class SalaComponent implements OnInit {
         });
         console.log(error);
     }
+    addDelete() {
+        this.messageService.add({
+            severity: "success",
+            summary: "Sucesso!",
+            detail: "Reserva Cancelada",
+        });
+
+    
+}
+    addEdit() {
+    this.messageService.add({
+        severity: "info",
+        summary: "Sucesso!",
+        detail: "Reserva Atualizada!",
+    });
+}
 }

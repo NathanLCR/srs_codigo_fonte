@@ -17,10 +17,10 @@
         </div>
     </p-toolbar>
 
-    <p-dialog header="Cadastrar Sala" [(visible)]="displayForm">
+    <p-dialog [style]= "{width : '650px'}" header="Cadastrar Sala" [(visible)]="displayForm">
         <form
             [formGroup]="salaForm"
-            (ngSubmit)="handleSubmit(handleSubmit(salaForm.value))"
+            (ngSubmit)="handleSubmit(salaForm.value)"
         >
             <div class="p-fluid">
                 <div class="p-field">
@@ -43,6 +43,7 @@
                         [maxFractionDigits]="2"
                     >
                     </p-inputNumber>
+                    
                 </div>
                 <br />
                 <div class="p-field">
@@ -152,22 +153,23 @@
                     
                 </td>
                 <td>
-                    <button
-                        pButton
-                        pRipple
-                        type="button"
-                        icon="pi pi-times"
-                        class="p-button-rounded p-button-danger"
-                        (click)="handleDelete(sala)"
-                    ></button>
+                    
                     <button
                         pButton
                         pRipple
                         type="button"
                         icon="pi pi-pencil"
                         class="p-button-rounded p-button-danger"
-                        (click)="handleEdit(sala)"
                         (click)="showForm()"
+                        (click)="handleEdit(sala)"
+                    ></button>
+                    <button
+                        pButton
+                        pRipple
+                        type="button"
+                        icon="pi pi-trash"
+                        class="p-button-rounded p-button-danger"
+                        (click)="handleDelete(sala)"
                     ></button>
                 </td>
             </tr>
