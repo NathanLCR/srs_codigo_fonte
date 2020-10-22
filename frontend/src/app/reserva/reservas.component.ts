@@ -1,8 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { ListarReservaModel } from "src/app/models/listar-reserva.model";
-import { InfoReservaModel } from "src/app/models/info-reserva.model";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MessageService } from "primeng/api";
+import { EditarReservaModel } from "../models/editar-reserva.model";
 import { ReservaService } from "./reserva.service";
 
 @Component({
@@ -11,10 +10,10 @@ import { ReservaService } from "./reserva.service";
     styleUrls: ["./reservas.component.css"],
 })
 export class ReservasComponent implements OnInit {
-    listaReservas: ListarReservaModel[];
+    listaReservas: EditarReservaModel[];
     displayForm = false;
     formReserva: FormGroup;
-    reserva: InfoReservaModel;
+    reserva: EditarReservaModel;
     reservaForm;
 
     constructor(
