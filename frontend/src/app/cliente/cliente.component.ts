@@ -43,14 +43,14 @@ export class ClienteComponent implements OnInit {
         });
     }
 
-    addErrorToast(error) {
-        this.messageService.add({
-            severity: "error",
-            summary: "Error no servidor",
-            detail: "Error no servidor, favor tentar mais tarde",
-        });
-        console.log(error);
-    }
+    // addErrorToast(error) {
+    //     this.messageService.add({
+    //         severity: "error",
+    //         summary: "Error no servidor",
+    //         detail: "Error no servidor, favor tentar mais tarde",
+    //     });
+    //     console.log(error);
+    // }
 
     addToast(severity, summary, detail) {
         this.messageService.add({
