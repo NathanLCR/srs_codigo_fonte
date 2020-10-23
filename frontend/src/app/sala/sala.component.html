@@ -99,6 +99,7 @@
                             <th>Nome</th>
                             <th>Preço</th>
                             <th>Quantidade</th>
+                            <th>Ações</th>
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-equipamento>
@@ -106,6 +107,22 @@
                             <td>{{ equipamento.equipamento.nome }}</td>
                             <td>{{ equipamento.equipamento.precoDiaria | currency: 'BRL' }}</td>
                             <td>{{ equipamento.quantidade }}</td>
+                            <td>
+                                <button style="background-color: #5180CE;"
+                                    pButton
+                                    pRipple
+                                    type="button"
+                                    icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-danger"
+                                ></button>
+                                <button style="background-color: red;"
+                                    pButton
+                                    pRipple
+                                    type="button"
+                                    icon="pi pi-trash"
+                                    class="p-button-rounded p-button-danger"
+                                ></button>
+                            </td>
                         </tr>
                     </ng-template>
                 </p-table>
