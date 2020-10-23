@@ -90,14 +90,24 @@ export class SalaComponent implements OnInit {
     }
 
     atualizar(sala) {
-        this.salaService.putSala(sala).subscribe((response: Sala)=>{
-            const index = this.salas.findIndex(s => s.id === sala.id);
+        this.salaService.putSala(sala).subscribe(
+            (response: Sala) => {
+                
+                const index = this.salas.findIndex(
+                    (e) => e.id === sala.id
+                );
+                this.salas[
+                    index
+                ] = this.tiposDeSala.getTipoSala(response);
 
-            this.salas[index] = response;
-            this.displayForm = false;
-            this.addEdit();
-        });
-    }
+                this.displayForm = false;
+
+                this.equipamentoForm.reset();
+                this.addEdit();
+            },
+            (error) => this.addErrorToast(error)
+        );
+        }
 
     showForm() {
         this.salaForm.reset();
@@ -117,22 +127,25 @@ export class SalaComponent implements OnInit {
         }
     }
 
-    postSala(value) {
-        this.salaService.postSala(value).subscribe(()=>this.addToast("success","Cadastrado","Sala cadastrada com sucesso"),
-            (error) => this.addErrorToast(error),
+    postSala(sala: Sala) {
+        this.salaService.postSala(sala).subscribe(
+        (response: Sala)=> {
+        this.addToast("success","Cadastrado","Sala cadastrada com sucesso"
         );
-        value = this.tiposDeSala.getTipoSala(value);
-        if (!value.id) {
-            this.salas.push(value);
-            console.log("ok");
-        } else {
-            const index = this.salas.findIndex((e) => e.id === value.id);
-            this.salas[index] = value;
-        }
+
+        this.salas.push(
+        sala = this.tiposDeSala.getTipoSala(response)
+
+        );
+
         this.displayForm = false;
 
         this.salaForm.reset();
-    }
+        },
+        (error) => {this.addErrorToast(error);
+        }
+    );
+}
 
     handleEdit(sala) {
         this.salaForm.setValue({
@@ -183,7 +196,7 @@ export class SalaComponent implements OnInit {
         this.messageService.add({
             severity: "success",
             summary: "Sucesso!",
-            detail: "Reserva Cancelada",
+            detail: "Sala Removida.",
         });
 
     
@@ -192,7 +205,7 @@ export class SalaComponent implements OnInit {
     this.messageService.add({
         severity: "info",
         summary: "Sucesso!",
-        detail: "Reserva Atualizada!",
+        detail: "Sala Atualizada.",
     });
 }
 }
