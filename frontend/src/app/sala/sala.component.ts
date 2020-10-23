@@ -39,19 +39,16 @@ export class SalaComponent implements OnInit {
         this.salaForm = new FormGroup({
             id: new FormControl(null),
             precoDiaria: new FormControl(null, [
-                Validators.required,
-                Validators.min(0),
-            ]),
+                Validators.required]),
             descricao: new FormControl(null, [Validators.required]),
             capacidade: new FormControl(null, [Validators.required]),
-            idTipoSala: new FormControl(null, [Validators.required]),
-            tipoSala: new FormControl(null, [Validators.required]),
+            idTipoSala: new FormControl(null,[Validators.required]),
             equipamentos: new FormArray([]),
         });
 
         this.salaEquipamentoForm = this.formBuilder.group({
-            idSala: new FormControl(null, [Validators.required]),
-            idEquipamento: new FormControl(null, [Validators.required]),
+            idSala: new FormControl(null),
+            idEquipamento: new FormControl(null),
             quantidade: new FormControl(null, [Validators.required]),
             equipamento: new FormControl(null, [Validators.required]),
         });
@@ -97,6 +94,7 @@ export class SalaComponent implements OnInit {
     }
 
     showForm() {
+        this.salaForm.reset();
         this.displayForm = true;
     }
 
@@ -105,6 +103,7 @@ export class SalaComponent implements OnInit {
     }
 
     handleSubmit(value) {
+        console.log(value);
         this.salaService.postSala(value).subscribe(()=>this.addToast("success","Cadastrado","Sala cadastrada com sucesso"),
             (error) => this.addErrorToast(error),
         );
@@ -128,7 +127,6 @@ export class SalaComponent implements OnInit {
             descricao: sala.descricao,
             capacidade: sala.capacidade,
             idTipoSala: sala.idTipoSala,
-            tipoSala: sala.tipoSala,
             equipamentos: sala.equipamentos,
         });
     }
