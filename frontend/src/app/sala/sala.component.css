@@ -38,3 +38,9 @@ form {
     justify-content: center;
 }
 
+p-dialog button{
+    margin-bottom: 10px;
+    background-color:#5180CE;
+}
+
+

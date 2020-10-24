@@ -116,6 +116,7 @@ export class SalaComponent implements OnInit {
 
     showEquipamentoForm() {
         this.displayEquipamentoForm = true;
+        
     }
 
     handleSubmit(sala) {
