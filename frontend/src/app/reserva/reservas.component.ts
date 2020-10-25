@@ -1,40 +1,50 @@
-
 import { EquipamentoService } from './../equipamento/equipamento.service';
 import { ClienteService } from './../cliente/cliente.service';
 import { Component, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { MessageService } from "primeng/api";
 import { ReservaService } from "./reserva.service";
 import { SalaService } from '../sala/sala.service';
 import Reserva from '../models/Reserva';
 import Sala from '../models/Sala';
+import Equipamento from '../models/Equipamento';
+import ReservaEquipamento from '../models/ReservaEquipamento';
+import Cliente from '../models/Cliente';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
     selector: "app-listar-reservas",
     templateUrl: "./reservas.component.html",
     styleUrls: ["./reservas.component.css"],
+    animations: [
+        trigger('rowExpansionTrigger', [
+            state('void', style({
+                transform: 'translateX(-10%)',
+                opacity: 0
+            })),
+            state('active', style({
+                transform: 'translateX(0)',
+                opacity: 1
+            })),
+            transition('* <=> *', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'))
+        ])
+    ]
 })
 export class ReservasComponent implements OnInit {
 
     reservas: Reserva[];
-    formReserva: FormGroup;
-    reserva: Reserva;
-    reservaForm;
 
-    clientes;
-    clienteForm;
+    reservaForm: FormGroup;
 
-    salas;
-    salaForm;
+    clientes: { label: string, value: Cliente }[];
 
-    equipamentos;
-    equipamentoForm;
+    salas: { label: string, value: Sala }[];
 
-    reservaEquipamentoForm;
+    equipamentos: { label: string, value: Equipamento }[];
+
+    reservaEquipamentoForm: FormGroup;
 
     displayForm = false;
-    displayClienteForm = false;
-    displaySalaForm = false;
     displayEquipamentoForm = false;
 
     constructor(
@@ -45,54 +55,82 @@ export class ReservasComponent implements OnInit {
         private salaService: SalaService,
         private equipamentoService: EquipamentoService,
     ) {
-        this.reservaForm = this.formBuilder.group({
-            id: null,
-            idCliente: null,
-            cliente: null,
-            idSala: null,
-            sala: null,
-            dataInicio: "",
-            dataFim: "",
+        this.reservaForm = new FormGroup({
+            id: new FormControl(null),
+            idCliente: new FormControl(null),
+            cliente: new FormControl(null),
+            idSala: new FormControl(null),
+            sala: new FormControl(null),
+            dataInicio: new FormControl(null),
+            dataFim: new FormControl(null),
+            equipamentos: new FormArray([]),
         });
 
-        this.equipamentoForm = this.formBuilder.group({
-            id: null,
-            nome: null,
-            idTipoEquipamento: null,
-            precoDiaria: null,
-            tipoEquipamento: null,
-        })
+        this.reservaEquipamentoForm = this.formBuilder.group({
+            idReserva: null,
+            idEquipamento: null,
+            quantidade: null,
+            equipamento: null
+        });
     }
 
     ngOnInit(): void {
-        this.listarReservas();
+        this.getAllReservas();
 
         this.clienteService.getClientes().subscribe((resulta) => {
             this.clientes = resulta.map((e) => {
+                return { label: e.nome + " | " + e.cpf, value: e };
+            });
+        });
+
+        this.salaService.getSalas().subscribe((response) => {
+            this.salas = response.map((e) => {
+                return { label: e.descricao + "|" + e.precoDiaria, value: e };
+            });
+        });
+
+        this.equipamentoService.getEquipamentos().subscribe((response) => {
+            this.equipamentos = response.map((e: Equipamento) => {
                 return { label: e.nome, value: e };
             });
         });
+    }
 
-        this.salaService.getSalas().subscribe((resulta) => {
-            this.salas= resulta.map((e) => {
-                return { label: e.descricao, value: e };
-            });
+    get equipamentoForm() {
+        return this.reservaForm.get('equipamentos') as FormArray;
+    }
+
+    addEquipamento(value) {
+        this.reservaEquipamentoForm.reset();
+        this.displayEquipamentoForm = false,
+            value.idEquipamento = value.equipamento.id;
+        this.equipamentoForm.value.push(value);
+    }
+
+    addEquipamentos(equipArray: ReservaEquipamento[]) {
+        if (equipArray) {
+            equipArray.forEach(e => this.addEquipamento(e));
+        }
+    }
+
+    editEquipamento(reservaEquipamento) {
+        this.deleteEquipamento(reservaEquipamento);
+        this.reservaEquipamentoForm.setValue({
+            idEquipamento: reservaEquipamento.idEquipamento,
+            idReserva: reservaEquipamento.idReserva,
+            equipamento: reservaEquipamento.equipamento,
+            quantidade: reservaEquipamento.quantidade
         });
-
-        this.equipamentoService.getEquipamentos().subscribe((resulta) => {
-            this.equipamentos= resulta.map((e) => {
-                return { label: e.nome, value: e };
-            });
-        });
+        this.showEquipamentoForm();
     }
 
-    get clientesForm() {
-        return this.clienteForm.get("clientes") as FormArray;
+    deleteEquipamento(reservaEquipamento) {
+        const equipamentos = this.equipamentoForm.value.filter(r => r !== reservaEquipamento);
+        this.equipamentoForm.reset();
+        this.addEquipamentos(equipamentos);
+
     }
 
-    get salasForm(){
-        return this.salaForm.get("salas") as FormArray;
-    }
     addSucess() {
         this.messageService.add({
             severity: "success",
@@ -102,7 +140,7 @@ export class ReservasComponent implements OnInit {
     }
     addDelete() {
         this.messageService.add({
-            severity: "info",
+            severity: "success",
             summary: "Sucesso!",
             detail: "Reserva Cancelada",
         });
@@ -121,37 +159,27 @@ export class ReservasComponent implements OnInit {
             detail: "Reserva Atualizada",
         });
     }
-    addEquipamento(value) {
-        this.displayEquipamentoForm = false;
-        value.idReserva = value.reserva.id;
-        this.reservaEquipamentoForm.idEquipamento = value.id;
-    }
-
-    listarReservas() {
-        this.reservaService.listarReservas().subscribe((reservas) => {
+    getAllReservas() {
+        this.reservaService.getReservas().subscribe((reservas) => {
             this.reservas = reservas;
             reservas.forEach((r: Reserva) => {
-                this.salaService.getSalaById(r.idSala).subscribe((response: Sala)=>{
-                    r.sala = response;
-                });
-                this.clienteService.getClienteById(r.idCliente).subscribe((response)=>{
-                    r.cliente = response;
-                });
-                return r;
-            })
+                return this.getClienteESalaEEquipamentos(r);
+            });
+
         });
     }
 
     showForm() {
         this.displayForm = true;
+        this.reservaForm.reset();
     }
 
     showEquipamentoForm() {
         this.displayEquipamentoForm = true;
     }
 
-    direcionarDeletarReserva(value) {
-        this.reservaService.deletarReserva(value.id).subscribe(
+    handleDelete(value) {
+        this.reservaService.deleteReserva(value.id).subscribe(
             () => {
                 this.reservaForm.reset();
                 this.addDelete();
@@ -165,39 +193,66 @@ export class ReservasComponent implements OnInit {
         );
     }
 
-    recuperarReserva(id: number) {
-        this.reservaService.recuperarReserva(id).subscribe((reserva) => {
-            this.reserva = reserva;
-            this.formReserva.patchValue(reserva);
-        });
-    }
-
-    editarReserva(reserva) {
-        this.displayForm = true;
-        this.reservaForm.setValue({
+    handleEdit(reserva) {
+        this.reservaForm.patchValue({
             id: reserva.id,
             idCliente: reserva.idCliente,
+            cliente: reserva.cliente,
             idSala: reserva.idSala,
-            equipamento: null,
+            sala: reserva.sala,
             dataInicio: reserva.dataInicio,
             dataFim: reserva.dataFim,
         });
+        this.equipamentoForm.reset();
+        reserva.equipamentos.forEach(e => {
+            this.addEquipamento(e);
+        });
+        this.displayForm = true;
     }
 
-    cadastrarReserva(value) {
-        this.displayForm = false;
-        this.reservaForm.reset();
+    handleSubmit(value) {
         value.idSala = value.sala.id;
         value.idCliente = value.cliente.id;
-        this.reservaService.cadastrarReserva(value).subscribe(
-            (response) => {
-                this.reservas.push(response);
-                this.addSucess();
-                this.listarReservas();
-            },
-            () => {
-                this.addError();
-            }
-        );
+        this.displayForm = false;
+        this.reservaForm.reset();
+        if (!value.id) {
+            this.addReserva(value);
+        } else {
+            this.editReserva(value);
+        }
+    }
+
+    addReserva(reserva: Reserva) {
+        this.reservaService.postReserva(reserva).subscribe((response: Reserva) => {
+            reserva = this.getClienteESalaEEquipamentos(response);
+            this.reservas.push(reserva);
+            this.addSucess();
+        }, () => this.addError());
+    }
+
+    editReserva(reserva: Reserva) {
+        console.log(reserva);
+        this.reservaService.putReserva(reserva).subscribe((response) => {
+            const index = this.reservas.findIndex(r => r.id === reserva.id);
+            this.reservas[index] = this.getClienteESalaEEquipamentos(response);
+            this.addSucess();
+        }, () => this.addError());
+    }
+
+    getClienteESalaEEquipamentos(reserva: Reserva): Reserva {
+        this.clienteService.getClienteById(reserva.idCliente).subscribe((r) => {
+            reserva.cliente = r;
+        });
+        this.salaService.getSalaById(reserva.idSala).subscribe(s => {
+            reserva.sala = s;
+        });
+
+        reserva.equipamentos.forEach(e => {
+            this.equipamentoService.getEquipamentoById(e.idEquipamento).subscribe(response => {
+                e.equipamento = response;
+            });
+            return e;
+        });
+        return reserva;
     }
 }
