@@ -81,7 +81,7 @@ public class ReservaServico {
         reservaRepositorio.save(reserva);
 
         if (reserva.getId() != null){
-            reservaEquipamentoRepositorio.deleteAllByReservaId(reserva.getId()lter);
+            reservaEquipamentoRepositorio.deleteAllByReservaId(reserva.getId()git m);
         }
 
         if (equipamentos != null) {

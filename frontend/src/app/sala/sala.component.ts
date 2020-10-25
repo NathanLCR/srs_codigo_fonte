@@ -2,7 +2,7 @@ import { EquipamentoService } from "./../equipamento/equipamento.service";
 import { SalaService } from "./sala.service";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { Component, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import Sala from "../models/Sala";
 import TiposdeSala from "src/app/models/TiposDeSala";
 
@@ -38,19 +38,19 @@ export class SalaComponent implements OnInit {
     ngOnInit(): void {
         this.salaForm = new FormGroup({
             id: new FormControl(null),
-            precoDiaria: new FormControl(null),
-            descricao: new FormControl(null),
-            capacidade: new FormControl(null),
-            idTipoSala: new FormControl(null),
-            tipoSala: new FormControl(null),
+            precoDiaria: new FormControl(null, [
+                Validators.required]),
+            descricao: new FormControl(null, [Validators.required]),
+            capacidade: new FormControl(null, [Validators.required]),
+            idTipoSala: new FormControl(null,[Validators.required]),
             equipamentos: new FormArray([]),
         });
 
         this.salaEquipamentoForm = this.formBuilder.group({
-            idSala: null,
-            idEquipamento: "",
-            quantidade: "",
-            equipamento: null,
+            idSala: new FormControl(null),
+            idEquipamento: new FormControl(null),
+            quantidade: new FormControl(null, [Validators.required]),
+            equipamento: new FormControl(null, [Validators.required]),
         });
 
         this.salaService.getSalas().subscribe((resultado) => {
@@ -74,6 +74,10 @@ export class SalaComponent implements OnInit {
         return this.salaForm.get("equipamentos") as FormArray;
     }
 
+    get salaFormControl() {
+        return this.salaForm.controls;
+    }
+
     addEquipamento(value) {
         this.displayEquipamentoForm = false;
         value.idEquipamento = value.equipamento.id;
@@ -86,10 +90,27 @@ export class SalaComponent implements OnInit {
     }
 
     atualizar(sala) {
-        this.salaService.putSala(sala).subscribe();
-    }
+        this.salaService.putSala(sala).subscribe(
+            (response: Sala) => {
+                
+                const index = this.salas.findIndex(
+                    (e) => e.id === sala.id
+                );
+                this.salas[
+                    index
+                ] = this.tiposDeSala.getTipoSala(response);
+
+                this.displayForm = false;
+
+                this.equipamentoForm.reset();
+                this.addEdit();
+            },
+            (error) => this.addErrorToast(error)
+        );
+        }
 
     showForm() {
+        this.salaForm.reset();
         this.displayForm = true;
     }
 
@@ -97,22 +118,34 @@ export class SalaComponent implements OnInit {
         this.displayEquipamentoForm = true;
     }
 
-    handleSubmit(value) {
-        this.salaService.postSala(value).subscribe(()=>this.addToast("success","Cadastrado","Sala cadastrada com sucesso"),
-            (error) => this.addErrorToast(error),
-        );
-        value = this.tiposDeSala.getTipoSala(value);
-        if (!value.id) {
-            this.salas.push(value);
-            console.log("ok");
+    handleSubmit(sala) {
+        if (!sala.id) {
+            this.postSala(sala);
         } else {
-            const index = this.salas.findIndex((e) => e.id === value.id);
-            this.salas[index] = value;
+            this.atualizar(sala);
+            
         }
+    }
+
+    postSala(sala: Sala) {
+        this.salaService.postSala(sala).subscribe(
+        (response: Sala)=> {
+        this.addToast("success","Cadastrado","Sala cadastrada com sucesso"
+        );
+
+        this.salas.push(
+        sala = this.tiposDeSala.getTipoSala(response)
+
+        );
+
         this.displayForm = false;
 
         this.salaForm.reset();
-    }
+        },
+        (error) => {this.addErrorToast(error);
+        }
+    );
+}
 
     handleEdit(sala) {
         this.salaForm.setValue({
@@ -121,9 +154,9 @@ export class SalaComponent implements OnInit {
             descricao: sala.descricao,
             capacidade: sala.capacidade,
             idTipoSala: sala.idTipoSala,
-            tipoSala: sala.tipoSala,
             equipamentos: sala.equipamentos,
         });
+        
     }
 
     handleDelete(sala) {
@@ -132,6 +165,7 @@ export class SalaComponent implements OnInit {
             header: "Confirmar exclusão",
             icon: "pi pi-exclamation-triangle",
             accept: () => {
+                this.addDelete();
                 this.salaService.deleteSala(sala.id).subscribe();
                 this.salas = this.salas.filter((val) => val.id !== sala.id);
             },
@@ -158,4 +192,20 @@ export class SalaComponent implements OnInit {
         });
         console.log(error);
     }
+    addDelete() {
+        this.messageService.add({
+            severity: "success",
+            summary: "Sucesso!",
+            detail: "Sala Removida.",
+        });
+
+    
+}
+    addEdit() {
+    this.messageService.add({
+        severity: "info",
+        summary: "Sucesso!",
+        detail: "Sala Atualizada.",
+    });
+}
 }
