@@ -80,6 +80,10 @@ public class ReservaServico {
         reserva.setEquipamentos(new ArrayList<>());
         reservaRepositorio.save(reserva);
 
+        if (reserva.getId() != null){
+            reservaEquipamentoRepositorio.deleteAllByReservaId(reserva.getId());
+        }
+
         if (equipamentos != null) {
             equipamentos.forEach(equipamento -> {
                 equipamento.setReserva(reserva);
@@ -87,6 +91,7 @@ public class ReservaServico {
             });
             reservaEquipamentoRepositorio.saveAll(equipamentos);
         }
+
 
         reserva.setEquipamentos(equipamentos);
         reserva.setTotal(calculaTotalReserva(reservaDto));

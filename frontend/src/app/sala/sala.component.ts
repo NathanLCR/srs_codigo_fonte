@@ -174,7 +174,7 @@ export class SalaComponent implements OnInit {
     }
 
     getEquipamento(id) {
-        return this.equipamentoService.getEquipamento(id);
+        return this.equipamentoService.getEquipamentoById(id);
     }
 
     addToast(severity, summary, detail) {

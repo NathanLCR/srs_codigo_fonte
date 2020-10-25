@@ -84,7 +84,10 @@
                             "node_modules/primeng/resources/primeng.min.css",
                             "node_modules/quill/dist/quill.snow.css",
                             "node_modules/primeicons/primeicons.css",
-                            "styles.css"
+                            "styles.css",
+                            "node_modules/primeng/resources/primeng.min.css",
+                            "node_modules/primeng/resources/themes/saga-blue/theme.css"
+                            
                         ],
                         "assets": ["src/assets"]
                     }

@@ -15,7 +15,7 @@ export class EquipamentoService {
         return this.http.get<Equipamento[]>(this.PATH);
     }
 
-    getEquipamento(id: number) {
+    getEquipamentoById(id: number) {
         return this.http.get<Equipamento>(this.PATH + id);
     }
 
@@ -24,10 +24,10 @@ export class EquipamentoService {
     }
 
     postEquipamento(equipamento: Equipamento) {
-        return this.http.post(this.PATH, equipamento);
+        return this.http.post<Equipamento>(this.PATH, equipamento);
     }
 
     putEquipamento(equipamento: Equipamento) {
-        return this.http.post(this.PATH, equipamento);
+        return this.http.post<Equipamento>(this.PATH, equipamento);
     }
 }
