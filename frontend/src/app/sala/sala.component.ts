@@ -38,8 +38,7 @@ export class SalaComponent implements OnInit {
     ngOnInit(): void {
         this.salaForm = new FormGroup({
             id: new FormControl(null),
-            precoDiaria: new FormControl(null, [
-                Validators.required]),
+            precoDiaria: new FormControl(null, [Validators.required]),
             descricao: new FormControl(null, [Validators.required]),
             capacidade: new FormControl(null, [Validators.required]),
             idTipoSala: new FormControl(null,[Validators.required]),

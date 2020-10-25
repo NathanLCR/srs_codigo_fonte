@@ -2,7 +2,7 @@ import Equipamento from "./Equipamento";
 
 export default interface Sala {
     id: number;
-    precoDiaria: number;
+    precoDiaria: string;
     descricao: string;
     capacidade: number;
     idTipoSala: number;
