@@ -109,7 +109,12 @@ export class SalaComponent implements OnInit {
     }
 
     deletar(sala) {
-        this.salaService.deleteSala(sala.id).subscribe(() => { this.salas = this.salas.filter((val) => val.id !== sala.id); }, () => { this.addFailDelete() });
+        this.salaService.deleteSala(sala.id).subscribe(() => {
+            this.salas = this.salas.filter((val) => val.id !== sala.id);
+        },
+            (error) => {
+                this.addErrorToast(error);
+            });
 
     }
 
@@ -140,7 +145,7 @@ export class SalaComponent implements OnInit {
 
     showEquipamentoForm() {
         this.displayEquipamentoForm = true;
-        
+
     }
 
     handleSubmit(sala) {
