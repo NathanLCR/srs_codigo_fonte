@@ -17,7 +17,7 @@
         </div>
     </p-toolbar>
 
-    <p-dialog header="Cadastrar Sala" [style] = "{width: '650px'}"[(visible)]="displayForm">
+    <p-dialog header="Cadastrar Sala" [style] = "{width: '400px'}"[(visible)]="displayForm">
         <form
             [formGroup]="salaForm"
             (ngSubmit)="handleSubmit(salaForm.value)"
@@ -36,7 +36,7 @@
                     text="Descrição requerida"
                     *ngIf="
                         salaFormControl.descricao.errors?.required &&
-                        salaFormControl.descricao.touched
+                        salaFormControl.descricao.touched   
                     "
                     ></p-message>
                 </div>
@@ -56,7 +56,8 @@
                         severity="error"
                         text="Preço requerido"
                         *ngIf="
-                            salaFormControl.precoDiaria.errors?.required 
+                            salaFormControl.precoDiaria.errors?.required &&
+                            salaFormControl.precoDiaria.dirty
                         "
                     ></p-message>
                 </div>
@@ -71,7 +72,8 @@
                     severity="error"
                     text="Capacidade requerido"
                     *ngIf="
-                        salaFormControl.capacidade.errors?.required
+                        salaFormControl.capacidade.errors?.required &&
+                        salaFormControl.capacidade.dirty
                     "
                 ></p-message>
                 </div>
@@ -89,11 +91,12 @@
                 <button
                     pButton
                     type="button"
+                    icon="pi pi-plus"
                     label="Adicionar Equipamento"
                     (click)="showEquipamentoForm()"
                 ></button>
 
-                <p-table [value]="equipamentoForm.value">
+                <p-table [value]="equipamentoForm.value" >
                     <ng-template pTemplate="header">
                         <tr>
                             <th>Nome</th>

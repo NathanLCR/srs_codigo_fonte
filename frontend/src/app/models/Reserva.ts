@@ -1,5 +1,6 @@
 import Cliente from "./Cliente";
 import Equipamento from "./Equipamento";
+import ReservaEquipamento from "./ReservaEquipamento";
 import Sala from "./Sala";
 
 export default interface Reserva {
@@ -8,7 +9,7 @@ export default interface Reserva {
     cliente?: Cliente;
     idSala: number;
     sala?: Sala;
-    equipamentos: Equipamento;
+    equipamentos: ReservaEquipamento[];
     dataInicio: Date;
     dataFim: Date;
 }
