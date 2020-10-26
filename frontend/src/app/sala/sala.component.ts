@@ -110,8 +110,8 @@ export class SalaComponent implements OnInit {
     }
 
     deletar(sala) {
-        this.salaService.deleteSala(sala.id).subscribe();
-        this.salas = this.salas.filter((val) => val.id !== sala.id);
+        this.salaService.deleteSala(sala.id).subscribe(() => { this.salas = this.salas.filter((val) => val.id !== sala.id); }, (error) => { this.addErrorToast(error) });
+
     }
 
     editSala(sala) {
@@ -196,9 +196,7 @@ export class SalaComponent implements OnInit {
             header: "Confirmar exclusão",
             icon: "pi pi-exclamation-triangle",
             accept: () => {
-                this.addDelete();
-                this.salaService.deleteSala(sala.id).subscribe();
-                this.salas = this.salas.filter((val) => val.id !== sala.id);
+                this.deletar(sala);
             },
         });
     }

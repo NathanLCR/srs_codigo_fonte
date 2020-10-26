@@ -11,6 +11,8 @@ import Equipamento from '../models/Equipamento';
 import ReservaEquipamento from '../models/ReservaEquipamento';
 import Cliente from '../models/Cliente';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { CPFPipe } from '../pipes/cpf.pipe';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
     selector: "app-listar-reservas",
@@ -46,7 +48,6 @@ export class ReservasComponent implements OnInit {
 
     displayForm = false;
     displayEquipamentoForm = false;
-    dataRanged;
 
     constructor(
         private reservaService: ReservaService,
@@ -76,18 +77,24 @@ export class ReservasComponent implements OnInit {
         });
     }
 
+    cpfPipe = new CPFPipe();
+
     ngOnInit(): void {
         this.getAllReservas();
 
         this.clienteService.getClientes().subscribe((resulta) => {
             this.clientes = resulta.map((e) => {
-                return { label: e.nome + " | " + e.cpf, value: e };
+                return {
+
+                    label: e.nome + " | " + this.cpfPipe.transform(e.cpf), value: e
+                };
             });
         });
 
+
         this.salaService.getSalas().subscribe((response) => {
             this.salas = response.map((e) => {
-                return { label: e.descricao + "|" + e.precoDiaria, value: e };
+                return { label: e.descricao, value: e };
             });
         });
 
