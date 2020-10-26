@@ -46,6 +46,7 @@ export class ReservasComponent implements OnInit {
 
     displayForm = false;
     displayEquipamentoForm = false;
+    dataRanged;
 
     constructor(
         private reservaService: ReservaService,
@@ -61,6 +62,7 @@ export class ReservasComponent implements OnInit {
             cliente: new FormControl(null),
             idSala: new FormControl(null),
             sala: new FormControl(null),
+            dataRange: new FormControl(null),
             dataInicio: new FormControl(null),
             dataFim: new FormControl(null),
             equipamentos: new FormArray([]),
@@ -194,6 +196,8 @@ export class ReservasComponent implements OnInit {
     }
 
     handleEdit(reserva) {
+        const data = [new Date(reserva.dataInicio), new Date(reserva.dataFim)];
+        console.log(reserva.dataInicio);
         this.reservaForm.patchValue({
             id: reserva.id,
             idCliente: reserva.idCliente,
@@ -202,6 +206,7 @@ export class ReservasComponent implements OnInit {
             sala: reserva.sala,
             dataInicio: reserva.dataInicio,
             dataFim: reserva.dataFim,
+            dataRange: data
         });
         this.equipamentoForm.reset();
         reserva.equipamentos.forEach(e => {
@@ -210,15 +215,19 @@ export class ReservasComponent implements OnInit {
         this.displayForm = true;
     }
 
-    handleSubmit(value) {
-        value.idSala = value.sala.id;
-        value.idCliente = value.cliente.id;
+    handleSubmit(formValue) {
+        formValue.idSala = formValue.sala.id;
+        formValue.idCliente = formValue.cliente.id;
+        if (formValue.dataRange != null) {
+            formValue.dataInicio = formValue.dataRange[0];
+            formValue.dataFim = formValue.dataRange[1];
+        }
         this.displayForm = false;
         this.reservaForm.reset();
-        if (!value.id) {
-            this.addReserva(value);
+        if (!formValue.id) {
+            this.addReserva(formValue);
         } else {
-            this.editReserva(value);
+            this.editReserva(formValue);
         }
     }
 

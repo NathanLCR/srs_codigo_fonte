@@ -120,27 +120,44 @@
                 <th p>Ações</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-sala>
+        <ng-template pTemplate="body" let-sala #equips>
             <tr>
                 <td>{{ sala.descricao }}</td>
                 <td>{{ sala.precoDiaria | currency: "BRL" }}</td>
                 <td>{{ sala.capacidade }}</td>
                 <td>{{ sala.tipoSala }}</td>
                 <td>
-                    <span *ngIf="sala.equipamentos.length > 0; else semEquip">
-                    </span>
-                    <ng-template #semEquip>Essa sala não possui equipamentos</ng-template>
-
-                </td>
-                <td>
-
-                    <button style="background-color: #5180CE;" pButton pRipple type="button" icon="pi pi-pencil"
-                        class="p-button-rounded p-button-danger" (click)="showForm()"
-                        (click)="handleEdit(sala)"></button>
-                    <button style="background-color: red;" pButton pRipple type="button" icon="pi pi-trash"
-                        class="p-button-rounded p-button-danger" (click)="handleDelete(sala)"></button>
-                </td>
+                    <button type="text" pButton label="Equipamentos" (click)="op.toggle($event, equips)"></button>
+                    <p-overlayPanel #op>
+                        <ng-template pTemplate>
+                            <p-table [value]="sala.equipamentos">
+                                <ng-template pTemplate="header">
+            <tr>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Preço Diária</th>
             </tr>
         </ng-template>
+        <ng-template pTemplate="body" let-salaEquipamento>
+            <tr>
+                <td>{{ salaEquipamento.equipamento.nome }}</td>
+                <td>{{ salaEquipamento.quantidade }}</td>
+                <td>{{ salaEquipamento.equipamento.precoDiaria | currency: "BRL" }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    </ng-template>
+    </p-overlayPanel>
+
+    </td>
+    <td>
+
+        <button style="background-color: #5180CE;" pButton pRipple type="button" icon="pi pi-pencil"
+            class="p-button-rounded p-button-danger" (click)="showForm()" (click)="handleEdit(sala)"></button>
+        <button style="background-color: red;" pButton pRipple type="button" icon="pi pi-trash"
+            class="p-button-rounded p-button-danger" (click)="handleDelete(sala)"></button>
+    </td>
+    </tr>
+    </ng-template>
     </p-table>
 </div>

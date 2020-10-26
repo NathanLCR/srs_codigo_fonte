@@ -4,107 +4,59 @@
 <div class="card">
     <p-toolbar>
         <div id="toolbar">
-            <p-button label="Novo" (click)="showForm()"></p-button>
+            <p-button label="Novo" icon="pi pi-plus" (click)="showForm()"></p-button>
 
             <div>
                 <i class="pi pi-search"></i>
-                <input
-                    pInputText
-                    type="text"
-                    (input)="dt.filterGlobal($event.target.value, 'contains')"
-                    placeholder="Search..."
-                />
+                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Search..." />
             </div>
         </div>
     </p-toolbar>
 
     <p-dialog header="Cadastrar Cliente" [(visible)]="displayForm">
-        <form
-            [formGroup]="clienteForm"
-            (ngSubmit)="handleSubmit(clienteForm.value)"
-        >
+        <form [formGroup]="clienteForm" (ngSubmit)="handleSubmit(clienteForm.value)">
             <div class="p-fluid">
                 <div class="p-field">
                     <label for="nome">Nome</label>
-                    <input
-                        type="text"
-                        pInputText
-                        placeholder="Nome"
-                        formControlName="nome"
-                    />
+                    <input type="text" pInputText placeholder="Nome" formControlName="nome" />
                 </div>
 
                 <div class="p-field">
                     <label for="dataNascimento">Data de Nascimento</label>
-                    <input
-                        type="date"
-                        pInputText
-                        placeholder="dataNascimento"
-                        formControlName="dataNascimento"
-                    />
+                    <input type="date" pInputText placeholder="dataNascimento" formControlName="dataNascimento" />
                 </div>
                 <div class="p-field">
                     <label for="cpf">CPF</label>
-                    <p-inputMask
-                        type="text"
-                        pInputText
-                        placeholder="999.999.999-99"
-                        formControlName="cpf"
-                        mask="999.999.999-99"
-                        unmask="true"
-                    ></p-inputMask>
+                    <p-inputMask type="text" pInputText placeholder="999.999.999-99" formControlName="cpf"
+                        mask="999.999.999-99" unmask="true"></p-inputMask>
                 </div>
 
                 <div class="p-field">
                     <label for="rg">RG</label>
-                    <p-inputMask
-                        type="text"
-                        pInputText
-                        placeholder="9.999-999"
-                        mask="9.999-999"
-                        formControlName="rg"
-                        unmask="true"
-                    ></p-inputMask>
+                    <p-inputMask type="text" pInputText placeholder="9.999-999" mask="9.999-999" formControlName="rg"
+                        unmask="true"></p-inputMask>
                 </div>
 
                 <div class="p-field">
                     <label for="endereco">Endereço</label>
-                    <input
-                        type="text"
-                        pInputText
-                        placeholder="endereco"
-                        formControlName="endereco"
-                    />
+                    <input type="text" pInputText placeholder="endereco" formControlName="endereco" />
                 </div>
 
                 <div class="p-field">
                     <label for="telefone">Telefone</label>
-                    <p-inputMask
-                        pInputText
-                        placeholder="(99)99999-9999"
-                        formControlName="telefone"
-                        mask="(99)99999-9999"
-                        unmask="true"
-                    ></p-inputMask>
+                    <p-inputMask pInputText placeholder="(99)99999-9999" formControlName="telefone"
+                        mask="(99)99999-9999" unmask="true"></p-inputMask>
                 </div>
 
                 <div class="p-field">
                     <label for="email">Email</label>
-                    <input
-                        type="email"
-                        pInputText
-                        placeholder="Email"
-                        formControlName="email"
-                    />
+                    <input type="email" pInputText placeholder="Email" formControlName="email" />
                 </div>
 
                 <div class="p-field">
-                    <p-button
-                        type="submit"
-                        label="Enviar"
-                        icon="pi pi-check"
-                        [disabled]="!clienteForm.valid"
-                    ></p-button>
+                    <p-button type="submit" label="Enviar" icon="pi pi-check" [disabled]="!clienteForm.valid">
+                    </p-button>
                 </div>
             </div>
         </form>
@@ -125,29 +77,18 @@
         <ng-template pTemplate="body" let-cliente>
             <tr>
                 <td>{{ cliente.nome }}</td>
-                <td>{{ cliente.cpf }}</td>
-                <td>{{ cliente.rg }}</td>
+                <td>{{ cliente.cpf | CPF }}</td>
+                <td>{{ cliente.rg | RG }}</td>
                 <td>{{ cliente.dataNascimento }}</td>
                 <td>{{ cliente.endereco }}</td>
                 <td>{{ cliente.email }}</td>
-                <td>{{ cliente.telefone }}</td>
+                <td>{{ cliente.telefone | Telefone }}</td>
                 <td>
-                    <button
-                        pButton
-                        pRipple
-                        icon="pi pi-pencil"
-                        class="p-button-rounded p-button-success"
-                        (click)="showForm()"
-                        (click)="handleEdit(cliente)"
-                    ></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success"
+                        (click)="showForm()" (click)="handleEdit(cliente)"></button>
 
-                    <button
-                        pButton
-                        pRipple
-                        icon="pi pi-trash"
-                        class="p-button-rounded p-button-success"
-                        (click)="deleteCliente(cliente)"
-                    ></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-success"
+                        (click)="deleteCliente(cliente)"></button>
                 </td>
             </tr>
         </ng-template>

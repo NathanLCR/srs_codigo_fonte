@@ -114,7 +114,7 @@ export class SalaComponent implements OnInit {
         this.salas = this.salas.filter((val) => val.id !== sala.id);
     }
 
-    atualizar(sala) {
+    editSala(sala) {
         this.salaService.putSala(sala).subscribe(
             (response: Sala) => {
 
@@ -147,7 +147,7 @@ export class SalaComponent implements OnInit {
         if (!sala.id) {
             this.postSala(sala);
         } else {
-            this.atualizar(sala);
+            this.editSala(sala);
 
         }
     }
