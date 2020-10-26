@@ -1,7 +1,7 @@
 import { EquipamentoService } from './../equipamento/equipamento.service';
 import { ClienteService } from './../cliente/cliente.service';
 import { Component, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MessageService } from "primeng/api";
 import { ReservaService } from "./reserva.service";
 import { SalaService } from '../sala/sala.service';
@@ -12,7 +12,6 @@ import ReservaEquipamento from '../models/ReservaEquipamento';
 import Cliente from '../models/Cliente';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CPFPipe } from '../pipes/cpf.pipe';
-import { CurrencyPipe } from '@angular/common';
 
 @Component({
     selector: "app-listar-reservas",
@@ -60,9 +59,9 @@ export class ReservasComponent implements OnInit {
         this.reservaForm = new FormGroup({
             id: new FormControl(null),
             idCliente: new FormControl(null),
-            cliente: new FormControl(null),
+            cliente: new FormControl(null, [Validators.required]),
             idSala: new FormControl(null),
-            sala: new FormControl(null),
+            sala: new FormControl(null, [Validators.required]),
             dataRange: new FormControl(null),
             dataInicio: new FormControl(null),
             dataFim: new FormControl(null),
@@ -103,6 +102,10 @@ export class ReservasComponent implements OnInit {
                 return { label: e.nome, value: e };
             });
         });
+    }
+
+    get reservaFormControl() {
+        return this.reservaForm.controls;
     }
 
     get equipamentoForm() {
@@ -204,7 +207,6 @@ export class ReservasComponent implements OnInit {
 
     handleEdit(reserva) {
         const data = [new Date(reserva.dataInicio), new Date(reserva.dataFim)];
-        console.log(reserva.dataInicio);
         this.reservaForm.patchValue({
             id: reserva.id,
             idCliente: reserva.idCliente,
@@ -225,9 +227,19 @@ export class ReservasComponent implements OnInit {
     handleSubmit(formValue) {
         formValue.idSala = formValue.sala.id;
         formValue.idCliente = formValue.cliente.id;
-        if (formValue.dataRange != null) {
-            formValue.dataInicio = formValue.dataRange[0];
-            formValue.dataFim = formValue.dataRange[1];
+        formValue.dataInicio = formValue.dataRange[0];
+        formValue.dataFim = formValue.dataRange[1];
+        if (formValue.dataRange[1] == null) {
+            formValue.dataFim = formValue.dataRange[0];
+        }
+        console.log(formValue)
+        if (this.isDataBooked(formValue)) {
+            this.messageService.add({
+                severity: "warn",
+                summary: "Erro!",
+                detail: "Data reservada",
+            });
+            return;
         }
         this.displayForm = false;
         this.reservaForm.reset();
@@ -271,4 +283,31 @@ export class ReservasComponent implements OnInit {
         });
         return reserva;
     }
+
+    isDataBooked(reservaForm) {
+        const reservasSala = this.reservas.filter(r => r.idSala === reservaForm.idSala && r.id !== reservaForm.id);
+
+
+
+        const dataInicio = new Date(reservaForm.dataInicio);
+        const dataFim = new Date(reservaForm.dataFim);
+
+        let error = false;
+
+        reservasSala.forEach(r => {
+            const di = new Date(r.dataInicio);
+            const df = new Date(r.dataFim);
+            if (dataInicio.getTime() < df.getTime() || dataFim.getTime() > di.getTime()) {
+                error = true;
+            }
+            if (dataInicio.getTime() < df.getTime() || dataFim.getTime() < di.getTime()) {
+                error = false;
+            }
+            // if (dataInicio.getTime() > df.getTime() || dataFim.getTime() < di.getTime()) {
+            //     error = false;
+            // }
+        });
+        return error;
+    }
+
 }
