@@ -33,7 +33,7 @@ export class SalaComponent implements OnInit {
         private confirmationService: ConfirmationService,
         private equipamentoService: EquipamentoService,
         private messageService: MessageService,
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.salaForm = new FormGroup({
@@ -41,7 +41,7 @@ export class SalaComponent implements OnInit {
             precoDiaria: new FormControl(null, [Validators.required]),
             descricao: new FormControl(null, [Validators.required]),
             capacidade: new FormControl(null, [Validators.required]),
-            idTipoSala: new FormControl(null,[Validators.required]),
+            idTipoSala: new FormControl(null, [Validators.required]),
             equipamentos: new FormArray([]),
         });
 
@@ -56,7 +56,7 @@ export class SalaComponent implements OnInit {
             this.salas = resultado;
 
             this.salas.forEach((s) => {
-                return this.tiposDeSala.getTipoSala(s);
+                return this.tiposDeSala.getTipoSala(this.getEquipamentos(s));
             });
 
             console.log(resultado);
@@ -73,31 +73,56 @@ export class SalaComponent implements OnInit {
         return this.salaForm.get("equipamentos") as FormArray;
     }
 
-    get salaFormControl() {
-        return this.salaForm.controls;
-    }
-
     addEquipamento(value) {
+        this.salaEquipamentoForm.reset();
         this.displayEquipamentoForm = false;
+        console.log(value);
         value.idEquipamento = value.equipamento.id;
         this.equipamentoForm.value.push(value);
     }
 
-    deletar(sala) {
-        this.salaService.deleteSala(sala.id).subscribe();
-        this.salas = this.salas.filter((val) => val.id !== sala.id);
+    addEquipamentos(equipArray) {
+        if (equipArray) {
+            equipArray.forEach(e => this.addEquipamento(e));
+        }
+    }
+    editEquipamento(salaEquipamento) {
+        this.deleteEquipamento(salaEquipamento);
+        this.salaEquipamentoForm.setValue({
+            idEquipamento: salaEquipamento.idEquipamento,
+            idSala: salaEquipamento.idSala,
+            equipamento: salaEquipamento.equipamento,
+            quantidade: salaEquipamento.quantidade
+        });
+        this.showEquipamentoForm();
     }
 
-    atualizar(sala) {
+    deleteEquipamento(salaEquipamento) {
+        const equipamentos = this.equipamentoForm.value.filter(r => r !== salaEquipamento);
+        this.equipamentoForm.reset();
+        this.addEquipamentos(equipamentos);
+
+    }
+
+    get salaFormControl() {
+        return this.salaForm.controls;
+    }
+
+    deletar(sala) {
+        this.salaService.deleteSala(sala.id).subscribe(() => { this.salas = this.salas.filter((val) => val.id !== sala.id); }, (error) => { this.addErrorToast(error) });
+
+    }
+
+    editSala(sala) {
         this.salaService.putSala(sala).subscribe(
             (response: Sala) => {
-                
+
                 const index = this.salas.findIndex(
                     (e) => e.id === sala.id
                 );
                 this.salas[
                     index
-                ] = this.tiposDeSala.getTipoSala(response);
+                ] = this.tiposDeSala.getTipoSala(this.getEquipamentos(response));
 
                 this.displayForm = false;
 
@@ -106,7 +131,7 @@ export class SalaComponent implements OnInit {
             },
             (error) => this.addErrorToast(error)
         );
-        }
+    }
 
     showForm() {
         this.salaForm.reset();
@@ -122,41 +147,47 @@ export class SalaComponent implements OnInit {
         if (!sala.id) {
             this.postSala(sala);
         } else {
-            this.atualizar(sala);
-            
+            this.editSala(sala);
+
         }
     }
 
     postSala(sala: Sala) {
         this.salaService.postSala(sala).subscribe(
-        (response: Sala)=> {
-        this.addToast("success","Cadastrado","Sala cadastrada com sucesso"
+            (response: Sala) => {
+                this.addToast("success", "Cadastrado", "Sala cadastrada com sucesso"
+                );
+
+                this.salas.push(
+                    sala = this.tiposDeSala.getTipoSala(this.getEquipamentos(response))
+
+                );
+
+                this.displayForm = false;
+
+                this.salaForm.reset();
+            },
+            (error) => {
+                this.addErrorToast(error);
+            }
         );
-
-        this.salas.push(
-        sala = this.tiposDeSala.getTipoSala(response)
-
-        );
-
-        this.displayForm = false;
-
-        this.salaForm.reset();
-        },
-        (error) => {this.addErrorToast(error);
-        }
-    );
-}
+    }
 
     handleEdit(sala) {
-        this.salaForm.setValue({
+        this.salaForm.patchValue({
             id: sala.id,
             precoDiaria: sala.precoDiaria,
             descricao: sala.descricao,
             capacidade: sala.capacidade,
             idTipoSala: sala.idTipoSala,
-            equipamentos: sala.equipamentos,
         });
-        
+        this.equipamentoForm.reset();
+        sala.equipamentos.forEach(e => {
+            this.addEquipamento(e);
+        });
+
+        this.displayForm = true;
+
     }
 
     handleDelete(sala) {
@@ -165,15 +196,9 @@ export class SalaComponent implements OnInit {
             header: "Confirmar exclusão",
             icon: "pi pi-exclamation-triangle",
             accept: () => {
-                this.addDelete();
-                this.salaService.deleteSala(sala.id).subscribe();
-                this.salas = this.salas.filter((val) => val.id !== sala.id);
+                this.deletar(sala);
             },
         });
-    }
-
-    getEquipamento(id) {
-        return this.equipamentoService.getEquipamentoById(id);
     }
 
     addToast(severity, summary, detail) {
@@ -199,13 +224,21 @@ export class SalaComponent implements OnInit {
             detail: "Sala Removida.",
         });
 
-    
-}
+
+    }
     addEdit() {
-    this.messageService.add({
-        severity: "info",
-        summary: "Sucesso!",
-        detail: "Sala Atualizada.",
-    });
-}
+        this.messageService.add({
+            severity: "info",
+            summary: "Sucesso!",
+            detail: "Sala Atualizada.",
+        });
+    }
+
+    getEquipamentos(sala: Sala) {
+        sala.equipamentos.forEach(e => this.equipamentoService.getEquipamentoById(e.idEquipamento).subscribe(
+            response => e.equipamento = response
+        ));
+
+        return sala;
+    }
 }

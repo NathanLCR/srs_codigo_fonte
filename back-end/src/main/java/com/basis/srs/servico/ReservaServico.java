@@ -95,6 +95,7 @@ public class ReservaServico {
 
         reserva.setEquipamentos(equipamentos);
         reserva.setTotal(calculaTotalReserva(reservaDto));
+       
         return reservaMapper.toDto(reserva);
     }
 

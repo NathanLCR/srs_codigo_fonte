@@ -11,6 +11,8 @@ import Equipamento from '../models/Equipamento';
 import ReservaEquipamento from '../models/ReservaEquipamento';
 import Cliente from '../models/Cliente';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { CPFPipe } from '../pipes/cpf.pipe';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
     selector: "app-listar-reservas",
@@ -61,6 +63,7 @@ export class ReservasComponent implements OnInit {
             cliente: new FormControl(null),
             idSala: new FormControl(null),
             sala: new FormControl(null),
+            dataRange: new FormControl(null),
             dataInicio: new FormControl(null),
             dataFim: new FormControl(null),
             equipamentos: new FormArray([]),
@@ -74,18 +77,24 @@ export class ReservasComponent implements OnInit {
         });
     }
 
+    cpfPipe = new CPFPipe();
+
     ngOnInit(): void {
         this.getAllReservas();
 
         this.clienteService.getClientes().subscribe((resulta) => {
             this.clientes = resulta.map((e) => {
-                return { label: e.nome + " | " + e.cpf, value: e };
+                return {
+
+                    label: e.nome + " | " + this.cpfPipe.transform(e.cpf), value: e
+                };
             });
         });
 
+
         this.salaService.getSalas().subscribe((response) => {
             this.salas = response.map((e) => {
-                return { label: e.descricao + "|" + e.precoDiaria, value: e };
+                return { label: e.descricao, value: e };
             });
         });
 
@@ -102,8 +111,8 @@ export class ReservasComponent implements OnInit {
 
     addEquipamento(value) {
         this.reservaEquipamentoForm.reset();
-        this.displayEquipamentoForm = false,
-            value.idEquipamento = value.equipamento.id;
+        this.displayEquipamentoForm = false;
+        value.idEquipamento = value.equipamento.id;
         this.equipamentoForm.value.push(value);
     }
 
@@ -194,6 +203,8 @@ export class ReservasComponent implements OnInit {
     }
 
     handleEdit(reserva) {
+        const data = [new Date(reserva.dataInicio), new Date(reserva.dataFim)];
+        console.log(reserva.dataInicio);
         this.reservaForm.patchValue({
             id: reserva.id,
             idCliente: reserva.idCliente,
@@ -202,6 +213,7 @@ export class ReservasComponent implements OnInit {
             sala: reserva.sala,
             dataInicio: reserva.dataInicio,
             dataFim: reserva.dataFim,
+            dataRange: data
         });
         this.equipamentoForm.reset();
         reserva.equipamentos.forEach(e => {
@@ -210,15 +222,19 @@ export class ReservasComponent implements OnInit {
         this.displayForm = true;
     }
 
-    handleSubmit(value) {
-        value.idSala = value.sala.id;
-        value.idCliente = value.cliente.id;
+    handleSubmit(formValue) {
+        formValue.idSala = formValue.sala.id;
+        formValue.idCliente = formValue.cliente.id;
+        if (formValue.dataRange != null) {
+            formValue.dataInicio = formValue.dataRange[0];
+            formValue.dataFim = formValue.dataRange[1];
+        }
         this.displayForm = false;
         this.reservaForm.reset();
-        if (!value.id) {
-            this.addReserva(value);
+        if (!formValue.id) {
+            this.addReserva(formValue);
         } else {
-            this.editReserva(value);
+            this.editReserva(formValue);
         }
     }
 

@@ -1,4 +1,5 @@
 import Equipamento from "./Equipamento";
+import SalaEquipamento from "./SalaEquipamento";
 
 export default interface Sala {
     id: number;
@@ -7,5 +8,5 @@ export default interface Sala {
     capacidade: number;
     idTipoSala: number;
     tipoSala?: string;
-    equipamentos: Equipamento;
+    equipamentos: SalaEquipamento[];
 }

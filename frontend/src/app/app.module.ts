@@ -29,6 +29,9 @@ import { DiarioErrosComponent } from "./components/diario-erros/diario-erros.com
 import { BlockUIModule } from "ng-block-ui";
 import { ToolbarComponent } from "./components/toolbar/toolbar.component";
 import { ButtonModule } from "primeng";
+import { CPFPipe } from './pipes/cpf.pipe';
+import { RGPipe } from './pipes/rg.pipe';
+import { TelefonePipe } from './pipes/telefone.pipe';
 
 @NgModule({
     declarations: [
@@ -42,6 +45,9 @@ import { ButtonModule } from "primeng";
         SalaComponent,
         ReservasComponent,
         ToolbarComponent,
+        CPFPipe,
+        RGPipe,
+        TelefonePipe,
     ],
     imports: [
         BlockUIModule.forRoot({
@@ -66,4 +72,4 @@ import { ButtonModule } from "primeng";
     providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
     bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

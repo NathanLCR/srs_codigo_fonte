@@ -1,5 +1,4 @@
 import Cliente from "./Cliente";
-import Equipamento from "./Equipamento";
 import ReservaEquipamento from "./ReservaEquipamento";
 import Sala from "./Sala";
 
