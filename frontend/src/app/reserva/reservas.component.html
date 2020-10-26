@@ -16,11 +16,19 @@
                 <div class="p-field">
                     <p-dropdown [options]="clientes" formControlName="cliente" placeholder="Clientes" [filter]="true">
                     </p-dropdown>
+                    <small class="p-invalid"
+                        *ngIf="reservaFormControl.cliente.errors?.required && reservaFormControl.cliente.touched">
+                        Favor informar o cliente.
+                    </small>
 
                 </div>
                 <div class="p-field">
                     <p-dropdown [options]="salas" formControlName="sala" placeholder="Escolha a sala" [filter]="true">
                     </p-dropdown>
+                    <small class="p-invalid"
+                        *ngIf="reservaFormControl.sala.errors?.required && reservaFormControl.sala.touched">
+                        Favor informar a Sala.
+                    </small>
                 </div>
                 <div class="p-field">
                     <button pButton type="button" label="Adicionar Equipamento"
@@ -80,7 +88,8 @@
                         [readonlyInput]="true"></p-calendar>
                 </div>
                 <div class="p-field">
-                    <p-button type="submit" label="Enviar" icon="pi pi-check" iconPos="right"></p-button>
+                    <p-button type="submit" label="Enviar" icon="pi pi-check" [disabled]="!reservaForm.valid"
+                        iconPos="right"></p-button>
                 </div>
             </div>
         </form>
@@ -103,8 +112,8 @@
                 <td>{{ reserva.cliente.nome }}</td>
                 <td>{{ reserva.sala.descricao }}</td>
                 <td>
-                    <button type="text" pButton label="Equipamentos" (click)="op.toggle($event, equips)"></button>
-                    <p-overlayPanel #op [appendTo]="equips">
+                    <button type="text" pButton label="Visualizar" (click)="op.toggle($event, equips)"></button>
+                    <p-overlayPanel #op>
                         <ng-template pTemplate>
                             <p-table [value]="reserva.equipamentos">
                                 <ng-template pTemplate="header">
