@@ -125,7 +125,7 @@ export class ClienteComponent implements OnInit {
                 this.addToast(
                     "success",
                     "Cadastrado",
-                    "Cliente cadastrado com sucesso"
+                    "Cliente Cadastrado com sucesso"
                 );
                 this.clientes.push(cliente);
 

@@ -1,3 +1,4 @@
+import { ReservaService } from './../reserva/reserva.service';
 import { EquipamentoService } from "./../equipamento/equipamento.service";
 import { SalaService } from "./sala.service";
 import { ConfirmationService, MessageService } from "primeng/api";
@@ -5,6 +6,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import Sala from "../models/Sala";
 import TiposdeSala from "src/app/models/TiposDeSala";
+import Reserva from '../models/Reserva';
 
 @Component({
     selector: "app-sala",
@@ -33,6 +35,7 @@ export class SalaComponent implements OnInit {
         private confirmationService: ConfirmationService,
         private equipamentoService: EquipamentoService,
         private messageService: MessageService,
+        private reservaService: ReservaService,
     ) { }
 
     ngOnInit(): void {
@@ -67,6 +70,7 @@ export class SalaComponent implements OnInit {
                 return { label: e.nome, value: e };
             });
         });
+
     }
 
     get equipamentoForm() {
@@ -109,12 +113,19 @@ export class SalaComponent implements OnInit {
     }
 
     deletar(sala) {
-        this.salaService.deleteSala(sala.id).subscribe(() => {
-            this.salas = this.salas.filter((val) => val.id !== sala.id);
+        this.reservaService.getReservas().subscribe((reservas)=>{
+            const existBySalaId = reservas.findIndex(e => e.idSala === sala.id)
+            if(existBySalaId >= 0){
+                this.addFailDelete()
+                return;
+            }
+            this.salaService.deleteSala(sala.id).subscribe(
+                () => {this.salas = this.salas.filter((val) => val.id !== sala.id); 
+                this.addDelete()}, 
+                (error) => { this.addErrorToast(error) });
         },
-            (error) => {
-                this.addErrorToast(error);
-            });
+        
+        (error) => { this.addErrorToast(error) })
 
     }
 
@@ -194,6 +205,7 @@ export class SalaComponent implements OnInit {
         this.displayForm = true;
 
     }
+
 
     handleDelete(sala) {
         this.confirmationService.confirm({
