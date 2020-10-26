@@ -40,7 +40,6 @@ td button + button {
     margin-left: 8px;
 }
 
-<<<<<<< HEAD
 .p-field button {
     width: 100%;
     margin-top: 5px;
@@ -48,11 +47,6 @@ td button + button {
     align-items: center;
     justify-content: center;
 }
-=======
-p-dialog button{
-    margin-bottom: 10px;
-    background-color:#5180CE;
+small {
+    color: red;
 }
-
-
->>>>>>> 68110b353315c7d8b02790070c58794f6428ff8d

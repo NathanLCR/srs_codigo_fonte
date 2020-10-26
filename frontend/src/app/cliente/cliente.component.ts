@@ -29,18 +29,22 @@ export class ClienteComponent implements OnInit {
 
     ngOnInit() {
         this.clienteForm = new FormGroup({
-            id: new FormControl(""),
-            nome: new FormControl("", [Validators.required]),
-            cpf: new FormControl("", Validators.required),
-            rg: new FormControl("", Validators.required),
-            dataNascimento: new FormControl(""),
-            endereco: new FormControl(""),
-            email: new FormControl(""),
-            telefone: new FormControl(""),
+            id: new FormControl(null),
+            nome: new FormControl(null, [Validators.required]),
+            cpf: new FormControl(null, Validators.required),
+            rg: new FormControl(null, Validators.required),
+            dataNascimento: new FormControl(null, Validators.required),
+            endereco: new FormControl(null, Validators.required),
+            email: new FormControl(null, Validators.required),
+            telefone: new FormControl(null,Validators.required),
         });
         this.clienteService.getClientes().subscribe((resultado) => {
             this.clientes = resultado;
         });
+    }
+
+    get clienteFormControl() {
+        return this.clienteForm.controls;
     }
 
     addToast(severity, summary, detail) {
