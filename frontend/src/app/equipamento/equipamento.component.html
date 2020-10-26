@@ -7,79 +7,44 @@
 
             <div>
                 <i class="pi pi-search"></i>
-                <input
-                    pInputText
-                    type="text"
-                    (input)="dt.filterGlobal($event.target.value, 'contains')"
-                    placeholder="Search..."
-                />
+                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Search..." />
             </div>
         </div>
     </p-toolbar>
 
     <p-dialog header="Cadastrar Equipamento" [(visible)]="displayForm">
-        <form
-            [formGroup]="equipamentoForm"
-            (ngSubmit)="handleSubmit(equipamentoForm.value)"
-        >
+        <form [formGroup]="equipamentoForm" (ngSubmit)="handleSubmit(equipamentoForm.value)">
             <div class="p-fluid">
                 <div class="p-field">
                     <label for="nome">Nome</label>
-                    <input
-                        id="nome"
-                        class="formInput"
-                        type="text"
-                        pInputText
-                        placeholder="Nome"
-                        formControlName="nome"
-                        class="p-invalid"
-                    />
-                    <small id="username-help" class="p-invalid">Username is not available.</small>
-                    <p-message
-                        severity="error"
-                        text="Nome requerido"
-                        *ngIf="
-                            equipamentoFormControl.nome.errors?.required &&
-                            equipamentoFormControl.nome.touched
-                        "
-                    ></p-message>
+                    <input id="nome" class="formInput" type="text" pInputText placeholder="Nome" formControlName="nome"
+                        class="p-invalid" />
+                    <small id="username-help" class="p-invalid" *ngIf="
+                    equipamentoFormControl.nome.errors?.required &&
+                    equipamentoFormControl.nome.touched">Favor informar o nome do equipamento.</small>
                 </div>
                 <div class="p-field">
                     <label for="precoDiaria">Preço da Diaria</label>
-                    <p-inputNumber
-                        id="precoDiaria"
-                        class="formInput"
-                        formControlName="precoDiaria"
-                        mode="currency"
-                        currency="BRL"
-                        [minFractionDigits]="2"
-                        [maxFractionDigits]="2"
-                    >
+                    <p-inputNumber id="precoDiaria" class="formInput" formControlName="precoDiaria" mode="currency"
+                        currency="BRL" [minFractionDigits]="2" [maxFractionDigits]="2">
                     </p-inputNumber>
-                    <p-message
-                        severity="error"
-                        text="Preço requerido"
-                        *ngIf="
-                            equipamentoFormControl.precoDiaria.errors &&
-                            equipamentoFormControl.precoDiaria.touched
-                        "
-                    ></p-message>
+                    <small *ngIf="
+                    equipamentoFormControl.precoDiaria.errors &&
+                    equipamentoFormControl.precoDiaria.dirty
+                "> Favor informar o preço da diaria do equipamento </small>
                 </div>
                 <div class="p-field">
                     <label>Tipo de Equipamento</label>
-                    <p-dropdown
-                        [options]="tiposDeEquipamento.labels"
-                        formControlName="idTipoEquipamento"
-                        class="formInput"
-                        placeholder="Selecione ..."
-                    ></p-dropdown>
+                    <p-dropdown [options]="tiposDeEquipamento.labels" formControlName="idTipoEquipamento"
+                        class="formInput" placeholder="Selecione ..."></p-dropdown>
+                    <small *ngIf="
+                    equipamentoFormControl.idTipoEquipamento.errors &&
+                    equipamentoFormControl.idTipoEquipamento.touched
+                "> Favor informar o tipo do equipamento </small>
                 </div>
                 <div class="p-field">
-                    <p-button
-                        label="Enviar"
-                        icon="pi pi-check"
-                        [disabled]="!equipamentoForm.valid"
-                    ></p-button>
+                    <p-button label="Enviar" icon="pi pi-check" [disabled]="!equipamentoForm.valid"></p-button>
                 </div>
             </div>
         </form>
@@ -100,23 +65,10 @@
                 <td>{{ equipamento.precoDiaria | currency: "BRL" }}</td>
                 <td>{{ equipamento.tipoEquipamento }}</td>
                 <td>
-                    <button
-                        pButton
-                        pRipple
-                        type="button"
-                        icon="pi pi-times"
-                        class="p-button-rounded p-button-danger"
-                        (click)="handleDelete(equipamento)"
-                    ></button>
-                    <button
-                        pButton
-                        pRipple
-                        type="button"
-                        icon="pi pi-pencil"
-                        class="p-button-rounded"
-                        (click)="showForm()"
-                        (click)="handleEdit(equipamento)"
-                    ></button>
+                    <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded"
+                        (click)="showForm()" (click)="handleEdit(equipamento)"></button>
+                    <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                        (click)="handleDelete(equipamento)"></button>
                 </td>
             </tr>
         </ng-template>

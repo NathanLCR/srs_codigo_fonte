@@ -102,8 +102,8 @@ export class ReservasComponent implements OnInit {
 
     addEquipamento(value) {
         this.reservaEquipamentoForm.reset();
-        this.displayEquipamentoForm = false,
-            value.idEquipamento = value.equipamento.id;
+        this.displayEquipamentoForm = false;
+        value.idEquipamento = value.equipamento.id;
         this.equipamentoForm.value.push(value);
     }
 
