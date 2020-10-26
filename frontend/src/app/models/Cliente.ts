@@ -5,4 +5,6 @@ export default interface Cliente {
         cpf:any;
         dataNascimento:any;
         endereco?:string;
+        email: string;
+        telefone: string;
 }
