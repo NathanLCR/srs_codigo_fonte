@@ -19,39 +19,89 @@
             <div class="p-fluid">
                 <div class="p-field">
                     <label for="nome">Nome</label>
-                    <input type="text" pInputText placeholder="Nome" formControlName="nome" />
+                    <input type="text" pInputText placeholder="Nome" formControlName="nome" /><br>
+                    <small
+                    *ngIf="
+                        clienteFormControl.nome.errors?.required &&
+                        clienteFormControl.nome.touched
+                    "
+                    >Favor informar o nome do cliente
+                    </small>
                 </div>
 
                 <div class="p-field">
                     <label for="dataNascimento">Data de Nascimento</label>
-                    <input type="date" pInputText placeholder="dataNascimento" formControlName="dataNascimento" />
+                    <input type="date" pInputText placeholder="dataNascimento" formControlName="dataNascimento" /><br>
+                    <small
+                    *ngIf="
+                        clienteFormControl.dataNascimento.errors?.required &&
+                        clienteFormControl.dataNascimento.touched
+                    "
+                    >Favor informar a data de nascimento do cliente
+                    </small>
                 </div>
                 <div class="p-field">
                     <label for="cpf">CPF</label>
                     <p-inputMask type="text" pInputText placeholder="999.999.999-99" formControlName="cpf"
-                        mask="999.999.999-99" unmask="true"></p-inputMask>
+                        mask="999.999.999-99" unmask="true"></p-inputMask><br>
+                    <small
+                    *ngIf="
+                        clienteFormControl.cpf.errors?.required &&
+                        clienteFormControl.cpf.touched
+                    "
+                    >Favor informar o CPF do cliente
+                    </small>
                 </div>
 
                 <div class="p-field">
                     <label for="rg">RG</label>
                     <p-inputMask type="text" pInputText placeholder="9.999-999" mask="9.999-999" formControlName="rg"
-                        unmask="true"></p-inputMask>
+                        unmask="true"></p-inputMask><br>
+                    <small
+                    *ngIf="
+                        clienteFormControl.rg.errors?.required &&
+                        clienteFormControl.rg.touched
+                    "
+                    >Favor informar o RG do cliente
+                    </small>
                 </div>
 
                 <div class="p-field">
                     <label for="endereco">Endereço</label>
-                    <input type="text" pInputText placeholder="endereco" formControlName="endereco" />
+                    <input type="text" pInputText placeholder="endereco" formControlName="endereco" /><br>
+                    <small
+                    *ngIf="
+                        clienteFormControl.endereco.errors?.required &&
+                        clienteFormControl.endereco.touched
+                    "
+                    >Favor informar o endereço do cliente
+                    </small>
                 </div>
 
                 <div class="p-field">
                     <label for="telefone">Telefone</label>
                     <p-inputMask pInputText placeholder="(99)99999-9999" formControlName="telefone"
-                        mask="(99)99999-9999" unmask="true"></p-inputMask>
+                        mask="(99)99999-9999" unmask="true"></p-inputMask><br>
+                    <small
+                    *ngIf="
+                        clienteFormControl.telefone.errors?.required &&
+                        clienteFormControl.telefone.touched
+                    "
+                    >Favor informar o telefone do cliente
+                    </small>
                 </div>
 
                 <div class="p-field">
                     <label for="email">Email</label>
                     <input type="email" pInputText placeholder="Email" formControlName="email" />
+                    <br>
+                    <small
+                    *ngIf="
+                        clienteFormControl.email.errors?.required &&
+                        clienteFormControl.email.touched
+                    "
+                    >Favor informar o email do cliente
+                    </small>
                 </div>
 
                 <div class="p-field">

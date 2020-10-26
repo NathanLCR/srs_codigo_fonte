@@ -38,8 +38,7 @@ export class SalaComponent implements OnInit {
     ngOnInit(): void {
         this.salaForm = new FormGroup({
             id: new FormControl(null),
-            precoDiaria: new FormControl(null, [
-                Validators.required]),
+            precoDiaria: new FormControl(null, [Validators.required]),
             descricao: new FormControl(null, [Validators.required]),
             capacidade: new FormControl(null, [Validators.required]),
             idTipoSala: new FormControl(null, [Validators.required]),
@@ -110,7 +109,7 @@ export class SalaComponent implements OnInit {
     }
 
     deletar(sala) {
-        this.salaService.deleteSala(sala.id).subscribe(() => { this.salas = this.salas.filter((val) => val.id !== sala.id); }, (error) => { this.addErrorToast(error) });
+        this.salaService.deleteSala(sala.id).subscribe(() => { this.salas = this.salas.filter((val) => val.id !== sala.id); }, () => { this.addFailDelete() });
 
     }
 
@@ -223,6 +222,16 @@ export class SalaComponent implements OnInit {
             severity: "success",
             summary: "Sucesso!",
             detail: "Sala Removida.",
+        });
+
+
+    }
+
+    addFailDelete() {
+        this.messageService.add({
+            severity: "error",
+            summary: "Atenção!",
+            detail: "Sala não pode ser removida pois está inclusa em uma reserva.",
         });
 
 

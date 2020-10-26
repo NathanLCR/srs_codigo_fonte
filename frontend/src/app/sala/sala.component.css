@@ -47,3 +47,7 @@ td button + button {
     align-items: center;
     justify-content: center;
 }
+small {
+    color: red;
+}
+

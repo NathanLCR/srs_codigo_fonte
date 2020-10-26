@@ -29,18 +29,26 @@ export class ClienteComponent implements OnInit {
 
     ngOnInit() {
         this.clienteForm = new FormGroup({
-            id: new FormControl(""),
-            nome: new FormControl("", [Validators.required]),
-            cpf: new FormControl("", Validators.required),
-            rg: new FormControl("", Validators.required),
-            dataNascimento: new FormControl(""),
-            endereco: new FormControl(""),
-            email: new FormControl(""),
-            telefone: new FormControl(""),
+            id: new FormControl(null),
+            nome: new FormControl(null, [Validators.required]),
+            cpf: new FormControl(null, Validators.required),
+            rg: new FormControl(null, Validators.required),
+            dataNascimento: new FormControl(null, Validators.required),
+            endereco: new FormControl(null, Validators.required),
+            email: new FormControl(null, Validators.required),
+            telefone: new FormControl(null,Validators.required),
         });
+        this.getAllClientes();
+    }
+
+    getAllClientes(){
         this.clienteService.getClientes().subscribe((resultado) => {
             this.clientes = resultado;
         });
+    }
+
+    get clienteFormControl() {
+        return this.clienteForm.controls;
     }
 
     addToast(severity, summary, detail) {
@@ -65,33 +73,36 @@ export class ClienteComponent implements OnInit {
         });
     }
 
-    editCliente(cliente){
-        this.clienteService.putCliente(cliente).subscribe((response:Cliente) => {
-            const index = this.clientes.findIndex((e) => e.id === cliente.id);
-            this.clientes[index] = response;
-        });
-    }
 
-    postCliente(cliente){
-        this.clienteService.postCliente(cliente).subscribe((response: Cliente) => {
-            this.clientes.push(response);
-        });
-    }
 
     handleSubmit(cliente) {
+        this.getAllClientes();
+        const existByCpf = this.clientes.findIndex(e => e.cpf === cliente.cpf)
+        const existByEmail = this.clientes.findIndex(e => e.email === cliente.email)
+
+        if(existByCpf >= 0){
+            this.addCpfToast()
+            return;
+        }
+
+        if(existByEmail >= 0){
+            this.addEmailToast()
+            return;
+        }
+
         if (!cliente.id) {
-            this.postCliente(cliente);
-        } else {
-            this.editCliente(cliente);
+            this.addCliente(cliente);
+        } else { 
+            this.editarCliente(cliente);
         }
     }
     editarCliente(value) {
         this.clienteService.putCliente(value).subscribe(
             (value: Cliente) => {
                 this.addToast(
-                    "success",
-                    "Alterado",
-                    "Cliente alterado com sucesso"
+                    "info",
+                    "Sucesso!",
+                    "Cliente Atualizado com Sucesso"
                 );
                 const index = this.clientes.findIndex(
                     (e) => e.id === value.id);
@@ -114,7 +125,7 @@ export class ClienteComponent implements OnInit {
                 this.addToast(
                     "success",
                     "Cadastrado",
-                    "Equipamento cadastrado com sucesso"
+                    "Cliente cadastrado com sucesso"
                 );
                 this.clientes.push(cliente);
 
@@ -147,7 +158,7 @@ export class ClienteComponent implements OnInit {
                 );
             },
         });
-    }
+    }  
 
     showForm() {
         this.clienteForm.reset();
@@ -163,10 +174,28 @@ export class ClienteComponent implements OnInit {
 
     addErrorToast(error) {
         this.messageService.add({
-            severity: "Error",
-            summary: "Error inesperado",
-            detail: "Error no service",
+            severity: "error",
+            summary: "Erro inesperado",
+            detail: "Erro no service",
         });
         console.log(error);
+    }
+
+    addCpfToast() {
+        this.messageService.add({
+            severity: "error",
+            summary: "Atenção!",
+            detail: "Esse CPF já está vinculado a um outro cliente.",
+        });
+        console.log();
+    }
+
+    addEmailToast() {
+        this.messageService.add({
+            severity: "error",
+            summary: "Atenção!",
+            detail: "Esse email já está vinculado a um outro cliente.",
+        });
+        console.log();
     }
 }
