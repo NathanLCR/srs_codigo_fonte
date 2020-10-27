@@ -180,8 +180,8 @@
     >
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="cliente">Cliente</th>
-                <th pSortableColumn="sala">Sala</th>
+                <th pSortableColumn="cliente.nome">Cliente</th>
+                <th pSortableColumn="sala.descricao">Sala</th>
                 <th>Equipamentos</th>
                 <th pSortableColumn="dataInicio">Data de Inicio</th>
                 <th pSortableColumn="dataFim">Data de Fim</th>
@@ -237,8 +237,8 @@
                         </ng-template>
                     </p-overlayPanel>
                 </td>
-                <td>{{ reserva.dataInicio }}</td>
-                <td>{{ reserva.dataFim }}</td>
+                <td>{{ reserva.dataInicio | date: "dd/MM/yyyy" }}</td>
+                <td>{{ reserva.dataFim | date: "dd/MM/yyyy" }}</td>
                 <td>{{ reserva.total | currency: "BRL" }}</td>
                 <td>
                     <button
