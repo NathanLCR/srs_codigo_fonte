@@ -33,14 +33,18 @@ export class ClienteComponent implements OnInit {
             nome: new FormControl("", [Validators.required]),
             cpf: new FormControl("", Validators.required),
             rg: new FormControl("", Validators.required),
-            dataNascimento: new FormControl(""),
-            endereco: new FormControl(""),
-            email: new FormControl(""),
-            telefone: new FormControl(""),
+            dataNascimento: new FormControl("", Validators.required),
+            endereco: new FormControl("", Validators.required),
+            email: new FormControl("", Validators.required),
+            telefone: new FormControl("", Validators.required)
         });
         this.clienteService.getClientes().subscribe((resultado) => {
             this.clientes = resultado;
         });
+    }
+
+    get clienteFormControl() {
+        return this.clienteForm.controls;
     }
 
     addToast(severity, summary, detail) {
@@ -65,24 +69,11 @@ export class ClienteComponent implements OnInit {
         });
     }
 
-    editCliente(cliente){
-        this.clienteService.putCliente(cliente).subscribe((response:Cliente) => {
-            const index = this.clientes.findIndex((e) => e.id === cliente.id);
-            this.clientes[index] = response;
-        });
-    }
-
-    postCliente(cliente){
-        this.clienteService.postCliente(cliente).subscribe((response: Cliente) => {
-            this.clientes.push(response);
-        });
-    }
-
     handleSubmit(cliente) {
         if (!cliente.id) {
-            this.postCliente(cliente);
+            this.addCliente(cliente);
         } else {
-            this.editCliente(cliente);
+            this.editarCliente(cliente);
         }
     }
     editarCliente(value) {
@@ -107,25 +98,61 @@ export class ClienteComponent implements OnInit {
 
     }
 
+    compareDates(data){
+        var dataSetada = data; //yyyy-mm-dd
+        var hoje = new Date();
+
+        data = new Date(dataSetada)
+
+        let retorno = data >= hoje ? true : false
+
+        return retorno 
+    }
+    
+
 
     addCliente(cliente: Cliente) {
-        this.clienteService.postCliente(cliente).subscribe(
-            (cliente: Cliente) => {
-                this.addToast(
-                    "success",
-                    "Cadastrado",
-                    "Equipamento cadastrado com sucesso"
-                );
-                this.clientes.push(cliente);
+        
 
-                this.displayForm = false;
-
-                this.clienteForm.reset();
-            },
-            (error) => {
-                this.addErrorToast(error);
-            }
+        if(!this.isValidCPF(cliente.cpf)){
+            this.addToast(
+                "error",
+                "Problema encontrado",
+                "CPF Inválido"
+            );
+        }
+       if(this.compareDates(cliente.dataNascimento)) {
+        this.addToast(
+            "error",
+            "Problema encontrado",
+            "Data de nascimento inválida"
         );
+        
+       }else {
+           
+           this.clienteService.postCliente(cliente).subscribe(
+               (cliente: Cliente) => {
+                   this.addToast(
+                       "success",
+                       "Cadastrado",
+                       "Equipamento cadastrado com sucesso"
+                   );
+                   this.clientes.push(cliente);
+   
+                   this.displayForm = false;
+   
+                   this.clienteForm.reset();
+               },
+               (error) => {
+                   this.addErrorToast(error);
+               }
+           )
+       }
+  
+       
+
+
+ 
     }
 
     deleteCliente(cliente) {
@@ -163,10 +190,53 @@ export class ClienteComponent implements OnInit {
 
     addErrorToast(error) {
         this.messageService.add({
-            severity: "Error",
-            summary: "Error inesperado",
-            detail: "Error no service",
+            severity: "error",
+            summary: "erro inesperado",
+            detail: "erro no service",
         });
         console.log(error);
+    }
+
+    addCpfToast() {
+        this.messageService.add({
+            severity: "error",
+            summary: "Atenção!",
+            detail: "Esse CPF já está vinculado a um outro cliente.",
+        });
+        console.log();
+    }
+
+    addEmailToast() {
+        this.messageService.add({
+            severity: "error",
+            summary: "Atenção!",
+            detail: "Esse email já está vinculado a um outro cliente.",
+        });
+        console.log();
+    }
+
+
+
+
+  isValidCPF(cpf) {
+        if (typeof cpf !== "string") return false
+        cpf = cpf.replace(/[\s.-]*/igm, '')
+        if (cpf.length !== 11 || !Array.from(cpf).filter(e => e !== cpf[0]).length) {
+            return false
+         }
+        var soma = 0
+        var resto
+        for (var i = 1; i <= 9; i++) 
+            soma = soma + parseInt(cpf.substring(i-1, i)) * (11 - i)
+        resto = (soma * 10) % 11
+        if ((resto == 10) || (resto == 11))  resto = 0
+        if (resto != parseInt(cpf.substring(9, 10)) ) return false
+        soma = 0
+        for (var i = 1; i <= 10; i++) 
+            soma = soma + parseInt(cpf.substring(i-1, i)) * (12 - i)
+        resto = (soma * 10) % 11
+        if ((resto == 10) || (resto == 11))  resto = 0
+        if (resto != parseInt(cpf.substring(10, 11) ) ) return false
+        return true
     }
 }
