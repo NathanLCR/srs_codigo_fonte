@@ -60,8 +60,7 @@
                 <br />
                 <button pButton type="button" icon="pi pi-plus" label="Adicionar Equipamento"
                     (click)="showEquipamentoForm()"></button>
-
-                <p-table [value]="equipamentoForm.value">
+                <p-table [value]="equipamentoForm.value" >
                     <ng-template pTemplate="header">
                         <tr>
                             <th>Nome</th>
@@ -72,15 +71,25 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-salaEquip>
                         <tr>
-                            <td>{{ salaEquip.equipamento.nome }}</td>
-                            <td>{{ salaEquip.equipamento.precoDiaria | currency: 'BRL' }}</td>
-                            <td>{{ salaEquip.quantidade }}</td>
-                            <td> <button type="button" pButton pRipple icon="pi pi-pencil"
+                            <td>{{ equipamento.equipamento.nome }}</td>
+                            <td>{{ equipamento.equipamento.precoDiaria | currency: 'BRL' }}</td>
+                            <td>{{ equipamento.quantidade }}</td>
+                            <td>
+                                <button style="background-color: #5180CE;"
+                                    pButton
+                                    pRipple
+                                    type="button"
+                                    icon="pi pi-pencil"
                                     class="p-button-rounded p-button-danger"
-                                    (click)="editEquipamento(salaEquip)"></button>
-                                <button type="button" pButton pRipple icon="pi pi-trash"
+                                ></button>
+                                <button style="background-color: red;"
+                                    pButton
+                                    pRipple
+                                    type="button"
+                                    icon="pi pi-trash"
                                     class="p-button-rounded p-button-danger"
-                                    (click)="deleteEquipamento(salaEquip)"></button> </td>
+                                ></button>
+                            </td>
                         </tr>
                     </ng-template>
                 </p-table>
