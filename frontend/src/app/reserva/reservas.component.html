@@ -181,8 +181,8 @@
     >
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="cliente.nome">Cliente</th>
-                <th pSortableColumn="sala.descricao">Sala</th>
+                <th pSortableColumn="cliente?.nome">Cliente</th>
+                <th pSortableColumn="sala?.descricao">Sala</th>
                 <th>Equipamentos</th>
                 <th pSortableColumn="dataInicio">Data de Inicio</th>
                 <th pSortableColumn="dataFim">Data de Fim</th>
@@ -192,8 +192,8 @@
         </ng-template>
         <ng-template pTemplate="body" let-reserva #equips>
             <tr>
-                <td>{{ reserva.cliente.nome }}</td>
-                <td>{{ reserva.sala.descricao }}</td>
+                <td>{{ reserva.cliente?.nome }}</td>
+                <td>{{ reserva.sala?.descricao }}</td>
                 <td>
                     <button
                         type="text"
