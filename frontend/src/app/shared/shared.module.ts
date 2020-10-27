@@ -1,13 +1,10 @@
-import { NgModule } from '@angular/core';
-import { PRIMENG_IMPORTS } from './primeng-imports';
+import { NgModule } from "@angular/core";
+import { PRIMENG_IMPORTS } from "./primeng-imports";
 
 @NgModule({
-    imports: [
-        PRIMENG_IMPORTS,
-    ],
+    imports: [PRIMENG_IMPORTS],
     providers: [],
-    exports: [
-        PRIMENG_IMPORTS,
-    ]
+    exports: [PRIMENG_IMPORTS],
+    declarations: [],
 })
-export class SharedModule { }
+export class SharedModule {}

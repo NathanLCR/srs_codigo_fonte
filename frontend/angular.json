@@ -22,7 +22,8 @@
                             "node_modules/primeng/resources/primeng.min.css",
                             "node_modules/quill/dist/quill.snow.css",
                             "node_modules/@nuvem/angular-base/src/lib/accessibility/accessibility.scss",
-                            "src/styles.scss"
+                            "src/styles.scss",
+                            "node_modules/primeicons/primeicons.css"
                         ],
                         "scripts": [
                             "node_modules/moment/moment.js",
@@ -82,7 +83,11 @@
                         "styles": [
                             "node_modules/primeng/resources/primeng.min.css",
                             "node_modules/quill/dist/quill.snow.css",
-                            "styles.css"
+                            "node_modules/primeicons/primeicons.css",
+                            "styles.css",
+                            "node_modules/primeng/resources/primeng.min.css",
+                            "node_modules/primeng/resources/themes/saga-blue/theme.css"
+                            
                         ],
                         "assets": ["src/assets"]
                     }

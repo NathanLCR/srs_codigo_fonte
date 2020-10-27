@@ -1,0 +1,265 @@
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+<div class="card">
+    <p-toolbar>
+        <div id="toolbar">
+            <p-button
+                label="Novo"
+                icon="pi pi-plus"
+                (click)="showForm()"
+            ></p-button>
+            <div>
+                <i class="pi pi-search"></i>
+                <input
+                    pInputText
+                    type="text"
+                    (input)="
+                        table.filterGlobal($event.target.value, 'contains')
+                    "
+                    placeholder="Search..."
+                />
+            </div>
+        </div>
+    </p-toolbar>
+
+    <p-dialog
+        header="Cadastrar Reserva"
+        [style]="{ width: '500px' }"
+        [(visible)]="displayForm"
+    >
+        <form
+            [formGroup]="reservaForm"
+            (ngSubmit)="handleSubmit(reservaForm.value)"
+        >
+            <div class="p-fluid">
+                <div class="p-field">
+                    <p-dropdown
+                        [options]="clientes"
+                        formControlName="cliente"
+                        placeholder="Clientes"
+                        [filter]="true"
+                    >
+                    </p-dropdown>
+                    <small
+                        class="p-invalid"
+                        *ngIf="
+                            reservaFormControl.cliente.errors?.required &&
+                            reservaFormControl.cliente.touched
+                        "
+                    >
+                        Favor informar o cliente.
+                    </small>
+                </div>
+                <div class="p-field">
+                    <p-dropdown
+                        [options]="salas"
+                        formControlName="sala"
+                        placeholder="Escolha a sala"
+                        [filter]="true"
+                    >
+                    </p-dropdown>
+                    <small
+                        class="p-invalid"
+                        *ngIf="
+                            reservaFormControl.sala.errors?.required &&
+                            reservaFormControl.sala.touched
+                        "
+                    >
+                        Favor informar a Sala.
+                    </small>
+                </div>
+                <div class="p-field">
+                    <button
+                        pButton
+                        type="button"
+                        label="Adicionar Equipamento"
+                        (click)="showEquipamentoForm()"
+                    ></button>
+                </div>
+                <div class="p-field">
+                    <p-dialog [(visible)]="displayEquipamentoForm">
+                        <form
+                            [formGroup]="reservaEquipamentoForm"
+                            (ngSubmit)="
+                                addEquipamento(reservaEquipamentoForm.value)
+                            "
+                        >
+                            <div class="p-grid">
+                                <div class="p-field">
+                                    <p-dropdown
+                                        [options]="equipamentos"
+                                        formControlName="equipamento"
+                                        placeholder="Equipamentos"
+                                    ></p-dropdown>
+                                </div>
+                                <div class="p-field">
+                                    <label for="quantidade">Quantidade</label>
+                                    <p-inputNumber formControlName="quantidade">
+                                    </p-inputNumber>
+                                </div>
+                                <div class="p-field">
+                                    <p-button
+                                        label="Enviar"
+                                        icon="pi pi-check"
+                                        [disabled]="
+                                            !reservaEquipamentoForm.valid
+                                        "
+                                    ></p-button>
+                                </div>
+                            </div>
+                        </form>
+                    </p-dialog>
+                </div>
+
+                <p-table [value]="equipamentoForm.value">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Nome</th>
+                            <th>Quantidade</th>
+                            <th>Preço Diária</th>
+                            <th>Ações</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-reservaEquip>
+                        <tr>
+                            <td>{{ reservaEquip.equipamento.nome }}</td>
+                            <td>{{ reservaEquip.quantidade }}</td>
+                            <td>
+                                {{
+                                    reservaEquip.equipamento.precoDiaria
+                                        | currency: "BRL"
+                                }}
+                            </td>
+                            <td>
+                                <button
+                                    type="button"
+                                    pButton
+                                    pRipple
+                                    icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-danger"
+                                    (click)="editEquipamento(reservaEquip)"
+                                ></button>
+                                <button
+                                    type="button"
+                                    pButton
+                                    pRipple
+                                    icon="pi pi-trash"
+                                    class="p-button-rounded p-button-danger"
+                                    (click)="deleteEquipamento(reservaEquip)"
+                                ></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                <br />
+                <div class="p-field">
+                    <label for="range">Data Reserva</label>
+                    <p-calendar
+                        formControlName="dataRange"
+                        [inline]="true"
+                        selectionMode="range"
+                        [readonlyInput]="true"
+                        [minDate]="todayDate"
+                    ></p-calendar>
+                </div>
+                <div class="p-field">
+                    <p-button
+                        type="submit"
+                        label="Enviar"
+                        icon="pi pi-check"
+                        [disabled]="!reservaForm.valid"
+                        iconPos="right"
+                    ></p-button>
+                </div>
+            </div>
+        </form>
+    </p-dialog>
+
+    <p-table
+        #table
+        [value]="reservas"
+        [globalFilterFields]="['cliente.nome', 'sala.descricao']"
+    >
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="cliente.nome">Cliente</th>
+                <th pSortableColumn="sala.descricao">Sala</th>
+                <th>Equipamentos</th>
+                <th pSortableColumn="dataInicio">Data de Inicio</th>
+                <th pSortableColumn="dataFim">Data de Fim</th>
+                <th pSortableColumn="total">Preço Total</th>
+                <th>Ações</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-reserva #equips>
+            <tr>
+                <td>{{ reserva.cliente.nome }}</td>
+                <td>{{ reserva.sala.descricao }}</td>
+                <td>
+                    <button
+                        type="text"
+                        pButton
+                        label="Visualizar"
+                        (click)="op.toggle($event, equips)"
+                    ></button>
+                    <p-overlayPanel #op showCloseIcon="true">
+                        <ng-template pTemplate>
+                            <p-table [value]="reserva.equipamentos">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Quantidade</th>
+                                        <th>Preço Diária</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template
+                                    pTemplate="body"
+                                    let-reservaEquipamento
+                                >
+                                    <tr>
+                                        <td>
+                                            {{
+                                                reservaEquipamento.equipamento
+                                                    .nome
+                                            }}
+                                        </td>
+                                        <td>
+                                            {{ reservaEquipamento.quantidade }}
+                                        </td>
+                                        <td>
+                                            {{
+                                                reservaEquipamento.equipamento
+                                                    .precoDiaria
+                                                    | currency: "BRL"
+                                            }}
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </ng-template>
+                    </p-overlayPanel>
+                </td>
+                <td>{{ reserva.dataInicio | date: "dd/MM/yyyy" }}</td>
+                <td>{{ reserva.dataFim | date: "dd/MM/yyyy" }}</td>
+                <td>{{ reserva.total | currency: "BRL" }}</td>
+                <td>
+                    <button
+                        type="button"
+                        pButton
+                        pRipple
+                        icon="pi pi-pencil"
+                        class="p-button-rounded p-button-danger"
+                        (click)="handleEdit(reserva)"
+                    ></button>
+                    <button
+                        pButton
+                        pRipple
+                        type="button"
+                        icon="pi pi-trash"
+                        class="p-button-rounded p-button-danger"
+                        (click)="handleDelete(reserva)"
+                    ></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

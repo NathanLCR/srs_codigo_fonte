@@ -11,10 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -45,5 +47,8 @@ public class Reserva implements Serializable {
 
     @Column(name="total")
     private Double total;
+
+    @OneToMany(mappedBy = "reserva")
+    private List<ReservaEquipamento> equipamentos;
 
 }

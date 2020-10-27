@@ -1,8 +1,10 @@
-export  interface Cliente{
-    id: Number;
-    nome: String;
-    cpf: String;
-    rg: String;
-    endereco: String;
-    email: String;
+export default interface Cliente {
+        id:string;
+        nome:string;
+        rg:any;
+        cpf:any;
+        dataNascimento:any;
+        endereco?:string;
+        telefone:string;
+        email:string;
 }

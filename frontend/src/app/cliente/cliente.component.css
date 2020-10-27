@@ -15,7 +15,6 @@
     justify-content: center;
     align-items: center;
 }
-
 p-toolbar p-button {
     margin-right: 12px;
 }
@@ -26,6 +25,7 @@ input {
 
 td {
     text-align: center;
+    word-wrap: break-word;
 }
 
 td button + button {
@@ -39,4 +39,8 @@ form {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+small {
+    color: red;
 }

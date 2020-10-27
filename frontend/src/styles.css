@@ -1,1 +1,47 @@
 /* You can add global styles to this file, and also import other style files */
+#toolbar {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#toolbar input {
+    color: white;
+    margin-left: 2px;
+}
+#toolbar div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input {
+    flex: 1;
+}
+
+td {
+    text-align: center;
+}
+
+td button + button {
+    margin-left: 8px;
+}
+
+p-confirmDialog {
+    background-color: white;
+}
+
+form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+small {
+    color: red;
+}
+td {
+    text-align: center;
+    word-wrap: break-word;
+}
