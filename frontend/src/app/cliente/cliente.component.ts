@@ -35,7 +35,7 @@ export class ClienteComponent implements OnInit {
             rg: new FormControl("", Validators.required),
             dataNascimento: new FormControl("", Validators.required),
             endereco: new FormControl("", Validators.required),
-            email: new FormControl("", Validators.required),
+            email: new FormControl("", [Validators.email,Validators.required]),
             telefone: new FormControl("", Validators.required)
         });
         this.getAllClientes();
