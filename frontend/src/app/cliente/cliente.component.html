@@ -15,97 +15,135 @@
     </p-toolbar>
 
     <p-dialog header="Cadastrar Cliente" [(visible)]="displayForm">
-        <form [formGroup]="clienteForm" (ngSubmit)="handleSubmit(clienteForm.value)">
+        <form
+            [formGroup]="clienteForm"
+            (ngSubmit)="handleSubmit(clienteForm.value)"
+            onsubmit="isValidCPF()"
+            onsubmit="compareDates()"
+        >
             <div class="p-fluid">
                 <div class="p-field">
-                    <label for="nome">Nome</label>
-                    <input type="text" pInputText placeholder="Nome" formControlName="nome" /><br>
-                    <small
-                    *ngIf="
+                    <label for="nome">Nome</label><br>
+                    <input 
+                        type="text" 
+                        pInputText 
+                        placeholder="ex: João Silva" 
+                        formControlName="nome"
+                    /><br>
+                    <small *ngIf="
                         clienteFormControl.nome.errors?.required &&
-                        clienteFormControl.nome.touched
-                    "
-                    >Favor informar o nome do cliente
+                        clienteFormControl.nome.touched">
+                        Favor informar o nome do cliente
                     </small>
-                </div>
+                </div><br>
 
                 <div class="p-field">
-                    <label for="dataNascimento">Data de Nascimento</label>
-                    <input type="date" pInputText placeholder="dataNascimento" formControlName="dataNascimento" /><br>
-                    <small
-                    *ngIf="
+                    <label for="dataNascimento">Data de Nascimento</label><br>
+                    <input
+                        type="date" 
+                        pInputText 
+                        placeholder="ex: 02/02/2002" 
+                        formControlName="dataNascimento"  
+                    /><br>
+                    
+                    <small *ngIf="
                         clienteFormControl.dataNascimento.errors?.required &&
-                        clienteFormControl.dataNascimento.touched
-                    "
-                    >Favor informar a data de nascimento do cliente
+                        clienteFormControl.dataNascimento.touched">
+                        Favor informar o Data de Nascimento do cliente
                     </small>
-                </div>
+                </div><br>
+
                 <div class="p-field">
-                    <label for="cpf">CPF</label>
-                    <p-inputMask type="text" pInputText placeholder="999.999.999-99" formControlName="cpf"
-                        mask="999.999.999-99" unmask="true"></p-inputMask><br>
-                    <small
-                    *ngIf="
+                    <label for="cpf">CPF</label><br>
+                    <p-inputMask
+                        
+                        id="cpf"
+                        type="text" 
+                        pInputText
+                        placeholder="ex: 474.675.500-06"
+                        formControlName="cpf"
+                        mask="999.999.999-99" 
+                        unmask="true">
+                    </p-inputMask><br>
+                    
+                    <small *ngIf="
                         clienteFormControl.cpf.errors?.required &&
-                        clienteFormControl.cpf.touched
-                    "
-                    >Favor informar o CPF do cliente
+                        clienteFormControl.cpf.touched"
+                        >
+                        Favor informar o CPF do cliente
                     </small>
-                </div>
+                    
+       
+                </div><br>
 
                 <div class="p-field">
-                    <label for="rg">RG</label>
-                    <p-inputMask type="text" pInputText placeholder="9.999-999" mask="9.999-999" formControlName="rg"
-                        unmask="true"></p-inputMask><br>
-                    <small
-                    *ngIf="
+                    <label for="rg">RG</label><br>
+                    <p-inputMask 
+                        type="text"
+                        pInputText 
+                        placeholder="ex: 3.489-724" 
+                        mask="9.999-999" 
+                        formControlName="rg"
+                        unmask="true">
+                    </p-inputMask><br>
+                    <small *ngIf="
                         clienteFormControl.rg.errors?.required &&
-                        clienteFormControl.rg.touched
-                    "
-                    >Favor informar o RG do cliente
+                        clienteFormControl.rg.touched">
+                        Favor informar o RG do cliente
                     </small>
-                </div>
+                </div><br>
 
                 <div class="p-field">
-                    <label for="endereco">Endereço</label>
-                    <input type="text" pInputText placeholder="endereco" formControlName="endereco" /><br>
-                    <small
-                    *ngIf="
+                    <label for="endereco">Endereço</label><br>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="ex: João Silva, 185 - Itararé"
+                        formControlName="endereco"
+                    /><br>
+                    <small *ngIf="
                         clienteFormControl.endereco.errors?.required &&
-                        clienteFormControl.endereco.touched
-                    "
-                    >Favor informar o endereço do cliente
+                        clienteFormControl.endereco.touched">
+                        Favor informar o endereço do cliente
                     </small>
-                </div>
+                </div><br>
 
                 <div class="p-field">
-                    <label for="telefone">Telefone</label>
-                    <p-inputMask pInputText placeholder="(99)99999-9999" formControlName="telefone"
-                        mask="(99)99999-9999" unmask="true"></p-inputMask><br>
-                    <small
-                    *ngIf="
+                    <label for="telefone">Telefone</label><br>
+                    <p-inputMask
+                        pInputText
+                        placeholder="ex: (83)98252-2430"
+                        formControlName="telefone"
+                        mask="(99)99999-9999"
+                        unmask="true">
+                    </p-inputMask><br>
+                    <small *ngIf="
                         clienteFormControl.telefone.errors?.required &&
-                        clienteFormControl.telefone.touched
-                    "
-                    >Favor informar o telefone do cliente
+                        clienteFormControl.telefone.touched">
+                        Favor informar o telefone do cliente
                     </small>
-                </div>
+                </div><br>
 
                 <div class="p-field">
-                    <label for="email">Email</label>
-                    <input type="email" pInputText placeholder="Email" formControlName="email" />
-                    <br>
-                    <small
-                    *ngIf="
+                    <label for="email">Email</label><br>
+                    <input
+                        type="email"
+                        pInputText
+                        placeholder="ex: joao@gmail.com"
+                        formControlName="email"
+                    /><br>
+                    <small *ngIf="
                         clienteFormControl.email.errors?.required &&
-                        clienteFormControl.email.touched
-                    "
-                    >Favor informar o email do cliente
+                        clienteFormControl.email.touched">
+                        Favor informar o email do cliente
                     </small>
-                </div>
-
+                </div><br>
                 <div class="p-field">
-                    <p-button type="submit" label="Enviar" icon="pi pi-check" [disabled]="!clienteForm.valid">
+                    <p-button
+                        type="submit" 
+                        label="Enviar"
+                        icon="pi pi-check"
+                        [disabled]="!clienteForm.valid">
                     </p-button>
                 </div>
             </div>
