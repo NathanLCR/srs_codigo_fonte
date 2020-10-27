@@ -29,14 +29,14 @@ export class ClienteComponent implements OnInit {
 
     ngOnInit() {
         this.clienteForm = new FormGroup({
-            id: new FormControl(null),
-            nome: new FormControl(null, [Validators.required]),
-            cpf: new FormControl(null, Validators.required),
-            rg: new FormControl(null, Validators.required),
-            dataNascimento: new FormControl(null, Validators.required),
-            endereco: new FormControl(null, Validators.required),
-            email: new FormControl(null, Validators.required),
-            telefone: new FormControl(null,Validators.required),
+            id: new FormControl(""),
+            nome: new FormControl("", [Validators.required]),
+            cpf: new FormControl("", Validators.required),
+            rg: new FormControl("", Validators.required),
+            dataNascimento: new FormControl("", Validators.required),
+            endereco: new FormControl("", Validators.required),
+            email: new FormControl("", Validators.required),
+            telefone: new FormControl("", Validators.required)
         });
         this.getAllClientes();
     }
@@ -72,9 +72,6 @@ export class ClienteComponent implements OnInit {
             email: cliente.email,
         });
     }
-
-
-
     handleSubmit(cliente) {
         this.getAllClientes();
         const existByCpf = this.clientes.findIndex(e => e.cpf === cliente.cpf)
@@ -92,7 +89,7 @@ export class ClienteComponent implements OnInit {
 
         if (!cliente.id) {
             this.addCliente(cliente);
-        } else { 
+        } else {
             this.editarCliente(cliente);
         }
     }
@@ -118,25 +115,60 @@ export class ClienteComponent implements OnInit {
 
     }
 
+    compareDates(data){
+        var dataSetada = data; //yyyy-mm-dd
+        var hoje = new Date();
+
+        data = new Date(dataSetada)
+        let retorno = data >= hoje ? true : false
+
+        return retorno 
+    }
+    
+
 
     addCliente(cliente: Cliente) {
-        this.clienteService.postCliente(cliente).subscribe(
-            (cliente: Cliente) => {
-                this.addToast(
-                    "success",
-                    "Cadastrado",
-                    "Cliente Cadastrado com sucesso"
-                );
-                this.clientes.push(cliente);
+        
 
-                this.displayForm = false;
-
-                this.clienteForm.reset();
-            },
-            (error) => {
-                this.addErrorToast(error);
-            }
+        if(!this.isValidCPF(cliente.cpf)){
+            this.addToast(
+                "error",
+                "Problema encontrado",
+                "CPF Inválido"
+            );
+        }
+       if(this.compareDates(cliente.dataNascimento)) {
+        this.addToast(
+            "error",
+            "Problema encontrado",
+            "Data de nascimento inválida"
         );
+        
+       }else {
+           
+           this.clienteService.postCliente(cliente).subscribe(
+               (cliente: Cliente) => {
+                   this.addToast(
+                       "success",
+                       "Cadastrado",
+                       "Equipamento cadastrado com sucesso"
+                   );
+                   this.clientes.push(cliente);
+   
+                   this.displayForm = false;
+   
+                   this.clienteForm.reset();
+               },
+               (error) => {
+                   this.addErrorToast(error);
+               }
+           )
+       }
+  
+       
+
+
+ 
     }
 
     deleteCliente(cliente) {
@@ -175,8 +207,8 @@ export class ClienteComponent implements OnInit {
     addErrorToast(error) {
         this.messageService.add({
             severity: "error",
-            summary: "Erro inesperado",
-            detail: "Erro no service",
+            summary: "erro inesperado",
+            detail: "erro no service",
         });
         console.log(error);
     }
@@ -197,5 +229,26 @@ export class ClienteComponent implements OnInit {
             detail: "Esse email já está vinculado a um outro cliente.",
         });
         console.log();
+    }
+  isValidCPF(cpf) {
+        if (typeof cpf !== "string") return false
+        cpf = cpf.replace(/[\s.-]*/igm, '')
+        if (cpf.length !== 11 || !Array.from(cpf).filter(e => e !== cpf[0]).length) {
+            return false
+         }
+        var soma = 0
+        var resto
+        for (var i = 1; i <= 9; i++) 
+            soma = soma + parseInt(cpf.substring(i-1, i)) * (11 - i)
+        resto = (soma * 10) % 11
+        if ((resto == 10) || (resto == 11))  resto = 0
+        if (resto != parseInt(cpf.substring(9, 10)) ) return false
+        soma = 0
+        for (var i = 1; i <= 10; i++) 
+            soma = soma + parseInt(cpf.substring(i-1, i)) * (12 - i)
+        resto = (soma * 10) % 11
+        if ((resto == 10) || (resto == 11))  resto = 0
+        if (resto != parseInt(cpf.substring(10, 11) ) ) return false
+        return true
     }
 }
