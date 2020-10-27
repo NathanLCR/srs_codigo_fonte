@@ -207,7 +207,7 @@ export class ReservasComponent implements OnInit {
     }
 
     handleEdit(reserva) {
-        const data = [new Date(reserva.dataInicio), new Date(reserva.dataFim)];
+        const data = [reserva.dataInicio, reserva.dataFim];
         this.reservaForm.patchValue({
             id: reserva.id,
             idCliente: reserva.idCliente,
@@ -233,7 +233,6 @@ export class ReservasComponent implements OnInit {
         if (formValue.dataRange[1] == null) {
             formValue.dataFim = formValue.dataRange[0];
         }
-        console.log(formValue)
         if (this.isDataBooked(formValue)) {
             this.messageService.add({
                 severity: "warn",
@@ -260,7 +259,6 @@ export class ReservasComponent implements OnInit {
     }
 
     editReserva(reserva: Reserva) {
-        console.log(reserva);
         this.reservaService.putReserva(reserva).subscribe((response) => {
             const index = this.reservas.findIndex(r => r.id === reserva.id);
             this.reservas[index] = this.getClienteESalaEEquipamentos(response);
@@ -269,6 +267,8 @@ export class ReservasComponent implements OnInit {
     }
 
     getClienteESalaEEquipamentos(reserva: Reserva): Reserva {
+        reserva.dataInicio = this.transformData(reserva.dataInicio);
+        reserva.dataFim = this.transformData(reserva.dataFim);
         this.clienteService.getClienteById(reserva.idCliente).subscribe((r) => {
             reserva.cliente = r;
         });
@@ -309,6 +309,16 @@ export class ReservasComponent implements OnInit {
             }
         });
         return error;
+    }
+
+    transformData(data){
+        const ano = data.slice(0,4);
+        const mes = data.slice(5,7);
+        const dia = data.slice(8,10);
+        console.log(ano);
+        console.log(mes);
+        console.log(dia);
+        return new Date(ano,mes - 1,dia);
     }
 
 }
