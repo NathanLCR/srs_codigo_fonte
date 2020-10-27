@@ -16,31 +16,37 @@
     align-items: center;
 }
 
-input {
-    flex: 1;
-}
-
 td {
     text-align: center;
+    word-wrap: break-word;
+}
+#toolbar div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+p-confirmDialog {
+    background-color: white;
+}
+
+.p-field {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 2px;
 }
 
 td button + button {
     margin-left: 8px;
 }
-
-p-confirmDialog {
-    background-color: white;
-}
-
-form {
+.p-field button {
+    width: 100%;
+    margin-top: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
-p-dialog button{
-    margin-bottom: 10px;
-    background-color:#5180CE;
+small {
+    color: red;
 }
-
-

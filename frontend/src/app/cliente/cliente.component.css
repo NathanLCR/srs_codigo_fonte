@@ -25,6 +25,7 @@ input {
 
 td {
     text-align: center;
+    word-wrap: break-word;
 }
 
 td button + button {
@@ -38,4 +39,8 @@ form {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+small {
+    color: red;
 }
