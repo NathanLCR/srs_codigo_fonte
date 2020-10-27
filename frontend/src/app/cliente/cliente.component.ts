@@ -25,7 +25,7 @@ export class ClienteComponent implements OnInit {
         private clienteService: ClienteService,
         private messageService: MessageService,
         private confirmationService: ConfirmationService
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.clienteForm = new FormGroup({
@@ -41,7 +41,7 @@ export class ClienteComponent implements OnInit {
         this.getAllClientes();
     }
 
-    getAllClientes(){
+    getAllClientes() {
         this.clienteService.getClientes().subscribe((resultado) => {
             this.clientes = resultado;
         });
@@ -74,16 +74,16 @@ export class ClienteComponent implements OnInit {
     }
     handleSubmit(cliente) {
         this.getAllClientes();
-        const existByCpf = this.clientes.findIndex(e => e.cpf === cliente.cpf)
-        const existByEmail = this.clientes.findIndex(e => e.email === cliente.email)
+        const existByCpf = this.clientes.findIndex(e => e.cpf === cliente.cpf && e.id !== cliente.id);
+        const existByEmail = this.clientes.findIndex(e => e.email === cliente.email && e.id !== cliente.id)
 
-        if(existByCpf >= 0){
-            this.addCpfToast()
+        if (existByCpf >= 0) {
+            this.addCpfToast();
             return;
         }
 
-        if(existByEmail >= 0){
-            this.addEmailToast()
+        if (existByEmail >= 0) {
+            this.addEmailToast();
             return;
         }
 
@@ -103,11 +103,11 @@ export class ClienteComponent implements OnInit {
                 );
                 const index = this.clientes.findIndex(
                     (e) => e.id === value.id);
-                
+
                 this.clientes[index] = value;
-                        
+
                 this.displayForm = false;
-        
+
                 this.clienteForm.reset();
             },
             (error) => this.addErrorToast(error)
@@ -115,60 +115,56 @@ export class ClienteComponent implements OnInit {
 
     }
 
-    compareDates(data){
+    compareDates(data) {
         var dataSetada = data; //yyyy-mm-dd
         var hoje = new Date();
 
         data = new Date(dataSetada)
         let retorno = data >= hoje ? true : false
 
-        return retorno 
+        return retorno
     }
-    
+
 
 
     addCliente(cliente: Cliente) {
-        
 
-        if(!this.isValidCPF(cliente.cpf)){
+
+        if (!this.isValidCPF(cliente.cpf)) {
             this.addToast(
                 "error",
                 "Problema encontrado",
                 "CPF Inválido"
             );
         }
-       if(this.compareDates(cliente.dataNascimento)) {
-        this.addToast(
-            "error",
-            "Problema encontrado",
-            "Data de nascimento inválida"
-        );
-        
-       }else {
-           
-           this.clienteService.postCliente(cliente).subscribe(
-               (cliente: Cliente) => {
-                   this.addToast(
-                       "success",
-                       "Cadastrado",
-                       "Equipamento cadastrado com sucesso"
-                   );
-                   this.clientes.push(cliente);
-   
-                   this.displayForm = false;
-   
-                   this.clienteForm.reset();
-               },
-               (error) => {
-                   this.addErrorToast(error);
-               }
-           )
-       }
-  
-       
+        if (this.compareDates(cliente.dataNascimento)) {
+            this.addToast(
+                "error",
+                "Problema encontrado",
+                "Data de nascimento inválida"
+            );
 
+        } else {
 
- 
+            this.clienteService.postCliente(cliente).subscribe(
+                (cliente: Cliente) => {
+                    this.addToast(
+                        "success",
+                        "Cadastrado",
+                        "Equipamento cadastrado com sucesso"
+                    );
+                    this.clientes.push(cliente);
+
+                    this.displayForm = false;
+
+                    this.clienteForm.reset();
+                },
+                (error) => {
+                    this.addErrorToast(error);
+                }
+            )
+        }
+
     }
 
     deleteCliente(cliente) {
@@ -184,13 +180,15 @@ export class ClienteComponent implements OnInit {
                         "Deleção",
                         "Cliente apagado com Sucesso!"
                     );
-                });
-                this.clientes = this.clientes.filter(
-                    (val) => val.id !== cliente.id
-                );
+                    this.clientes = this.clientes.filter(
+                        (val) => val.id !== cliente.id
+                    );
+                },
+                    (error) => this.addErrorToast(error));
+
             },
         });
-    }  
+    }
 
     showForm() {
         this.clienteForm.reset();
@@ -207,8 +205,8 @@ export class ClienteComponent implements OnInit {
     addErrorToast(error) {
         this.messageService.add({
             severity: "error",
-            summary: "erro inesperado",
-            detail: "erro no service",
+            summary: "Erro inesperado",
+            detail: "Erro no serviço, favor tentar novamente",
         });
         console.log(error);
     }
@@ -230,25 +228,25 @@ export class ClienteComponent implements OnInit {
         });
         console.log();
     }
-  isValidCPF(cpf) {
+    isValidCPF(cpf) {
         if (typeof cpf !== "string") return false
         cpf = cpf.replace(/[\s.-]*/igm, '')
         if (cpf.length !== 11 || !Array.from(cpf).filter(e => e !== cpf[0]).length) {
             return false
-         }
+        }
         var soma = 0
         var resto
-        for (var i = 1; i <= 9; i++) 
-            soma = soma + parseInt(cpf.substring(i-1, i)) * (11 - i)
+        for (var i = 1; i <= 9; i++)
+            soma = soma + parseInt(cpf.substring(i - 1, i)) * (11 - i)
         resto = (soma * 10) % 11
-        if ((resto == 10) || (resto == 11))  resto = 0
-        if (resto != parseInt(cpf.substring(9, 10)) ) return false
+        if ((resto == 10) || (resto == 11)) resto = 0
+        if (resto != parseInt(cpf.substring(9, 10))) return false
         soma = 0
-        for (var i = 1; i <= 10; i++) 
-            soma = soma + parseInt(cpf.substring(i-1, i)) * (12 - i)
+        for (var i = 1; i <= 10; i++)
+            soma = soma + parseInt(cpf.substring(i - 1, i)) * (12 - i)
         resto = (soma * 10) % 11
-        if ((resto == 10) || (resto == 11))  resto = 0
-        if (resto != parseInt(cpf.substring(10, 11) ) ) return false
+        if ((resto == 10) || (resto == 11)) resto = 0
+        if (resto != parseInt(cpf.substring(10, 11))) return false
         return true
     }
 }
