@@ -57,7 +57,6 @@
                         placeholder="ex: 02/02/2002"
                         formControlName="dataNascimento"
                     /><br />
-
                     <small
                         *ngIf="
                             clienteFormControl.dataNascimento.errors
@@ -215,7 +214,7 @@
                 <td>{{ cliente.nome }}</td>
                 <td>{{ cliente.cpf | CPF }}</td>
                 <td>{{ cliente.rg | RG }}</td>
-                <td>{{ cliente.dataNascimento }}</td>
+                <td>{{ cliente.dataNascimento | date: "dd/MM/yyyy" }}</td>
                 <td>{{ cliente.endereco }}</td>
                 <td>{{ cliente.email }}</td>
                 <td>{{ cliente.telefone | Telefone }}</td>

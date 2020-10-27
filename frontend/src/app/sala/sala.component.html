@@ -217,7 +217,7 @@
                         label="Equipamentos"
                         (click)="op.toggle($event, equips)"
                     ></button>
-                    <p-overlayPanel #op>
+                    <p-overlayPanel #op showCloseIcon="true">
                         <ng-template pTemplate>
                             <p-table [value]="sala.equipamentos">
                                 <ng-template pTemplate="header">
