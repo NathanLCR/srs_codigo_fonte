@@ -77,6 +77,25 @@ export class ClienteComponent implements OnInit {
         const existByCpf = this.clientes.findIndex(e => e.cpf === cliente.cpf && e.id !== cliente.id);
         const existByEmail = this.clientes.findIndex(e => e.email === cliente.email && e.id !== cliente.id)
 
+        if (!this.isValidCPF(cliente.cpf)) {
+            this.addToast(
+                "error",
+                "Problema encontrado",
+                "CPF Inválido"
+            );
+            return;
+        }
+
+        if (this.compareDates(cliente.dataNascimento)) {
+            this.addToast(
+                "error",
+                "Problema encontrado",
+                "Data de nascimento inválida"
+            );
+            return;
+
+        }
+
         if (existByCpf >= 0) {
             this.addCpfToast();
             return;
@@ -130,21 +149,7 @@ export class ClienteComponent implements OnInit {
     addCliente(cliente: Cliente) {
 
 
-        if (!this.isValidCPF(cliente.cpf)) {
-            this.addToast(
-                "error",
-                "Problema encontrado",
-                "CPF Inválido"
-            );
-        }
-        if (this.compareDates(cliente.dataNascimento)) {
-            this.addToast(
-                "error",
-                "Problema encontrado",
-                "Data de nascimento inválida"
-            );
-
-        } else {
+        
 
             this.clienteService.postCliente(cliente).subscribe(
                 (cliente: Cliente) => {
@@ -163,7 +168,6 @@ export class ClienteComponent implements OnInit {
                     this.addErrorToast(error);
                 }
             )
-        }
 
     }
 
