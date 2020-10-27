@@ -68,7 +68,7 @@ public class ReservaServico {
         if(reservaDto.getId() == null && verificarSeDataJaEstaReservada(reservaDto)) {
             throw new RegraNegocioException("Data ja esta reservada");
         }
-        if (!reservaDto.getDataInicio().isBefore(reservaDto.getDataFim())) {
+        if (!reservaDto.getDataInicio().isBefore(reservaDto.getDataFim()) && !reservaDto.getDataInicio().equals(reservaDto.getDataFim())) {
             throw new RegraNegocioException("Não é possível cadastrar uma reserva que tenha a data de início após a data do fim.");
         }
 
@@ -115,7 +115,7 @@ public class ReservaServico {
 
         Double custo = sala.getPrecoDiaria();
 
-        Long dias = ChronoUnit.DAYS.between(reservaDTO.getDataInicio(), reservaDTO.getDataFim());
+        Long dias = ChronoUnit.DAYS.between(reservaDTO.getDataInicio(), reservaDTO.getDataFim()) + 1;
 
         if (salaEquipamento != null) {
             for (int i = 0; i < salaEquipamento.size(); i++) {

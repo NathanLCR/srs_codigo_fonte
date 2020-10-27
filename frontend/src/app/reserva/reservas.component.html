@@ -1,10 +1,11 @@
+<p-confirmDialog [style]="{ width: '450px'}"></p-confirmDialog>
 <div class="card">
     <p-toolbar>
         <div id="toolbar">
             <p-button label="Novo" icon="pi pi-plus" (click)="showForm()"></p-button>
             <div>
                 <i class="pi pi-search"></i>
-                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                <input pInputText type="text" (input)="table.filterGlobal($event.target.value, 'contains')"
                     placeholder="Search..." />
             </div>
         </div>
@@ -16,11 +17,19 @@
                 <div class="p-field">
                     <p-dropdown [options]="clientes" formControlName="cliente" placeholder="Clientes" [filter]="true">
                     </p-dropdown>
+                    <small class="p-invalid"
+                        *ngIf="reservaFormControl.cliente.errors?.required && reservaFormControl.cliente.touched">
+                        Favor informar o cliente.
+                    </small>
 
                 </div>
                 <div class="p-field">
                     <p-dropdown [options]="salas" formControlName="sala" placeholder="Escolha a sala" [filter]="true">
                     </p-dropdown>
+                    <small class="p-invalid"
+                        *ngIf="reservaFormControl.sala.errors?.required && reservaFormControl.sala.touched">
+                        Favor informar a Sala.
+                    </small>
                 </div>
                 <div class="p-field">
                     <button pButton type="button" label="Adicionar Equipamento"
@@ -80,13 +89,14 @@
                         [readonlyInput]="true"></p-calendar>
                 </div>
                 <div class="p-field">
-                    <p-button type="submit" label="Enviar" icon="pi pi-check" iconPos="right"></p-button>
+                    <p-button type="submit" label="Enviar" icon="pi pi-check" [disabled]="!reservaForm.valid"
+                        iconPos="right"></p-button>
                 </div>
             </div>
         </form>
     </p-dialog>
 
-    <p-table #dt [value]="reservas" [globalFilterFields]="['cliente','sala']">
+    <p-table #table [value]="reservas" [globalFilterFields]="['cliente.nome','sala.descricao']">
         <ng-template pTemplate="header">
             <tr>
                 <th pSortableColumn="cliente">Cliente</th>
@@ -103,8 +113,8 @@
                 <td>{{ reserva.cliente.nome }}</td>
                 <td>{{ reserva.sala.descricao }}</td>
                 <td>
-                    <button type="text" pButton label="Equipamentos" (click)="op.toggle($event, equips)"></button>
-                    <p-overlayPanel #op [appendTo]="equips">
+                    <button type="text" pButton label="Visualizar" (click)="op.toggle($event, equips)"></button>
+                    <p-overlayPanel #op>
                         <ng-template pTemplate>
                             <p-table [value]="reserva.equipamentos">
                                 <ng-template pTemplate="header">
@@ -132,7 +142,7 @@
     <td>
         <button type="button" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-danger"
             (click)="handleEdit(reserva)"></button>
-        <button type="button" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+        <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-danger"
             (click)="handleDelete(reserva)"></button>
     </td>
     </tr>

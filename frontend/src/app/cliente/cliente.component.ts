@@ -38,6 +38,10 @@ export class ClienteComponent implements OnInit {
             email: new FormControl("", Validators.required),
             telefone: new FormControl("", Validators.required)
         });
+        this.getAllClientes();
+    }
+
+    getAllClientes(){
         this.clienteService.getClientes().subscribe((resultado) => {
             this.clientes = resultado;
         });
@@ -68,8 +72,21 @@ export class ClienteComponent implements OnInit {
             email: cliente.email,
         });
     }
-
     handleSubmit(cliente) {
+        this.getAllClientes();
+        const existByCpf = this.clientes.findIndex(e => e.cpf === cliente.cpf)
+        const existByEmail = this.clientes.findIndex(e => e.email === cliente.email)
+
+        if(existByCpf >= 0){
+            this.addCpfToast()
+            return;
+        }
+
+        if(existByEmail >= 0){
+            this.addEmailToast()
+            return;
+        }
+
         if (!cliente.id) {
             this.addCliente(cliente);
         } else {
@@ -80,9 +97,9 @@ export class ClienteComponent implements OnInit {
         this.clienteService.putCliente(value).subscribe(
             (value: Cliente) => {
                 this.addToast(
-                    "success",
-                    "Alterado",
-                    "Cliente alterado com sucesso"
+                    "info",
+                    "Sucesso!",
+                    "Cliente Atualizado com Sucesso"
                 );
                 const index = this.clientes.findIndex(
                     (e) => e.id === value.id);
@@ -103,7 +120,6 @@ export class ClienteComponent implements OnInit {
         var hoje = new Date();
 
         data = new Date(dataSetada)
-
         let retorno = data >= hoje ? true : false
 
         return retorno 
@@ -174,7 +190,7 @@ export class ClienteComponent implements OnInit {
                 );
             },
         });
-    }
+    }  
 
     showForm() {
         this.clienteForm.reset();
@@ -214,10 +230,6 @@ export class ClienteComponent implements OnInit {
         });
         console.log();
     }
-
-
-
-
   isValidCPF(cpf) {
         if (typeof cpf !== "string") return false
         cpf = cpf.replace(/[\s.-]*/igm, '')

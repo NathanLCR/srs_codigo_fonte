@@ -1,8 +1,8 @@
 import { EquipamentoService } from './../equipamento/equipamento.service';
 import { ClienteService } from './../cliente/cliente.service';
 import { Component, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
-import { MessageService } from "primeng/api";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { ConfirmationService, MessageService } from "primeng/api";
 import { ReservaService } from "./reserva.service";
 import { SalaService } from '../sala/sala.service';
 import Reserva from '../models/Reserva';
@@ -10,25 +10,13 @@ import Sala from '../models/Sala';
 import Equipamento from '../models/Equipamento';
 import ReservaEquipamento from '../models/ReservaEquipamento';
 import Cliente from '../models/Cliente';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { CPFPipe } from '../pipes/cpf.pipe';
 
 @Component({
     selector: "app-listar-reservas",
     templateUrl: "./reservas.component.html",
     styleUrls: ["./reservas.component.css"],
-    animations: [
-        trigger('rowExpansionTrigger', [
-            state('void', style({
-                transform: 'translateX(-10%)',
-                opacity: 0
-            })),
-            state('active', style({
-                transform: 'translateX(0)',
-                opacity: 1
-            })),
-            transition('* <=> *', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'))
-        ])
-    ]
+    providers: [ConfirmationService],
 })
 export class ReservasComponent implements OnInit {
 
@@ -46,9 +34,9 @@ export class ReservasComponent implements OnInit {
 
     displayForm = false;
     displayEquipamentoForm = false;
-    dataRanged;
 
     constructor(
+        private confirmationService: ConfirmationService,
         private reservaService: ReservaService,
         private formBuilder: FormBuilder,
         private messageService: MessageService,
@@ -59,9 +47,9 @@ export class ReservasComponent implements OnInit {
         this.reservaForm = new FormGroup({
             id: new FormControl(null),
             idCliente: new FormControl(null),
-            cliente: new FormControl(null),
+            cliente: new FormControl(null, [Validators.required]),
             idSala: new FormControl(null),
-            sala: new FormControl(null),
+            sala: new FormControl(null, [Validators.required]),
             dataRange: new FormControl(null),
             dataInicio: new FormControl(null),
             dataFim: new FormControl(null),
@@ -76,18 +64,24 @@ export class ReservasComponent implements OnInit {
         });
     }
 
+    cpfPipe = new CPFPipe();
+
     ngOnInit(): void {
         this.getAllReservas();
 
         this.clienteService.getClientes().subscribe((resulta) => {
             this.clientes = resulta.map((e) => {
-                return { label: e.nome + " | " + e.cpf, value: e };
+                return {
+
+                    label: e.nome + " | " + this.cpfPipe.transform(e.cpf), value: e
+                };
             });
         });
 
+
         this.salaService.getSalas().subscribe((response) => {
             this.salas = response.map((e) => {
-                return { label: e.descricao + "|" + e.precoDiaria, value: e };
+                return { label: e.descricao, value: e };
             });
         });
 
@@ -96,6 +90,10 @@ export class ReservasComponent implements OnInit {
                 return { label: e.nome, value: e };
             });
         });
+    }
+
+    get reservaFormControl() {
+        return this.reservaForm.controls;
     }
 
     get equipamentoForm() {
@@ -180,24 +178,36 @@ export class ReservasComponent implements OnInit {
         this.displayEquipamentoForm = true;
     }
 
-    handleDelete(value) {
-        this.reservaService.deleteReserva(value.id).subscribe(
+    deletar(reserva) {
+        this.reservaService.deleteReserva(reserva.id).subscribe(
             () => {
                 this.reservaForm.reset();
                 this.addDelete();
+                this.reservas = this.reservas.filter(
+                    (val) => val.id !== reserva.id
+                );
             },
             () => {
                 this.addError();
             }
         );
-        this.reservas = this.reservas.filter(
-            (val) => val.id !== value.id
-        );
+    }
+
+    handleDelete(reserva) {
+        this.confirmationService.confirm({
+            message: "Tem certeza que desejar excluir esta reserva",
+            header: "Confirmar exclusão",
+            icon: "pi pi-exclamation-triangle",
+            accept: () => {
+                this.deletar(reserva);
+            },
+        });
+
+
     }
 
     handleEdit(reserva) {
         const data = [new Date(reserva.dataInicio), new Date(reserva.dataFim)];
-        console.log(reserva.dataInicio);
         this.reservaForm.patchValue({
             id: reserva.id,
             idCliente: reserva.idCliente,
@@ -218,9 +228,19 @@ export class ReservasComponent implements OnInit {
     handleSubmit(formValue) {
         formValue.idSala = formValue.sala.id;
         formValue.idCliente = formValue.cliente.id;
-        if (formValue.dataRange != null) {
-            formValue.dataInicio = formValue.dataRange[0];
-            formValue.dataFim = formValue.dataRange[1];
+        formValue.dataInicio = formValue.dataRange[0];
+        formValue.dataFim = formValue.dataRange[1];
+        if (formValue.dataRange[1] == null) {
+            formValue.dataFim = formValue.dataRange[0];
+        }
+        console.log(formValue)
+        if (this.isDataBooked(formValue)) {
+            this.messageService.add({
+                severity: "warn",
+                summary: "Erro!",
+                detail: "Data reservada",
+            });
+            return;
         }
         this.displayForm = false;
         this.reservaForm.reset();
@@ -264,4 +284,31 @@ export class ReservasComponent implements OnInit {
         });
         return reserva;
     }
+
+    isDataBooked(reservaForm) {
+        const reservasSala = this.reservas.filter(r => r.idSala === reservaForm.idSala && r.id !== reservaForm.id);
+
+
+
+        const dataInicio = new Date(reservaForm.dataInicio);
+        const dataFim = new Date(reservaForm.dataFim);
+
+        let error = false;
+
+        reservasSala.forEach(r => {
+            const di = new Date(r.dataInicio);
+            const df = new Date(r.dataFim);
+            if (dataInicio.getTime() < di.getTime() && dataFim.getTime() > di.getTime()) {
+                error = true;
+            }
+            if (dataInicio.getTime() < df.getTime() && dataFim.getTime() > df.getTime()) {
+                error = true;
+            }
+            if (dataInicio.getTime() >= di.getTime() && dataFim.getTime() <= df.getTime()) {
+                error = true;
+            }
+        });
+        return error;
+    }
+
 }
