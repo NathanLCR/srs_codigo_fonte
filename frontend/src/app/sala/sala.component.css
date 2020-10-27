@@ -18,6 +18,7 @@
 
 td {
     text-align: center;
+    word-wrap: break-word;
 }
 #toolbar div {
     display: flex;
@@ -50,4 +51,3 @@ td button + button {
 small {
     color: red;
 }
-
