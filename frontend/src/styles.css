@@ -38,3 +38,10 @@ form {
     align-items: center;
     justify-content: center;
 }
+small {
+    color: red;
+}
+td {
+    text-align: center;
+    word-wrap: break-word;
+}
