@@ -4,6 +4,7 @@ import { ConfirmationService } from "primeng/api";
 import { MessageService } from "primeng/api";
 import Cliente from "../models/Cliente";
 import { FormGroup, Validators, FormControl } from "@angular/forms";
+import { ReservaService } from "../reserva/reserva.service";
 
 @Component({
     selector: "app-cliente",
@@ -24,7 +25,8 @@ export class ClienteComponent implements OnInit {
     constructor(
         private clienteService: ClienteService,
         private messageService: MessageService,
-        private confirmationService: ConfirmationService
+        private confirmationService: ConfirmationService,
+        private reservaService: ReservaService
     ) { }
 
     ngOnInit() {
@@ -116,7 +118,7 @@ export class ClienteComponent implements OnInit {
         this.clienteService.putCliente(value).subscribe(
             (value: Cliente) => {
                 this.addToast(
-                    "info",
+                    "success",
                     "Sucesso!",
                     "Cliente Atualizado com Sucesso"
                 );
@@ -147,10 +149,6 @@ export class ClienteComponent implements OnInit {
 
 
     addCliente(cliente: Cliente) {
-
-
-        
-
             this.clienteService.postCliente(cliente).subscribe(
                 (cliente: Cliente) => {
                     this.addToast(
@@ -178,6 +176,13 @@ export class ClienteComponent implements OnInit {
             header: "Confirmar exclusão",
             icon: "pi pi-exclamation-triangle",
             accept: () => {
+                this.reservaService.getReservas().subscribe((reservas)=>{
+                    const isClienteInReserva = reservas.findIndex(r => r.idCliente === cliente.id);
+                    if(isClienteInReserva >= 0){
+                        this.addErrorReservaToast();
+                        return;
+                    }
+
                 this.clienteService.deleteCliente(cliente.id).subscribe(() => {
                     this.addSuccess(
                         "success",
@@ -189,6 +194,7 @@ export class ClienteComponent implements OnInit {
                     );
                 },
                     (error) => this.addErrorToast(error));
+                }, (error) => this.addErrorToast(error));
 
             },
         });
@@ -213,6 +219,14 @@ export class ClienteComponent implements OnInit {
             detail: "Erro no serviço, favor tentar novamente",
         });
         console.log(error);
+    }
+
+    addErrorReservaToast() {
+        this.messageService.add({
+            severity: "error",
+            summary: "Erro ao excluir cliente",
+            detail: "Não é possivel deletar este cliente, pois ele esta vinculado a uma reserva",
+        });
     }
 
     addCpfToast() {

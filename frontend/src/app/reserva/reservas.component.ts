@@ -35,6 +35,8 @@ export class ReservasComponent implements OnInit {
     displayForm = false;
     displayEquipamentoForm = false;
 
+    todayDate;
+
     constructor(
         private confirmationService: ConfirmationService,
         private reservaService: ReservaService,
@@ -68,6 +70,8 @@ export class ReservasComponent implements OnInit {
 
     ngOnInit(): void {
         this.getAllReservas();
+
+        this.todayDate = new Date();
 
         this.clienteService.getClientes().subscribe((resulta) => {
             this.clientes = resulta.map((e) => {
@@ -154,7 +158,7 @@ export class ReservasComponent implements OnInit {
     }
     addAtt() {
         this.messageService.add({
-            severity: "info",
+            severity: "success",
             summary: "Sucesso!",
             detail: "Reserva Atualizada",
         });
@@ -315,9 +319,6 @@ export class ReservasComponent implements OnInit {
         const ano = data.slice(0,4);
         const mes = data.slice(5,7);
         const dia = data.slice(8,10);
-        console.log(ano);
-        console.log(mes);
-        console.log(dia);
         return new Date(ano,mes - 1,dia);
     }
 

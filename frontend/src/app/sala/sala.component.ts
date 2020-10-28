@@ -254,7 +254,7 @@ export class SalaComponent implements OnInit {
     }
     addEdit() {
         this.messageService.add({
-            severity: "info",
+            severity: "success",
             summary: "Sucesso!",
             detail: "Sala Atualizada.",
         });
