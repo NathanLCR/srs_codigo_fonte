@@ -11,7 +11,8 @@
                         <div class="col-7 col-md-8">
                           <div class="numbers">
                             <p  class="card-category">Clientes</p>
-                            <p [id]="numClientes" class="card-title">
+                            <p class="card-title">
+                              {{clientes?.length}}
                               <p>
                           </div>
                         </div>
@@ -20,8 +21,7 @@
                     <div class="card-footer ">
                       <hr>
                       <div class="stats">
-                                <button pButton type="button" label="" icon="pi pi-replay" class="p-button-sm"></button>
-                                <i class="fa fa-calendar-o"></i> Atualizar
+                               
                       </div>
                     </div>
                   </div>
@@ -38,7 +38,8 @@
                         <div class="col-7 col-md-8">
                           <div class="numbers">
                             <p class="card-category">Equipamentos</p>
-                            <p class="card-title">1,345
+                            <p class="card-title">
+                                {{equipamentos?.length}}
                               <p>
                           </div>
                         </div>
@@ -47,8 +48,7 @@
                     <div class="card-footer ">
                       <hr>
                       <div class="stats">
-                                <button pButton type="button" label="" icon="pi pi-replay" class="p-button-sm"></button>
-                                <i class="fa fa-calendar-o"></i> Atualizar
+                               
                       </div>
                     </div>
                   </div>
@@ -65,7 +65,8 @@
                         <div class="col-7 col-md-8">
                           <div class="numbers">
                             <p class="card-category">Salas</p>
-                            <p class="card-title">999
+                            <p class="card-title">
+                                {{salas?.length}}
                               <p>
                           </div>
                         </div>
@@ -75,8 +76,7 @@
                       <hr>
                       <div class="stats">
                                                 
-                                <button pButton type="button" label="" icon="pi pi-replay" class="p-button-sm"></button>
-                                <i class="fa fa-calendar-o"></i> Atualizar
+                              
                       </div>
                     </div>
                   </div>
@@ -93,7 +93,8 @@
                         <div class="col-7 col-md-8">
                           <div class="numbers">
                             <p class="card-category">Reservas</p>
-                            <p class="card-title">450
+                            <p class="card-title">
+                                {{reservas?.length}}
                               <p>
                           </div>
                         </div>
@@ -102,10 +103,7 @@
                     <div class="card-footer ">
                       <hr>
                       <div class="stats">
-                        
-                        <button pButton type="button" label="" icon="pi pi-replay" class="p-button-sm"></button>
-                        <i class="fa fa-calendar-o"></i> Last day
-
+                       
                       </div>
                     </div>
                   </div>
