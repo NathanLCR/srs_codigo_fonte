@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import Cliente from "../models/Cliente";
 import { ClienteService } from "../cliente/cliente.service";
 import { ClienteComponent } from '../cliente/cliente.component';
+import { BarGrafico } from './BarGrafico';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,11 +13,12 @@ export class DashboardComponent implements OnInit {
 
   
   clientes: Cliente[];
+  data: BarGrafico;
+  numClientes: any = 1;
   
   constructor(
        private clienteService: ClienteService,
-      // private clienteComponent: ClienteComponent
-    
+       
   ) { }
 
 
@@ -25,12 +27,8 @@ export class DashboardComponent implements OnInit {
       this.clienteService.getClientes().subscribe((resultado) => {
            this.clientes = resultado;
        });
-
+       
+      }
+     
   }
-
-  qtdClientes(){
-    
-    return this.clientes.length;
-  }
-
-}
+  
