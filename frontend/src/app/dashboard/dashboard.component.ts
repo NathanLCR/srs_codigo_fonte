@@ -15,24 +15,17 @@ import { ReservaService } from '../reserva/reserva.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
-  
   clientes: Cliente[];
   equipamentos: Equipamento[];
   salas: Sala[];
   reservas: Reserva[];
-  
-  data: BarGrafico;
-  
+  data = new BarGrafico().data;
   constructor(
        private clienteService: ClienteService,
        private equipamentoService: EquipamentoService,
        private salaService: SalaService,
        private reservaService: ReservaService
-       
-  ) { 
-    
-    this.data = new BarGrafico().data
+  ) {
   }
 
 
@@ -53,8 +46,5 @@ export class DashboardComponent implements OnInit {
       this.reservaService.getReservas().subscribe((resultado) => {
         this.reservas = resultado;
       });
-       
       }
-     
-  }
-  
+    }

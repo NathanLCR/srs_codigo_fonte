@@ -4,6 +4,8 @@ import { EquipamentoService } from "./equipamento.service";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ConfirmationService, MessageService } from "primeng/api";
 import TiposDeEquipamento from "../models/TiposDeEquipamento";
+import { ReservaService } from "../reserva/reserva.service";
+import { SalaService } from "../sala/sala.service";
 
 @Component({
     selector: "app-equipamento",
@@ -23,7 +25,9 @@ export class EquipamentoComponent implements OnInit {
     constructor(
         private equipamentoService: EquipamentoService,
         private confirmationService: ConfirmationService,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private reservaService: ReservaService,
+        private salaService: SalaService
     ) {}
 
     ngOnInit(): void {
@@ -71,12 +75,11 @@ export class EquipamentoComponent implements OnInit {
                                 "Equipamento deletado com sucesso"
                             );
                         },
-                        (error) => this.addErrorToast(error)
+                        (error) => this.addEquipamentoErrorToast(error.error.message)
                     );
             },
         });
     }
-
     showForm() {
         this.equipamentoForm.reset();
 
@@ -145,7 +148,6 @@ export class EquipamentoComponent implements OnInit {
             (error) => this.addErrorToast(error)
         );
     }
-
     addToast(severity, summary, detail) {
         this.messageService.add({
             severity: severity,
@@ -161,5 +163,12 @@ export class EquipamentoComponent implements OnInit {
             detail: "Error no servidor, favor tentar mais tarde",
         });
         console.log(error);
+    }
+    addEquipamentoErrorToast(message) {
+        this.messageService.add({
+            severity: "error",
+            summary: "Erro ao deletar",
+            detail: message,
+        });
     }
 }

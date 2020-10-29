@@ -48,6 +48,11 @@ public class SalaServico {
         if (salaDto.getId() != null) {
             Sala sala = salaRepositorio.findById(salaDto.getId()).orElseThrow(() -> new RegraNegocioException("Essa sala não existe"));
         }
+
+        if(salaDto.getId() != null){
+            salaEquipamentoRepositorio.deleteAllBySalaId(salaDto.getId());
+        };
+
         Sala sala2 = salaMapper.toEntity(salaDto);
         List<SalaEquipamento> novosEquipamentos = sala2.getEquipamentos();
         sala2.setEquipamentos(new ArrayList<>());

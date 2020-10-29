@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReservaEquipamentoRepositorio extends JpaRepository<ReservaEquipamento, ReservaEquipamentoKey> {
     void deleteAllByReservaId(Integer id);
+
+    boolean existsByEquipamentoId(Integer id);
 }
