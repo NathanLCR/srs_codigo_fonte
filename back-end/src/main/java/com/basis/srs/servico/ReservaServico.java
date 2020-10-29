@@ -10,8 +10,6 @@ import com.basis.srs.repositorio.ReservaRepositorio;
 import com.basis.srs.repositorio.SalaRepositorio;
 import com.basis.srs.servico.dto.ReservaDTO;
 import com.basis.srs.servico.dto.ReservaEquipamentoDTO;
-import com.basis.srs.servico.dto.SalaDTO;
-import com.basis.srs.servico.dto.SalaEquipamentoDTO;
 import com.basis.srs.servico.exception.RegraNegocioException;
 import com.basis.srs.servico.mapper.ReservaMapper;
 import com.basis.srs.servico.mapper.SalaMapper;

@@ -10,5 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface SalaEquipamentoRepositorio extends JpaRepository<SalaEquipamento, SalaEquipamentoKey> {
     void deleteAllBySalaId(Integer id);
 
+    void deleteAllByEquipamentoId(Integer id);
+
     boolean existsByEquipamentoId(Integer id);
 }
