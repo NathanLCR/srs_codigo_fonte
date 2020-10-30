@@ -16,6 +16,7 @@ A equipe ficou responsável pelo desenvolvimento tanto do back-end, quanto do fr
 * Java
 * Banco de dados Postgres
 * Docker
+* Docker Compose
 * Liquibase
 * Mapstruct
 
