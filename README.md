@@ -15,6 +15,7 @@ A equipe ficou responsável pelo desenvolvimento tanto do back-end, quanto do fr
 * Spring Data Jpa
 * Java
 * Banco de dados Postgres
+* Docker
 * Liquibase
 * Mapstruct
 
