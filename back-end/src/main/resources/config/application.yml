@@ -9,12 +9,14 @@ spring:
         url: jdbc:postgresql://localhost:5432/srs
         username: srs
         password: srs
+        hikari:
+            poolName: Hikari
+            auto-commit: false
     jackson:
         date-format: yyyy-MM-dd
         deserialization:
             fail-on-unknown-properties: false
     jpa:
-        database-platform: io.github.jhipster.domain.util.FixedPostgreSQL95Dialect
         database: POSTGRESQL
         show-sql: true
         open-in-view: false

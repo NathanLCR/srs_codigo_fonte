@@ -1,0 +1,46 @@
+#toolbar {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#toolbar input {
+    color: white;
+    margin-left: 2px;
+}
+#toolbar div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+p-toolbar p-button {
+    margin-right: 12px;
+}
+
+input {
+    flex: 1;
+}
+
+td {
+    text-align: center;
+    word-wrap: break-word;
+}
+
+td button + button {
+    margin-left: 8px;
+}
+p-confirmDialog {
+    background-color: white;
+}
+
+form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+small {
+    color: red;
+}
